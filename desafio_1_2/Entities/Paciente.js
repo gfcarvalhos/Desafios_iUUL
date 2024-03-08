@@ -1,4 +1,4 @@
-class Paciente {
+export class Paciente {
   #nome;
   #cpf;
   #dataNascimento;
@@ -19,5 +19,16 @@ class Paciente {
 
   get dataNacimentoPaciente() {
     return this.#dataNascimento;
+  }
+
+  validaCpf(newCpf){
+    try{
+      if(typeof +newCpf == 'number' && newCpf.length == 11){
+
+      }
+    } catch {
+      throw new Error("CPF inválido.")
+    }
+
   }
 }
