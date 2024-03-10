@@ -2,7 +2,7 @@
 import readlineSync from 'readline-sync';
 import { PacienteService } from './Services/PacienteService.js';
 
-function menuPaciente() {
+function menuPaciente(repositorioPaciente, servicePaciente) {
   let controladorPaciente = true;
   while (controladorPaciente) {
     let menuPaciente = readlineSync.questionInt(
@@ -10,7 +10,6 @@ function menuPaciente() {
     );
     //Cadastro de novo paciente
     if (menuPaciente == 1) {
-      const servicePaciente = new PacienteService();
       //Chamada para serviço de criação de paciente
       const paciente = servicePaciente.criarPaciente();
       let controladorCadastro = 1;
@@ -19,6 +18,8 @@ function menuPaciente() {
           let newCPF = readlineSync.question('\nCPf:');
           //Chamada para serviço de validacao e cadastro do CPF do paciente
           let cadastroCpf = servicePaciente.cadastroDeCpf(paciente, newCPF);
+          //Verifica se passou pela validacao e foi criado na instancia de paciente, caso nao
+          //retorna o erro
           if(cadastroCpf == true){
             controladorCadastro++;
           } else {
@@ -40,6 +41,8 @@ function menuPaciente() {
           let cadastroDataNascimento = servicePaciente.cadastroDeDataNascimento(paciente, newDataPaciente)
           if (cadastroDataNascimento == true) {
             controladorCadastro++;
+            console.log('\n' + servicePaciente.cadastroFinal(paciente, repositorioPaciente));
+            console.log()
           } else {
             console.log('\n' + cadastroDataNascimento + '\n');
           }
@@ -63,12 +66,15 @@ function menuPaciente() {
 
 function main() {
   let controlador = true;
+  //Iniciando serviços e repositorios
+  const servicePaciente = new PacienteService();
+  let repositorioPaciente = servicePaciente.criacaoDeRepositorio();
   while (controlador) {
     let menuPrincipal = readlineSync.questionInt(
       '\nMenu Principal \n 1-Cadastro de pacientes \n 2-Agenda \n 3-Fim \n',
     );
     if (menuPrincipal == 1) {
-      menuPaciente();
+      menuPaciente(repositorioPaciente, servicePaciente);
     }
     if (menuPrincipal == 2) {
       controlador = false;
