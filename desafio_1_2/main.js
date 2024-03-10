@@ -11,20 +11,23 @@ function menuPaciente() {
     //Cadastro de novo paciente
     if (menuPaciente == 1) {
       const servicePaciente = new PacienteService();
-      //Chamando serviço para cria um paciente
+      //Chamada para serviço de criação de paciente
       const paciente = servicePaciente.criarPaciente();
       let controladorCadastro = 1;
       while (controladorCadastro <= 3) {
-        let newCPF = readlineSync.question('\nCPf:');
-        //Chamando serviço de cadastro de CPF com validação
-        let cadastroCpf = servicePaciente.cadastroDeCpf(paciente, newCPF);
-        if (cadastroCpf == true) {
-          controladorCadastro == 1? controladorCadastro++:controladorCadastro;
-        } else {
-          console.log('\n' + cadastroCpf);
+        if (controladorCadastro == 1) {
+          let newCPF = readlineSync.question('\nCPf:');
+          //Chamada para serviço de validacao e cadastro do CPF do paciente
+          let cadastroCpf = servicePaciente.cadastroDeCpf(paciente, newCPF);
+          if(cadastroCpf == true){
+            controladorCadastro++;
+          } else {
+            console.log('\n' + cadastroCpf);
+          }
         }
         if (controladorCadastro == 2) {
-          let newNome = readlineSync.question('Nome:');
+          let newNome = readlineSync.question('\nNome:');
+          //Chamada para serviço de validacao e cadastro do nome do paciente
           let cadastroNome = servicePaciente.cadastroDeNome(paciente, newNome);
           if (cadastroNome == true) {
             controladorCadastro++;
@@ -33,7 +36,7 @@ function menuPaciente() {
           }
         }
         if (controladorCadastro == 3) {
-          let newDataPaciente = readlineSync.question('Data de Nascimento:');
+          let newDataPaciente = readlineSync.question('\nData de Nascimento:');
           controladorCadastro++;
         }
       }
