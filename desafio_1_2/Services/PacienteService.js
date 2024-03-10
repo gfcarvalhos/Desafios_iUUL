@@ -43,7 +43,11 @@ export class PacienteService {
   }
 
   cadastroFinal(paciente, repositorio) {
-    repositorio.registrarNovoPaciente(paciente)
+    repositorio.registrarNovoPaciente([paciente, paciente.validaIdade(paciente.dataNacimentoPaciente)])
     return 'Paciente cadastrado com sucesso!';
+  }
+
+  listagemDePacientesPorNome(repositorio){
+    repositorio.listagemDePacientes();
   }
 }

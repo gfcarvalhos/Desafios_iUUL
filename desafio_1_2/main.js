@@ -42,7 +42,7 @@ function menuPaciente(repositorioPaciente, servicePaciente) {
           if (cadastroDataNascimento == true) {
             controladorCadastro++;
             console.log('\n' + servicePaciente.cadastroFinal(paciente, repositorioPaciente));
-            console.log()
+            servicePaciente.listagemDePacientesPorNome(repositorioPaciente);
           } else {
             console.log('\n' + cadastroDataNascimento + '\n');
           }
@@ -53,6 +53,7 @@ function menuPaciente(repositorioPaciente, servicePaciente) {
       controladorPaciente = false;
     }
     if (menuPaciente == 3) {
+      
       controladorPaciente = false;
     }
     if (menuPaciente == 4) {

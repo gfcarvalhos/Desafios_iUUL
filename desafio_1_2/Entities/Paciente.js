@@ -108,7 +108,7 @@ export class Paciente {
       //Chamada para verificar a idade do paciente
       const idade = this.validaIdade(newData);
       if (idade >= 13) {
-        this.dataNascimento = newData;
+        this.#dataNascimento = newData;
         return [true, 0];
       } else {
         return [false, 2];
