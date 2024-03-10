@@ -13,4 +13,13 @@ export class PacienteService {
       return 'Erro: CPF inválido.'
     }
   }
+
+  cadastroDeNome(paciente, newNome){
+    let retornoNome = paciente.validaNome(newNome);
+    if(retornoNome){
+      return true
+    } else {
+      return 'Erro: Nome do paciente precisa ter no mínimo 5 caracteres.'
+    }
+  }
 }

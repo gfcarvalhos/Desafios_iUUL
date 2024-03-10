@@ -65,4 +65,13 @@ export class Paciente {
       ('CPF inválido.');
     }
   }
+
+  validaNome(newNome) {
+    if (typeof newNome == 'string' && newNome.length >= 5) {
+      this.#nome = newNome;
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
