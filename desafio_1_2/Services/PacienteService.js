@@ -22,4 +22,18 @@ export class PacienteService {
       return 'Erro: Nome do paciente precisa ter no mínimo 5 caracteres.'
     }
   }
+
+  cadastroDeDataNascimento(paciente, newDataNascimento){
+    let retornoDataNascimento = paciente.validaData(newDataNascimento);
+    if(retornoDataNascimento[0] == false){
+      if(retornoDataNascimento[1] == 1){
+        return 'Erro: formato da data está incorreto.'
+      }
+      if(retornoDataNascimento[1] == 2){
+        return 'Erro: paciente deve ter pelo menos 13 anos.'
+      }
+    } else {
+      return true
+    }
+  }
 }

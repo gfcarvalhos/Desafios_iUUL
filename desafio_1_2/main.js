@@ -26,22 +26,25 @@ function menuPaciente() {
           }
         }
         if (controladorCadastro == 2) {
-          let newNome = readlineSync.question('\nNome:');
+          let newNome = readlineSync.question('Nome:');
           //Chamada para serviço de validacao e cadastro do nome do paciente
           let cadastroNome = servicePaciente.cadastroDeNome(paciente, newNome);
           if (cadastroNome == true) {
             controladorCadastro++;
           } else {
-            console.log('\n' + cadastroNome);
+            console.log('\n' + cadastroNome + '\n');
           }
         }
         if (controladorCadastro == 3) {
-          let newDataPaciente = readlineSync.question('\nData de Nascimento:');
-          controladorCadastro++;
+          let newDataPaciente = readlineSync.question('Data de Nascimento:');
+          let cadastroDataNascimento = servicePaciente.cadastroDeDataNascimento(paciente, newDataPaciente)
+          if (cadastroDataNascimento == true) {
+            controladorCadastro++;
+          } else {
+            console.log('\n' + cadastroDataNascimento + '\n');
+          }
         }
       }
-      //console.log(servicePaciente.cadastroDeCpf(paciente, '06010634300'));
-      //console.log(paciente);
     }
     if (menuPaciente == 2) {
       controladorPaciente = false;
