@@ -19,7 +19,7 @@ function menuPaciente() {
         //Chamando serviço de cadastro de CPF com validação
         let cadastroCpf = servicePaciente.cadastroDeCpf(paciente, newCPF);
         if (cadastroCpf == true) {
-          controladorCadastro++;
+          controladorCadastro == 1? controladorCadastro++:controladorCadastro;
         } else {
           console.log('\n' + cadastroCpf);
         }
