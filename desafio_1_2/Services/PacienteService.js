@@ -6,6 +6,11 @@ export class PacienteService {
   }
 
   cadastroDeCpf(paciente, newCPF) {
-    return paciente.validaCpf(newCPF);
+    let retornoCpf = paciente.validaCpf(newCPF);
+    if(retornoCpf){
+      return true
+    } else {
+      return 'Erro: CPF inválido.'
+    }
   }
 }

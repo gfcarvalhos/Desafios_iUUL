@@ -50,18 +50,19 @@ export class Paciente {
         let valorGTotal =
           valorGLista.reduce((valor, total) => valor + total) % 11;
         let valorG =
-          (valorGTotal == 0 || valorGTotal == 1) ? 0 : 11 - valorGTotal;
+          valorGTotal == 0 || valorGTotal == 1 ? 0 : 11 - valorGTotal;
         if (contador != 11 && valorJ == +newCpf[9] && valorG == +newCpf[10]) {
           this.#cpf = newCpf;
-          return 'Paciente cadastro com sucesso.';
+          return true;
         } else {
-          return 'CPF não existe ou está inválido.';
+          return false;
         }
       } else {
-        return 'CPF não existe.';
+        return false;
       }
     } catch (error) {
-      console.error;('CPF inválido.')
+      console.error;
+      ('CPF inválido.');
     }
   }
 }
