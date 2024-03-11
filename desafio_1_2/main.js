@@ -17,7 +17,7 @@ function menuPaciente(repositorioPaciente, servicePaciente) {
         if (controladorCadastro == 1) {
           let newCPF = readlineSync.question('\nCPf:');
           //Chamada para serviço de validacao e cadastro do CPF do paciente
-          let cadastroCpf = servicePaciente.cadastroDeCpf(paciente, newCPF);
+          let cadastroCpf = servicePaciente.cadastroDeCpf(paciente, newCPF, repositorioPaciente);
           //Verifica se passou pela validacao e foi criado na instancia de paciente, caso nao
           //retorna o erro
           if(cadastroCpf == true){

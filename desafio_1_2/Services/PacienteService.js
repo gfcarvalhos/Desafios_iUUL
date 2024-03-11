@@ -6,11 +6,17 @@ export class PacienteService {
     return new Paciente();
   }
 
-  cadastroDeCpf(paciente, newCPF) {
+  cadastroDeCpf(paciente, newCPF, repositorio) {
+    //Verifica se cpf já existe
+    let verificaCpf = repositorio.verificaCpfExistente(newCPF);
+    //Valida cpf e adiciona ao paciente
     let retornoCpf = paciente.validaCpf(newCPF);
-    if (retornoCpf) {
+    if (retornoCpf && !verificaCpf) {
       return true;
-    } else {
+    } else if(verificaCpf){
+      return 'Erro: CPF já cadastrado.'
+    }
+    else {
       return 'Erro: CPF inválido.';
     }
   }
@@ -43,11 +49,14 @@ export class PacienteService {
   }
 
   cadastroFinal(paciente, repositorio) {
-    repositorio.registrarNovoPaciente([paciente, paciente.validaIdade(paciente.dataNacimentoPaciente)])
+    repositorio.registrarNovoPaciente([
+      paciente,
+      paciente.validaIdade(paciente.dataNacimentoPaciente),
+    ]);
     return 'Paciente cadastrado com sucesso!';
   }
 
-  listagemDePacientesPorNome(repositorio){
+  listagemDePacientesPorNome(repositorio) {
     repositorio.listagemDePacientes();
   }
 }
