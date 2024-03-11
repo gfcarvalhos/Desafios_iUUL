@@ -50,7 +50,10 @@ function menuPaciente(repositorioPaciente, servicePaciente) {
       }
     }
     if (menuPaciente == 2) {
-      controladorPaciente = false;
+      let cpfPaciente = readlineSync.question('\nCPf:');
+      let exclusaoDePaciente = servicePaciente.exclusaoPaciente(cpfPaciente, repositorioPaciente);
+      console.log('\n' + exclusaoDePaciente)
+      servicePaciente.listagemDePacientesPorNome(repositorioPaciente);
     }
     if (menuPaciente == 3) {
       

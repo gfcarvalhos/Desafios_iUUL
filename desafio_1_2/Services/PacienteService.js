@@ -13,10 +13,9 @@ export class PacienteService {
     let retornoCpf = paciente.validaCpf(newCPF);
     if (retornoCpf && !verificaCpf) {
       return true;
-    } else if(verificaCpf){
-      return 'Erro: CPF já cadastrado.'
-    }
-    else {
+    } else if (verificaCpf) {
+      return 'Erro: CPF já cadastrado.';
+    } else {
       return 'Erro: CPF inválido.';
     }
   }
@@ -58,5 +57,9 @@ export class PacienteService {
 
   listagemDePacientesPorNome(repositorio) {
     repositorio.listagemDePacientes();
+  }
+
+  exclusaoPaciente(cpf, repositorio) {
+    return repositorio.exclusaoDePaciente(cpf);
   }
 }
