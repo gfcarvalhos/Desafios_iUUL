@@ -1,4 +1,4 @@
-import { Consulta } from '../Entities/Consulta.js'
+import { Consulta } from '../Entities/Consulta.js';
 import { PacienteService } from './PacienteService.js';
 
 export class ConsultaService {
@@ -8,10 +8,14 @@ export class ConsultaService {
 
   verificaCPF(paciente, cpf) {
     let retorno = paciente.encontraPaciente(cpf);
-    if (retorno){
+    if (retorno) {
       return true;
     } else {
-      return 'Erro: paciente não cadastrado'
+      return 'Erro: paciente não cadastrado';
     }
+  }
+
+  salvaCpf(cpf, consulta) {
+    consulta.registraCpf(cpf);
   }
 }

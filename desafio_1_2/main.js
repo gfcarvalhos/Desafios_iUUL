@@ -80,7 +80,7 @@ function menuAgenda(serviceConsulta, servicePaciente) {
 
     if (menuConsulta == 1) {
       //Chamada para serviço de criação de consulta (agendamento)
-      const paciente = serviceConsulta.criarConsulta();
+      const consulta = serviceConsulta.criarConsulta();
       let controladorAgendamento = 1;
       while (controladorAgendamento <= 3) {
         if (controladorAgendamento == 1) {
@@ -88,15 +88,16 @@ function menuAgenda(serviceConsulta, servicePaciente) {
           //Chamada para serviço de verificação de CPF no repositorio
           let agendaCpf = serviceConsulta.verificaCPF(servicePaciente, cpfConsulta);
           if (agendaCpf == true) {
+            serviceConsulta.salvaCpf(cpfConsulta, consulta)
             controladorAgendamento++;
           } else {
             console.log('\n' + agendaCpf);
           }
         }
         if (controladorAgendamento == 2) {
-          let newNome = readlineSync.question('Data da consulta:');
+          let dataConsulta = readlineSync.question('Data da consulta:');
           //Chamada para serviço de validacao e cadastro do nome do paciente
-          let cadastroNome = servicePaciente.cadastroDeNome(paciente, newNome);
+          let cadastroDataConsulta = servicePaciente.cadastroDeNome(paciente, newNome);
           if (cadastroNome == true) {
             controladorAgendamento++;
           } else {
