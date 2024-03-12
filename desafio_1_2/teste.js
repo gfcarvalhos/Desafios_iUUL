@@ -1,4 +1,4 @@
-let teste = new Date()
+let teste;
 //teste = teste.getDate()
 
-console.log(teste)
+console.log(teste == undefined)

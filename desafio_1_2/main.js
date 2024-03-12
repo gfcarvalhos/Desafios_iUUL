@@ -122,17 +122,16 @@ function menuAgenda(serviceConsulta, servicePaciente) {
           }
         }
         if (controladorAgendamento == 4) {
-          let newDataPaciente = readlineSync.question('Hora Final:');
-          let cadastroDataNascimento = servicePaciente.cadastroDeDataNascimento(
-            paciente,
-            newDataPaciente,
+          let HoraFinalConsulta = readlineSync.question('Hora Final:');
+          let cadastroHoraFinal = serviceConsulta.validaHoraFinalService(
+            HoraFinalConsulta,
+            consulta,
           );
-          if (cadastroDataNascimento == true) {
+          if (cadastroHoraFinal == true) {
             controladorAgendamento++;
-            console.log('\n' + servicePaciente.cadastroFinal(paciente));
-            servicePaciente.listagemDePacientesPorNome();
+            //console.log('\n' + serviceConsulta.cadastroFinal(consulta));
           } else {
-            console.log('\n' + cadastroDataNascimento + '\n');
+            console.log('\n' + cadastroHoraFinal + '\n');
           }
         }
       }

@@ -31,4 +31,8 @@ export class ConsultaService {
   validaHoraInicialService(horaInicial, consulta) {
     return consulta.validaHoraInicial(horaInicial);
   }
+
+  validaHoraFinalService(horaFinal, consulta) {
+    return consulta.validaHoraFinal(horaFinal);
+  }
 }
