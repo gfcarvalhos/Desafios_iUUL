@@ -2,13 +2,16 @@ import { Paciente } from '../Entities/Paciente.js';
 import { PacienteRepository } from '../repositories/PacienteRepository.js';
 
 export class PacienteService {
+  constructor() {
+    this.repositorio = new PacienteRepository();
+  }
   criarPaciente() {
     return new Paciente();
   }
 
-  cadastroDeCpf(paciente, newCPF, repositorio) {
+  cadastroDeCpf(paciente, newCPF) {
     //Verifica se cpf já existe
-    let verificaCpf = repositorio.verificaCpfExistente(newCPF);
+    let verificaCpf = this.repositorio.verificaCpfExistente(newCPF);
     //Valida cpf e adiciona ao paciente
     let retornoCpf = paciente.validaCpf(newCPF);
     if (retornoCpf && !verificaCpf) {
@@ -43,23 +46,23 @@ export class PacienteService {
     }
   }
 
-  criacaoDeRepositorio() {
-    return new PacienteRepository();
-  }
-
-  cadastroFinal(paciente, repositorio) {
-    repositorio.registrarNovoPaciente([
+  cadastroFinal(paciente) {
+    this.repositorio.registrarNovoPaciente([
       paciente,
       paciente.validaIdade(paciente.dataNacimentoPaciente),
     ]);
     return 'Paciente cadastrado com sucesso!';
   }
 
-  listagemDePacientesPorNome(repositorio) {
-    repositorio.listagemDePacientes();
+  listagemDePacientesPorNome() {
+    this.repositorio.listagemDePacientes();
   }
 
-  exclusaoPaciente(cpf, repositorio) {
-    return repositorio.exclusaoDePaciente(cpf);
+  exclusaoPaciente(cpf) {
+    return this.repositorio.exclusaoDePaciente(cpf);
+  }
+
+  encontraPaciente(cpf) {
+    return this.repositorio.verificaCpfExistente(cpf);
   }
 }
