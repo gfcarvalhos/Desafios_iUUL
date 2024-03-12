@@ -27,4 +27,8 @@ export class ConsultaService {
   validaDataAgendamento(dataAgendamento, consulta) {
     return consulta.validaData(dataAgendamento);
   }
+
+  validaHoraInicialService(horaInicial, consulta) {
+    return consulta.validaHoraInicial(horaInicial);
+  }
 }

@@ -19,11 +19,16 @@ export class Consulta {
     this.#dataConsulta = dataParaRegistro;
   }
 
+  registraHoraInicial(horaParaRegistro) {
+    this.#horaInicio = horaParaRegistro;
+  }
+
   validaData(newData) {
     const regex = /^((0[1-9]|[1-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/(\d{4}))$/;
     //Valida se está de acordo com DD/MM/YYYY
     if (regex.test(newData)) {
       let dataAtual = new Date();
+      dataAtual = new Date(dataAtual.getFullYear(), dataAtual.getMonth(), dataAtual.getDate());
       let partesDaData = newData.split('/');
       let dataAgendamento = new Date(
         partesDaData[2],
@@ -34,10 +39,41 @@ export class Consulta {
         this.registraData(dataAgendamento);
         return true;
       } else {
-        return 'Data de agendamento tem que ser superior ou igual à data atual.';
+        return 'Erro: Data de agendamento tem que ser superior ou igual à data atual.';
       }
     } else {
-      return 'Data inválida.';
+      return 'Erro: Data inválida.';
+    }
+  }
+
+  validaHoraInicial(horaInicial) {
+    //Tratamento das horas atuais
+    let dataAtual = new Date();
+    dataAtual = new Date(dataAtual.getFullYear(), dataAtual.getMonth(), dataAtual.getDate());
+    const [hora, minuto] = [
+      dataAtual.getHours().toString(),
+      dataAtual.getMinutes().toString(),
+    ];
+    const horaAtual = hora + minuto;
+    //Validacao da horaInicial
+    if (typeof +horaInicial == 'number' && horaInicial.length == 4) {
+      const [parteHora, parteMinuto] = [
+        horaInicial.slice(0, 2),
+        horaInicial.slice(2),
+      ];
+      if (+parteMinuto % 15 != 0) {
+        return 'Erro: As horas inicial e final devem ser definidas em intervalos de 15 minutos.';
+      }
+      if ((this.#dataConsulta == dataAtual && +horaInicial < +horaAtual)) {
+        return 'Erro: A hora inicial é inferior a hora atual.';
+      }
+      if (+horaInicial < 800 || +horaInicial >= 1900) {
+        return 'Erro: A hora inicial deve ser entre 8:00h e 19:00h';
+      }
+      this.registraHoraInicial(horaInicial);
+      return true;
+    } else {
+      return 'Erro: Valor informado invalido.';
     }
   }
 }

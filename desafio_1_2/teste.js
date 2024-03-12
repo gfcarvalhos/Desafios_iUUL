@@ -1,5 +1,4 @@
-const dataAtual = new Date()
-const opcoes = { timeZone: 'America/Sao_Paulo' };
-const dataBrasil = dataAtual.toLocaleString('pt-BR', opcoes);
+let teste = new Date()
+//teste = teste.getDate()
 
-console.log('Data no fuso horário do Brasil:', dataBrasil);
+console.log(teste)

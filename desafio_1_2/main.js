@@ -85,9 +85,12 @@ function menuAgenda(serviceConsulta, servicePaciente) {
         if (controladorAgendamento == 1) {
           let cpfConsulta = readlineSync.question('\nCPf:');
           //Chamada para serviço de verificação de CPF no repositorio
-          let agendaCpf = serviceConsulta.verificaCPF(servicePaciente, cpfConsulta);
+          let agendaCpf = serviceConsulta.verificaCPF(
+            servicePaciente,
+            cpfConsulta,
+          );
           if (agendaCpf == true) {
-            serviceConsulta.salvaCpf(cpfConsulta, consulta)
+            serviceConsulta.salvaCpf(cpfConsulta, consulta);
             controladorAgendamento++;
           } else {
             console.log('\n' + agendaCpf);
@@ -96,26 +99,26 @@ function menuAgenda(serviceConsulta, servicePaciente) {
         if (controladorAgendamento == 2) {
           let dataConsulta = readlineSync.question('Data da consulta:');
           //Chamada para serviço de validacao e cadastro do nome do paciente
-          let cadastroDataConsulta = serviceConsulta.validaDataAgendamento(dataConsulta, consulta);
+          let cadastroDataConsulta = serviceConsulta.validaDataAgendamento(
+            dataConsulta,
+            consulta,
+          );
           if (cadastroDataConsulta == true) {
             controladorAgendamento++;
-            console.log(consulta)
           } else {
             console.log('\n' + cadastroDataConsulta + '\n');
           }
         }
         if (controladorAgendamento == 3) {
-          let newDataPaciente = readlineSync.question('Hora Inicial:');
-          let cadastroDataNascimento = servicePaciente.cadastroDeDataNascimento(
-            paciente,
-            newDataPaciente,
+          let HoraInicialConsulta = readlineSync.question('Hora Inicial:');
+          let cadastroHoraInicial = serviceConsulta.validaHoraInicialService(
+            HoraInicialConsulta,
+            consulta,
           );
-          if (cadastroDataNascimento == true) {
+          if (cadastroHoraInicial == true) {
             controladorAgendamento++;
-            console.log('\n' + servicePaciente.cadastroFinal(paciente));
-            servicePaciente.listagemDePacientesPorNome();
           } else {
-            console.log('\n' + cadastroDataNascimento + '\n');
+            console.log('\n' + cadastroHoraInicial + '\n');
           }
         }
         if (controladorAgendamento == 4) {
@@ -131,7 +134,7 @@ function menuAgenda(serviceConsulta, servicePaciente) {
           } else {
             console.log('\n' + cadastroDataNascimento + '\n');
           }
-        }        
+        }
       }
     }
     if (menuConsulta == 2) {
