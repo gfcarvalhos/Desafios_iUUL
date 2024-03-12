@@ -48,6 +48,7 @@ export class Consulta {
 
   validaHoraInicial(horaInicial) {
     //Tratamento das horas atuais
+    const regexHora = /^([01]\d|2[0-3]):([0-5]\d)$/;
     let dataAtual = new Date();
     dataAtual = new Date(dataAtual.getFullYear(), dataAtual.getMonth(), dataAtual.getDate());
     const [hora, minuto] = [
@@ -56,7 +57,7 @@ export class Consulta {
     ];
     const horaAtual = hora + minuto;
     //Validacao da horaInicial
-    if (typeof +horaInicial == 'number' && horaInicial.length == 4) {
+    if (typeof +horaInicial == 'number' && horaInicial.length == 4 && regexHora.test(horaInicial)) {
       const [parteHora, parteMinuto] = [
         horaInicial.slice(0, 2),
         horaInicial.slice(2),
@@ -73,7 +74,7 @@ export class Consulta {
       this.registraHoraInicial(horaInicial);
       return true;
     } else {
-      return 'Erro: Valor informado invalido.';
+      return 'Erro: Valor para hora invalido.';
     }
   }
 }
