@@ -129,7 +129,7 @@ function menuAgenda(serviceConsulta, servicePaciente) {
           );
           if (cadastroHoraFinal == true) {
             controladorAgendamento++;
-            //console.log('\n' + serviceConsulta.cadastroFinal(consulta));
+            console.log('\n' + serviceConsulta.registroFinal(consulta));
           } else {
             console.log('\n' + cadastroHoraFinal + '\n');
           }

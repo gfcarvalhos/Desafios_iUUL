@@ -35,4 +35,9 @@ export class ConsultaService {
   validaHoraFinalService(horaFinal, consulta) {
     return consulta.validaHoraFinal(horaFinal);
   }
+
+  registroFinal(consulta) {
+    this.repositorioConsulta.registrarNovaConsulta(consulta);
+    return 'Agendamento realizado com sucesso!'
+  }
 }
