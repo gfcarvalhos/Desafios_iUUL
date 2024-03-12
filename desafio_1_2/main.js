@@ -77,12 +77,11 @@ function menuAgenda(serviceConsulta, servicePaciente) {
     let menuConsulta = readlineSync.questionInt(
       '\nAgenda \n 1-Agendar consulta \n 2-Cancelar agendamento \n 3-Listar agenda \n 4-Voltar p/ menu principal \n',
     );
-
     if (menuConsulta == 1) {
       //Chamada para serviço de criação de consulta (agendamento)
       const consulta = serviceConsulta.criarConsulta();
       let controladorAgendamento = 1;
-      while (controladorAgendamento <= 3) {
+      while (controladorAgendamento <= 4) {
         if (controladorAgendamento == 1) {
           let cpfConsulta = readlineSync.question('\nCPf:');
           //Chamada para serviço de verificação de CPF no repositorio
@@ -97,15 +96,16 @@ function menuAgenda(serviceConsulta, servicePaciente) {
         if (controladorAgendamento == 2) {
           let dataConsulta = readlineSync.question('Data da consulta:');
           //Chamada para serviço de validacao e cadastro do nome do paciente
-          let cadastroDataConsulta = servicePaciente.cadastroDeNome(paciente, newNome);
-          if (cadastroNome == true) {
+          let cadastroDataConsulta = serviceConsulta.validaDataAgendamento(dataConsulta, consulta);
+          if (cadastroDataConsulta == true) {
             controladorAgendamento++;
+            console.log(consulta)
           } else {
-            console.log('\n' + cadastroNome + '\n');
+            console.log('\n' + cadastroDataConsulta + '\n');
           }
         }
         if (controladorAgendamento == 3) {
-          let newDataPaciente = readlineSync.question('Data de Nascimento:');
+          let newDataPaciente = readlineSync.question('Hora Inicial:');
           let cadastroDataNascimento = servicePaciente.cadastroDeDataNascimento(
             paciente,
             newDataPaciente,
@@ -118,6 +118,20 @@ function menuAgenda(serviceConsulta, servicePaciente) {
             console.log('\n' + cadastroDataNascimento + '\n');
           }
         }
+        if (controladorAgendamento == 4) {
+          let newDataPaciente = readlineSync.question('Hora Final:');
+          let cadastroDataNascimento = servicePaciente.cadastroDeDataNascimento(
+            paciente,
+            newDataPaciente,
+          );
+          if (cadastroDataNascimento == true) {
+            controladorAgendamento++;
+            console.log('\n' + servicePaciente.cadastroFinal(paciente));
+            servicePaciente.listagemDePacientesPorNome();
+          } else {
+            console.log('\n' + cadastroDataNascimento + '\n');
+          }
+        }        
       }
     }
     if (menuConsulta == 2) {

@@ -21,6 +21,18 @@ export class Paciente {
     return this.#dataNascimento;
   }
 
+  registraNome(nome) {
+    this.#nome = nome;
+  }
+
+  registraCpf(cpf) {
+    this.#cpf = cpf;
+  }
+
+  registraDataNascimento(dataNascimento) {
+    this.#dataNascimento = dataNascimento;
+  }
+
   validaCpf(newCpf) {
     try {
       //Valida se o input foi de apenas numeros e se o tamanho é 11
@@ -52,7 +64,7 @@ export class Paciente {
         let valorG =
           valorGTotal == 0 || valorGTotal == 1 ? 0 : 11 - valorGTotal;
         if (contador != 11 && valorJ == +newCpf[9] && valorG == +newCpf[10]) {
-          this.#cpf = newCpf;
+          this.registraCpf(newCpf);
           return true;
         } else {
           return false;
@@ -68,7 +80,7 @@ export class Paciente {
 
   validaNome(newNome) {
     if (typeof newNome == 'string' && newNome.length >= 5) {
-      this.#nome = newNome;
+      this.registraNome(newNome);
       return true;
     } else {
       return false;
@@ -108,7 +120,7 @@ export class Paciente {
       //Chamada para verificar a idade do paciente
       const idade = this.validaIdade(newData);
       if (idade >= 13) {
-        this.#dataNascimento = newData;
+        this.registraDataNascimento(newData);
         return [true, 0];
       } else {
         return [false, 2];
@@ -117,5 +129,4 @@ export class Paciente {
       return [false, 1];
     }
   }
-
 }
