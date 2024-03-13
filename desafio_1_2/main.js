@@ -128,8 +128,15 @@ function menuAgenda(serviceConsulta, servicePaciente) {
             consulta,
           );
           if (cadastroHoraFinal == true) {
-            controladorAgendamento++;
-            console.log('\n' + serviceConsulta.registroFinal(consulta));
+            let agendamentoSobreposto =
+              serviceConsulta.validaAgendamentoSobreposto(consulta);
+            if (agendamentoSobreposto == true) {
+              controladorAgendamento++;
+              console.log('\n' + serviceConsulta.registroFinal(consulta));
+            } else {
+              console.log('\n' + agendamentoSobreposto + '\n');
+              controladorAgendamento++;
+            }
           } else {
             console.log('\n' + cadastroHoraFinal + '\n');
           }

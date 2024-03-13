@@ -30,7 +30,7 @@ export class ConsultaRepository {
       +consulta.horaInicialConsulta >= +horaAtual
     ) {
       return true;
-    } else if (dataTratada > dataAtual) {
+    } else if (dataTratada > dataAtualTratada) {
       return true;
     } else {
       return false;
@@ -46,7 +46,16 @@ export class ConsultaRepository {
 
   verificaAgendaPaciente(cpf) {
     return this.filtraConsultasFuturas().some(
-      (consulta) => (consulta.cpfPacienteConsulta == cpf),
+      (consulta) => consulta.cpfPacienteConsulta == cpf,
     );
+  }
+
+  validaAgendamentoSobrepostoConsulta(consultaEmEspera) {
+    return this.consultas.some((consultaRegistrada) => {
+      return (+consultaEmEspera.horaInicialConsulta >=
+        +consultaRegistrada.horaInicialConsulta &&
+        +consultaEmEspera.horaInicialConsulta <
+          +consultaRegistrada.horaFinalConsulta);
+    });
   }
 }

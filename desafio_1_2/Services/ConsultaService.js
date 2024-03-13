@@ -15,11 +15,11 @@ export class ConsultaService {
     let AgendaPaciente = this.repositorioConsulta.verificaAgendaPaciente(cpf);
     let retornoCpf = pacienteService.encontraPaciente(cpf);
     if (!retornoCpf) {
-      return 'Erro: paciente não cadastrado';;
-    } else if(AgendaPaciente) {
+      return 'Erro: paciente não cadastrado';
+    } else if (AgendaPaciente) {
       return 'Erro: paciente já possui uma consulta agendada';
     } else {
-      return true
+      return true;
     }
   }
 
@@ -37,6 +37,16 @@ export class ConsultaService {
 
   validaHoraFinalService(horaFinal, consulta) {
     return consulta.validaHoraFinal(horaFinal);
+  }
+
+  validaAgendamentoSobreposto(consulta) {
+    let agendamentoSobreposto =
+      this.repositorioConsulta.validaAgendamentoSobrepostoConsulta(consulta);
+    if (!agendamentoSobreposto) {
+      return true;
+    } else {
+      return 'Erro: já existe uma consulta agendada nesse horário';
+    }
   }
 
   registroFinal(consulta) {
