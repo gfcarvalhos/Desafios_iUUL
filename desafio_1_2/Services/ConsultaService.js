@@ -12,11 +12,14 @@ export class ConsultaService {
   }
 
   verificaCPF(pacienteService, cpf) {
-    let retorno = pacienteService.encontraPaciente(cpf);
-    if (retorno) {
-      return true;
+    let AgendaPaciente = this.repositorioConsulta.verificaAgendaPaciente(cpf);
+    let retornoCpf = pacienteService.encontraPaciente(cpf);
+    if (!retornoCpf) {
+      return 'Erro: paciente não cadastrado';;
+    } else if(AgendaPaciente) {
+      return 'Erro: paciente já possui uma consulta agendada';
     } else {
-      return 'Erro: paciente não cadastrado';
+      return true
     }
   }
 
@@ -38,6 +41,6 @@ export class ConsultaService {
 
   registroFinal(consulta) {
     this.repositorioConsulta.registrarNovaConsulta(consulta);
-    return 'Agendamento realizado com sucesso!'
+    return 'Agendamento realizado com sucesso!';
   }
 }

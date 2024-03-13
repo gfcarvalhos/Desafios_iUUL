@@ -11,6 +11,22 @@ export class Consulta {
     this.#horaFim = horaFim;
   }
 
+  get cpfPacienteConsulta() {
+    return this.#cpf;
+  }
+
+  get dataDeConsulta() {
+    return this.#dataConsulta;
+  }
+
+  get horaInicialConsulta() {
+    return this.#horaInicio;
+  }
+
+  get horaFinalConsulta() {
+    return this.#horaFim;
+  }
+
   registraCpf(cpfParaRegistro) {
     this.#cpf = cpfParaRegistro;
   }
@@ -44,7 +60,7 @@ export class Consulta {
         partesDaData[0],
       );
       if (dataAgendamento >= dataAtual) {
-        this.registraData(dataAgendamento);
+        this.registraData(newData);
         return true;
       } else {
         return 'Erro: Data de agendamento tem que ser superior ou igual à data atual.';
@@ -110,8 +126,8 @@ export class Consulta {
       if (+horaFinal <= +this.#horaInicio) {
         return 'Erro: A hora final deve ser superior à hora inicial';
       }
-      this.registraHoraFinal(horaFinal)
-      return true
+      this.registraHoraFinal(horaFinal);
+      return true;
     } else {
       return 'Erro: Valor para hora invalido.';
     }
