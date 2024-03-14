@@ -26,7 +26,7 @@ export class ConsultaRepository {
       partesDaData[0],
     );
     if (
-      (dataTratada = dataAtualTratada) &&
+      dataTratada == dataAtualTratada &&
       +consulta.horaInicialConsulta >= +horaAtual
     ) {
       return true;
@@ -38,24 +38,32 @@ export class ConsultaRepository {
   }
 
   filtraConsultasFuturas() {
-    let consultasFuturas = this.consultas.filter(
-      (consulta) => this.validaDataFutura(consulta) == true,
+    let consultasFuturas = this.consultas.filter((consulta) =>
+      this.validaDataFutura(consulta),
     );
     return consultasFuturas;
   }
 
   verificaAgendaPaciente(cpf) {
-    return this.filtraConsultasFuturas().some(
-      (consulta) => consulta.cpfPacienteConsulta == cpf,
-    );
+    return this.filtraConsultasFuturas().some((consulta) => {
+      return consulta.cpfPacienteConsulta === cpf;
+    });
   }
 
   validaAgendamentoSobrepostoConsulta(consultaEmEspera) {
     return this.consultas.some((consultaRegistrada) => {
-      return (+consultaEmEspera.horaInicialConsulta >=
-        +consultaRegistrada.horaInicialConsulta &&
+      return (
+        +consultaEmEspera.horaInicialConsulta >=
+          +consultaRegistrada.horaInicialConsulta &&
         +consultaEmEspera.horaInicialConsulta <
-          +consultaRegistrada.horaFinalConsulta);
+          +consultaRegistrada.horaFinalConsulta
+      );
+    });
+  }
+
+  exclusaoDeConsultasPassadas(cpf) {
+    this.consultas = this.consultas.filter((consulta) => {
+      return consulta.cpfPacienteConsulta !== cpf;
     });
   }
 }

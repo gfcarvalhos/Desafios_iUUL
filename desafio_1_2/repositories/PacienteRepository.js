@@ -46,10 +46,10 @@ export class PacienteRepository {
   exclusaoDePaciente(cpf) {
     let indexPaciente = this.buscaPaciente(cpf)[1];
     if (indexPaciente == -1) {
-      return 'Erro: paciente não cadastrado';
+      return false;
     } else {
       this.pacientes.splice(indexPaciente, 1);
-      return 'Paciente excluído com sucesso!';
+      return true
     }
   }
 }

@@ -58,8 +58,18 @@ export class PacienteService {
     this.repositorio.listagemDePacientes();
   }
 
-  exclusaoPaciente(cpf) {
-    return this.repositorio.exclusaoDePaciente(cpf);
+  exclusaoPaciente(cpf, serviceConsulta) {
+    let retornoRepositorioConsulta =
+      serviceConsulta.verificaAgendaDoPaciente(cpf);
+    if (retornoRepositorioConsulta) {
+      return 'Erro: paciente não pode ser excluído, pois possui consulta agendada.';
+    }
+    let retornoRepositorioPaciente = this.repositorio.exclusaoDePaciente(cpf);
+    if (!retornoRepositorioPaciente) {
+      return 'Erro: paciente não cadastrado';
+    }
+    serviceConsulta.exclusaoDeConsultasPorCpf(cpf);
+    return true;
   }
 
   encontraPaciente(cpf) {

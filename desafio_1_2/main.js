@@ -3,7 +3,7 @@ import readlineSync from 'readline-sync';
 import { PacienteService } from './Services/PacienteService.js';
 import { ConsultaService } from './Services/ConsultaService.js';
 
-function menuPaciente(servicePaciente) {
+function menuPaciente(servicePaciente, serviceConsulta) {
   let controladorPaciente = true;
   while (controladorPaciente) {
     let menuPaciente = readlineSync.questionInt(
@@ -55,8 +55,15 @@ function menuPaciente(servicePaciente) {
     }
     if (menuPaciente == 2) {
       let cpfPaciente = readlineSync.question('\nCPf:');
-      let exclusaoDePaciente = servicePaciente.exclusaoPaciente(cpfPaciente);
-      console.log('\n' + exclusaoDePaciente);
+      let exclusaoDePaciente = servicePaciente.exclusaoPaciente(
+        cpfPaciente,
+        serviceConsulta,
+      );
+      if (exclusaoDePaciente == true) {
+        console.log('\n Paciente excluído com sucesso! \n');
+      } else {
+        console.log('\n' + exclusaoDePaciente + '\n');
+      }
       servicePaciente.listagemDePacientesPorNome();
     }
     if (menuPaciente == 3) {
@@ -150,6 +157,7 @@ function menuAgenda(serviceConsulta, servicePaciente) {
     }
 
     if (menuConsulta == 4) {
+      controladorConsulta = false;
     }
   }
 }
@@ -164,7 +172,7 @@ function main() {
       '\nMenu Principal \n 1-Cadastro de pacientes \n 2-Agenda \n 3-Fim \n',
     );
     if (menuPrincipal == 1) {
-      menuPaciente(servicePaciente);
+      menuPaciente(servicePaciente, serviceConsulta);
     }
     if (menuPrincipal == 2) {
       menuAgenda(serviceConsulta, servicePaciente);

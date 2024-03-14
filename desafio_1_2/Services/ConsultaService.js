@@ -53,4 +53,12 @@ export class ConsultaService {
     this.repositorioConsulta.registrarNovaConsulta(consulta);
     return 'Agendamento realizado com sucesso!';
   }
+
+  verificaAgendaDoPaciente(cpf) {
+    return this.repositorioConsulta.verificaAgendaPaciente(cpf);
+  }
+
+  exclusaoDeConsultasPorCpf(cpf) {
+    return this.repositorioConsulta.exclusaoDeConsultasPassadas(cpf);
+  }
 }
