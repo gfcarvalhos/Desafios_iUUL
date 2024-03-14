@@ -27,12 +27,14 @@ export class PacienteRepository {
     });
   }
 
+  //Verifica se há pacientes cadastrados com o cpf informado pelo user
   verificaCpfExistente(Cpfverifica) {
     return this.pacientes.some(
       (paciente) => paciente[0].cpfPaciente == Cpfverifica,
     );
   }
 
+  //Busca os dados do paciente o index na lista de pacientes mediante o cpf informado
   buscaPaciente(cpf) {
     let dadosPaciente = this.pacientes.find(
       (paciente) => paciente[0].cpfPaciente == cpf,
@@ -43,6 +45,8 @@ export class PacienteRepository {
     return [dadosPaciente, indexDoPaciente];
   }
 
+  //Utiliza o index informado pelo metodo buscaPaciente() para excluir o paciente
+  //da lista de cadastrados
   exclusaoDePaciente(cpf) {
     let indexPaciente = this.buscaPaciente(cpf)[1];
     if (indexPaciente == -1) {

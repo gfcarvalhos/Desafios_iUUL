@@ -7,6 +7,7 @@ export class ConsultaRepository {
     this.consultas.push(newConsulta);
   }
 
+  //Verifica se a data da consulta é uma data futura
   validaDataFutura(consulta) {
     let dataAtual = new Date();
     let dataAtualTratada = new Date(
@@ -37,6 +38,8 @@ export class ConsultaRepository {
     }
   }
 
+  //Filtra a lista de consultas e gera uma lista só com as consultas futuras
+  //a partir do retorno do método validaDataFutura
   filtraConsultasFuturas() {
     let consultasFuturas = this.consultas.filter((consulta) =>
       this.validaDataFutura(consulta),
@@ -44,12 +47,17 @@ export class ConsultaRepository {
     return consultasFuturas;
   }
 
+  //Verifica se o paciente dono do cpf tem alguma consulta futura na lista
+  //de consultas futuras gerada pelo método filtraConsultasFuturas
   verificaAgendaPaciente(cpf) {
     return this.filtraConsultasFuturas().some((consulta) => {
       return consulta.cpfPacienteConsulta === cpf;
     });
   }
 
+  //Verifica se a consulta a ser registrada possui o horario de inicio entre
+  //o horario de inicio e o horario final das outras consultas já registradas.
+  //Caso return verdadeiro, significa que a consulta está sobrepondo outras.
   validaAgendamentoSobrepostoConsulta(consultaEmEspera) {
     return this.consultas.some((consultaRegistrada) => {
       return (
@@ -61,9 +69,30 @@ export class ConsultaRepository {
     });
   }
 
+  //Retira da lista de consultas todas as consultas referentes ao cpf do paciente
   exclusaoDeConsultasPassadas(cpf) {
     this.consultas = this.consultas.filter((consulta) => {
       return consulta.cpfPacienteConsulta !== cpf;
+    });
+  }
+
+  listagemDeConsultas() {
+    // Cabeçalho
+    console.log(
+      '\n------------------------------------------------------------',
+    );
+    console.log('CPF         Data                          HrInicio     HrFim');
+    console.log('------------------------------------------------------------');
+
+    this.consultas.forEach((consulta) => {
+      const cpf = consulta.cpfPacienteConsulta.padEnd(7, ' ');
+      const data = consulta.dataDeConsulta.padEnd(16, ' ');
+      const hrInicial = consulta.horaInicialConsulta.padStart(
+        22,
+        ' ',
+      );
+      const hrFinal = consulta.horaFinalConsulta.padStart(5, ' ');
+      console.log(`${cpf} ${data} ${hrInicial} ${hrFinal}`);
     });
   }
 }

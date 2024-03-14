@@ -159,6 +159,7 @@ function menuAgenda(serviceConsulta, servicePaciente) {
     if (menuConsulta == 4) {
       controladorConsulta = false;
     }
+    serviceConsulta.listagemProvisoria();
   }
 }
 

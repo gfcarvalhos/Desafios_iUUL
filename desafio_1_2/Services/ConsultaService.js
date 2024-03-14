@@ -11,6 +11,9 @@ export class ConsultaService {
     return new Consulta();
   }
 
+  //A verifica no repositorio se existe consultas futuras com o cpf do paciente,
+  // em seguida verifica se o paciente existe no repositorio de pacientes. Retorna
+  // frases de erro quando o paciente nao está cadastrado e quando há consultas futuras
   verificaCPF(pacienteService, cpf) {
     let AgendaPaciente = this.repositorioConsulta.verificaAgendaPaciente(cpf);
     let retornoCpf = pacienteService.encontraPaciente(cpf);
@@ -60,5 +63,9 @@ export class ConsultaService {
 
   exclusaoDeConsultasPorCpf(cpf) {
     return this.repositorioConsulta.exclusaoDeConsultasPassadas(cpf);
+  }
+
+  listagemProvisoria() {
+    return this.repositorioConsulta.listagemDeConsultas();
   }
 }
