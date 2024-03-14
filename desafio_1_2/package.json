@@ -1,4 +1,12 @@
 {
+  "name": "nome-do-seu-projeto",
+  "version": "1.0.0",
+  "description": "Descrição do seu projeto",
+  "main": "main.js",
+  "scripts": {
+    "start": "node main.js"
+  },
+
   "dependencies": {
     "readline-sync": "^1.4.10"
   },
