@@ -17,20 +17,27 @@ function menuPaciente(servicePaciente, serviceConsulta) {
         if (controladorCadastro == 1) {
           let newCPF = readlineSync.question('\nCPf:');
           //Chamada para serviço de validacao e cadastro do CPF do paciente
-          let cadastroCpf = servicePaciente.cadastroDeCpf(paciente, newCPF);
-          /*Verifica se passou pela validacao e foi criado na instancia de paciente, caso nao
+          let validaCpf = servicePaciente.validaCpfPaciente(paciente, newCPF);
+          /*Verifica se passou pela validacao e  cria na instancia de paciente, caso nao
           retorna o erro*/
-          if (cadastroCpf == true) {
+          if (validaCpf === true) {
+            servicePaciente.registraCpfPaciente(paciente, newCPF);
             controladorCadastro++;
           } else {
-            console.log('\n' + cadastroCpf);
+            console.log('\n' + validaCpf);
           }
         }
         if (controladorCadastro == 2) {
           let newNome = readlineSync.question('Nome:');
           //Chamada para serviço de validacao e cadastro do nome do paciente
-          let cadastroNome = servicePaciente.cadastroDeNome(paciente, newNome);
+          let cadastroNome = servicePaciente.validaNomePaciente(
+            paciente,
+            newNome,
+          );
+          /*Verifica se passou pela validacao e cria na instancia de paciente, caso nao
+          retorna o erro*/
           if (cadastroNome == true) {
+            servicePaciente.registraNomePaciente(paciente, newNome);
             controladorCadastro++;
           } else {
             console.log('\n' + cadastroNome + '\n');
@@ -38,11 +45,18 @@ function menuPaciente(servicePaciente, serviceConsulta) {
         }
         if (controladorCadastro == 3) {
           let newDataPaciente = readlineSync.question('Data de Nascimento:');
-          let cadastroDataNascimento = servicePaciente.cadastroDeDataNascimento(
-            paciente,
-            newDataPaciente,
-          );
+          let cadastroDataNascimento =
+            servicePaciente.validaDataNascimentoPaciente(
+              paciente,
+              newDataPaciente,
+            );
+          /*Verifica se passou pela validacao e cria na instancia de paciente, caso nao
+          retorna o erro. Também salva no repositorio a instancia atual de Paciente como obj*/
           if (cadastroDataNascimento == true) {
+            servicePaciente.registraDataNascimentoPaciente(
+              paciente,
+              newDataPaciente,
+            );
             controladorCadastro++;
             console.log('\n' + servicePaciente.cadastroFinal(paciente));
             servicePaciente.listagemDePacientesPorNome();

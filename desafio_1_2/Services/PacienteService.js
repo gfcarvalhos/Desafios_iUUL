@@ -9,7 +9,7 @@ export class PacienteService {
     return new Paciente();
   }
 
-  cadastroDeCpf(paciente, newCPF) {
+  validaCpfPaciente(paciente, newCPF) {
     //Verifica se cpf já existe
     let verificaCpf = this.repositorio.verificaCpfExistente(newCPF);
     //Valida cpf e adiciona ao paciente
@@ -23,7 +23,11 @@ export class PacienteService {
     }
   }
 
-  cadastroDeNome(paciente, newNome) {
+  registraCpfPaciente(paciente, newCPF) {
+    paciente.registraCpf(newCPF);
+  }
+
+  validaNomePaciente(paciente, newNome) {
     let retornoNome = paciente.validaNome(newNome);
     if (retornoNome) {
       return true;
@@ -32,7 +36,11 @@ export class PacienteService {
     }
   }
 
-  cadastroDeDataNascimento(paciente, newDataNascimento) {
+  registraNomePaciente(paciente, newNome) {
+    paciente.registraNome(newNome);
+  }
+
+  validaDataNascimentoPaciente(paciente, newDataNascimento) {
     let retornoDataNascimento = paciente.validaData(newDataNascimento);
     if (retornoDataNascimento[0] == false) {
       if (retornoDataNascimento[1] == 1) {
@@ -44,6 +52,10 @@ export class PacienteService {
     } else {
       return true;
     }
+  }
+
+  registraDataNascimentoPaciente(paciente, newDataNascimento) {
+    paciente.registraDataNascimento(newDataNascimento);
   }
 
   cadastroFinal(paciente) {

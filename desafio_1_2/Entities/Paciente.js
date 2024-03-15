@@ -81,7 +81,6 @@ export class Paciente {
   validaNome(newNome) {
     const regex = /^[a-zA-Z\s]+$/;
     if (regex.test(newNome) && newNome.length >= 5) {
-      this.registraNome(newNome);
       return true;
     } else {
       return false;
@@ -121,7 +120,6 @@ export class Paciente {
       //Chamada para verificar a idade do paciente
       const idade = this.validaIdade(newData);
       if (idade >= 13) {
-        this.registraDataNascimento(newData);
         return [true, 0];
       } else {
         return [false, 2];
