@@ -65,7 +65,7 @@ export class Consulta {
       if (dataAgendamento >= dataAtual) {
         return true;
       } else {
-        return 'Erro: Data de agendamento tem que ser superior ou igual à data atual.';
+        return 'Erro: Data do agendamento tem que ser superior ou igual à data atual.';
       }
     } else {
       return 'Erro: Data inválida.';

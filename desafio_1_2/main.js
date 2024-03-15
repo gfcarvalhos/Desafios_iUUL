@@ -1,4 +1,3 @@
-//Run this code
 import readlineSync from 'readline-sync';
 import { PacienteService } from './Services/PacienteService.js';
 import { ConsultaService } from './Services/ConsultaService.js';
@@ -126,7 +125,10 @@ function menuAgenda(serviceConsulta, servicePaciente) {
             consulta,
           );
           if (cadastroHoraInicial == true) {
-            serviceConsulta.registraHoraInicialService(HoraInicialConsulta, consulta);
+            serviceConsulta.registraHoraInicialService(
+              HoraInicialConsulta,
+              consulta,
+            );
             controladorAgendamento++;
           } else {
             console.log('\n' + cadastroHoraInicial + '\n');
@@ -142,7 +144,8 @@ function menuAgenda(serviceConsulta, servicePaciente) {
             let agendamentoSobreposto =
               serviceConsulta.validaAgendamentoSobreposto(consulta);
             if (agendamentoSobreposto == true) {
-              serviceConsulta.registraHoraFinalService(HoraFinalConsulta,
+              serviceConsulta.registraHoraFinalService(
+                HoraFinalConsulta,
                 consulta,
               );
               controladorAgendamento++;
@@ -158,6 +161,7 @@ function menuAgenda(serviceConsulta, servicePaciente) {
       }
     }
     if (menuConsulta == 2) {
+      const consulta = serviceConsulta.criarConsulta();
       let cpfConsulta = readlineSync.question('\nCPf:');
       let agendaCpf = serviceConsulta.verificaCPF(
         servicePaciente,
@@ -165,14 +169,43 @@ function menuAgenda(serviceConsulta, servicePaciente) {
         2,
       );
       if (agendaCpf == true) {
-        let dataConsulta = readlineSync.question('Data da consulta:');
-        let HoraInicialConsulta = readlineSync.question('Hora Inicial:');
+        let dataConsulta;
+        //Validacao do input de data até user informar formato correto
+        let controleValida = false;
+        while (controleValida === false) {
+          dataConsulta = readlineSync.question('Data da consulta:');
+          let validacaoDeData = serviceConsulta.validaDataAgendamento(
+            dataConsulta,
+            consulta,
+          );
+          if (validacaoDeData === true) {
+            controleValida = true;
+          } else {
+            console.log('\n' + validacaoDeData + '\n');
+          }
+        }
+        //Validacao do input de data até user informar formato correto
+        controleValida = false;
+        let HoraInicialConsulta;
+        while (controleValida == false) {
+          HoraInicialConsulta = readlineSync.question('Hora Inicial:');
+          let validacaoDeHoraInicial = serviceConsulta.validaHoraInicialService(
+            HoraInicialConsulta,
+            consulta,
+          );
+          if (validacaoDeHoraInicial === true) {
+            controleValida = true;
+          } else {
+            console.log('\n' + validacaoDeHoraInicial + '\n');
+          }
+        }
+        //Chamada para exclusao
         let excluiAgendamento = serviceConsulta.excluirConsulta(
           cpfConsulta,
           dataConsulta,
           HoraInicialConsulta,
         );
-        //Retorna se foi ou nao excluido e volta ao menu Agenda
+        //Retorna exclusao
         console.log('\n' + excluiAgendamento);
       } else {
         console.log('\n' + agendaCpf);

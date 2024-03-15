@@ -79,7 +79,8 @@ export class Paciente {
   }
 
   validaNome(newNome) {
-    if (typeof newNome == 'string' && newNome.length >= 5) {
+    const regex = /^[a-zA-Z\s]+$/;
+    if (regex.test(newNome) && newNome.length >= 5) {
       this.registraNome(newNome);
       return true;
     } else {

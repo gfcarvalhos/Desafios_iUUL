@@ -1,5 +1,9 @@
-let teste = [1, 2, 3];
+let teste = 0;
 
-let teste1 = teste.some((numero) => numero === 4);
+if (teste === 0) {
+  teste = 2;
+}
 
-console.log(teste1)
+teste += 1;
+
+console.log(teste)
