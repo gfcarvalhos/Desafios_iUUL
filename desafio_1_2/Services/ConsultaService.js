@@ -11,35 +11,49 @@ export class ConsultaService {
     return new Consulta();
   }
 
-  //A verifica no repositorio se existe consultas futuras com o cpf do paciente,
-  // em seguida verifica se o paciente existe no repositorio de pacientes. Retorna
-  // frases de erro quando o paciente nao está cadastrado e quando há consultas futuras
-  verificaCPF(pacienteService, cpf) {
+  /*Verifica no repositorio se existe consultas futuras com o cpf do paciente,
+  em seguida verifica se o paciente existe no repositorio de pacientes. Retorna
+  frases de erro quando o paciente nao está cadastrado e quando há consultas futuras*/
+  verificaCPF(pacienteService, cpf, serviceNumber) {
     let AgendaPaciente = this.repositorioConsulta.verificaAgendaPaciente(cpf);
     let retornoCpf = pacienteService.encontraPaciente(cpf);
     if (!retornoCpf) {
       return 'Erro: paciente não cadastrado';
-    } else if (AgendaPaciente) {
+    } else if (AgendaPaciente && serviceNumber === 1) {
       return 'Erro: paciente já possui uma consulta agendada';
     } else {
       return true;
     }
   }
 
-  salvaCpf(cpf, consulta) {
+  //Salva o cpf na instancia da consulta
+  registraCpfService(cpf, consulta) {
     consulta.registraCpf(cpf);
   }
 
+  //
   validaDataAgendamento(dataAgendamento, consulta) {
     return consulta.validaData(dataAgendamento);
+  }
+
+  registraDataService(newData, consulta) {
+    consulta.registraDataConsulta(newData);
   }
 
   validaHoraInicialService(horaInicial, consulta) {
     return consulta.validaHoraInicial(horaInicial);
   }
 
+  registraHoraInicialService(horaInicial, consulta) {
+    consulta.registraHoraInicial(horaInicial);
+  }
+
   validaHoraFinalService(horaFinal, consulta) {
     return consulta.validaHoraFinal(horaFinal);
+  }
+
+  registraHoraFinalService(horaFinal, consulta) {
+    consulta.registraHoraFinal(horaFinal);
   }
 
   validaAgendamentoSobreposto(consulta) {
@@ -67,5 +81,18 @@ export class ConsultaService {
 
   listagemProvisoria() {
     return this.repositorioConsulta.listagemDeConsultas();
+  }
+
+  excluirConsulta(cpfPaciente, dataConsulta, hora) {
+    let excluiConsulta = this.repositorioConsulta.excluiConsulta(
+      cpfPaciente,
+      dataConsulta,
+      hora,
+    );
+    if (excluiConsulta) {
+      return 'Agendamento cancelado com sucesso!';
+    } else {
+      return 'Erro: agendamento não encontrado';
+    }
   }
 }

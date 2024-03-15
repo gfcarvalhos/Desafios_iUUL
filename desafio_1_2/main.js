@@ -19,8 +19,8 @@ function menuPaciente(servicePaciente, serviceConsulta) {
           let newCPF = readlineSync.question('\nCPf:');
           //Chamada para serviço de validacao e cadastro do CPF do paciente
           let cadastroCpf = servicePaciente.cadastroDeCpf(paciente, newCPF);
-          //Verifica se passou pela validacao e foi criado na instancia de paciente, caso nao
-          //retorna o erro
+          /*Verifica se passou pela validacao e foi criado na instancia de paciente, caso nao
+          retorna o erro*/
           if (cadastroCpf == true) {
             controladorCadastro++;
           } else {
@@ -95,12 +95,14 @@ function menuAgenda(serviceConsulta, servicePaciente) {
           let agendaCpf = serviceConsulta.verificaCPF(
             servicePaciente,
             cpfConsulta,
+            1,
           );
           if (agendaCpf == true) {
-            serviceConsulta.salvaCpf(cpfConsulta, consulta);
+            serviceConsulta.registraCpfService(cpfConsulta, consulta);
             controladorAgendamento++;
           } else {
             console.log('\n' + agendaCpf);
+            break;
           }
         }
         if (controladorAgendamento == 2) {
@@ -111,6 +113,7 @@ function menuAgenda(serviceConsulta, servicePaciente) {
             consulta,
           );
           if (cadastroDataConsulta == true) {
+            serviceConsulta.registraDataService(dataConsulta, consulta);
             controladorAgendamento++;
           } else {
             console.log('\n' + cadastroDataConsulta + '\n');
@@ -123,6 +126,7 @@ function menuAgenda(serviceConsulta, servicePaciente) {
             consulta,
           );
           if (cadastroHoraInicial == true) {
+            serviceConsulta.registraHoraInicialService(HoraInicialConsulta, consulta);
             controladorAgendamento++;
           } else {
             console.log('\n' + cadastroHoraInicial + '\n');
@@ -138,6 +142,9 @@ function menuAgenda(serviceConsulta, servicePaciente) {
             let agendamentoSobreposto =
               serviceConsulta.validaAgendamentoSobreposto(consulta);
             if (agendamentoSobreposto == true) {
+              serviceConsulta.registraHoraFinalService(HoraFinalConsulta,
+                consulta,
+              );
               controladorAgendamento++;
               console.log('\n' + serviceConsulta.registroFinal(consulta));
             } else {
@@ -151,6 +158,25 @@ function menuAgenda(serviceConsulta, servicePaciente) {
       }
     }
     if (menuConsulta == 2) {
+      let cpfConsulta = readlineSync.question('\nCPf:');
+      let agendaCpf = serviceConsulta.verificaCPF(
+        servicePaciente,
+        cpfConsulta,
+        2,
+      );
+      if (agendaCpf == true) {
+        let dataConsulta = readlineSync.question('Data da consulta:');
+        let HoraInicialConsulta = readlineSync.question('Hora Inicial:');
+        let excluiAgendamento = serviceConsulta.excluirConsulta(
+          cpfConsulta,
+          dataConsulta,
+          HoraInicialConsulta,
+        );
+        //Retorna se foi ou nao excluido e volta ao menu Agenda
+        console.log('\n' + excluiAgendamento);
+      } else {
+        console.log('\n' + agendaCpf);
+      }
     }
 
     if (menuConsulta == 3) {
