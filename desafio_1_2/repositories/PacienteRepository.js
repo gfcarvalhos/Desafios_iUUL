@@ -11,27 +11,6 @@ export class PacienteRepository {
     this.pacientes.push(newPaciente);
   }
 
-  listagemDePacientes() {
-    // Cabeçalho
-    console.log(
-      '\n------------------------------------------------------------',
-    );
-    console.log('CPF         Nome                           Dt.Nasc     Idade');
-    console.log('------------------------------------------------------------');
-
-    this.pacientes.forEach((paciente) => {
-      console.log(paciente);
-      const cpf = paciente[0].cpfPaciente.padEnd(7, ' ');
-      const nome = paciente[0].nomePaciente.padEnd(16, ' ');
-      const dataNascimento = paciente[0].dataNacimentoPaciente.padStart(
-        22,
-        ' ',
-      );
-      const idade = paciente[1].toFixed(0).padStart(5, ' ');
-      console.log(`${cpf} ${nome} ${dataNascimento} ${idade}`);
-    });
-  }
-
   //Verifica se há pacientes cadastrados com o cpf informado pelo user
   verificaCpfExistente(Cpfverifica) {
     return this.pacientes.some(
@@ -62,11 +41,22 @@ export class PacienteRepository {
     }
   }
 
+  //Ordena por nome do paciente de A a Z: objeto no indice 0 da lista Paciente
   ordenaPorNorme() {
     this.pacientes.sort((a, b) =>
       a[0].nomePaciente.localeCompare(b[0].nomePaciente),
     );
   }
 
-  ordenaPorCpf() {}
+  //Ordena por cpf do paciente em ordem crescente: objeto no indice 0 da lista Paciente
+  ordenaPorCpf() {
+    this.pacientes.sort((a, b) => {
+      let compara = parseInt(a[0].cpfPaciente) - parseInt(b[0].cpfPaciente);
+      if (compara < 0) {
+        return -1;
+      } else if (compara > 0) {
+        return 1;
+      } else return 0;
+    });
+  }
 }

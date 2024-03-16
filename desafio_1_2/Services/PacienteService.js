@@ -66,10 +66,6 @@ export class PacienteService {
     return 'Paciente cadastrado com sucesso!';
   }
 
-  listagemDePacientesPorNome() {
-    this.repositorio.listagemDePacientes();
-  }
-
   exclusaoPaciente(cpf, serviceConsulta) {
     let retornoRepositorioConsulta =
       serviceConsulta.verificaAgendaDoPaciente(cpf);
@@ -91,7 +87,7 @@ export class PacienteService {
   listagemDePacientes(serviceConsulta, tipoDeClassificacao) {
     //Etapa de ordenação da lista de pacientes
     if (tipoDeClassificacao === 1) this.repositorio.ordenaPorNorme();
-    else if (tipoDeClassificacao === 2) this.repositorio.ordenaPorCpf();
+    if (tipoDeClassificacao === 2) this.repositorio.ordenaPorCpf();
     // Cabeçalho
     console.log(
       '\n------------------------------------------------------------',
