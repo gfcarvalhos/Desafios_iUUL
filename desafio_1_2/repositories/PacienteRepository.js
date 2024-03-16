@@ -61,4 +61,12 @@ export class PacienteRepository {
       return true;
     }
   }
+
+  ordenaPorNorme() {
+    this.pacientes.sort((a, b) =>
+      a[0].nomePaciente.localeCompare(b[0].nomePaciente),
+    );
+  }
+
+  ordenaPorCpf() {}
 }

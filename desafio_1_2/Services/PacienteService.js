@@ -90,9 +90,8 @@ export class PacienteService {
 
   listagemDePacientes(serviceConsulta, tipoDeClassificacao) {
     //Etapa de ordenação da lista de pacientes
-    if (tipoDeClassificacao === 1) {
-    } else if (tipoDeClassificacao === 2) {
-    }
+    if (tipoDeClassificacao === 1) this.repositorio.ordenaPorNorme();
+    else if (tipoDeClassificacao === 2) this.repositorio.ordenaPorCpf();
     // Cabeçalho
     console.log(
       '\n------------------------------------------------------------',
@@ -122,7 +121,8 @@ export class PacienteService {
             ' '.repeat(12) +
             'Agendado para: ' +
             dataConsulta +
-            '\n' + ' '.repeat(12) +
+            '\n' +
+            ' '.repeat(12) +
             horaInicial.slice(0, 2) +
             ':' +
             horaInicial.slice(2, 4) +
@@ -131,7 +131,7 @@ export class PacienteService {
             ':' +
             horaFinal.slice(2, 4);
 
-            console.log(mensagemFinalConsulta);
+          console.log(mensagemFinalConsulta);
         });
       }
     });

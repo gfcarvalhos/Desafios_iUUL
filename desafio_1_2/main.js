@@ -79,10 +79,10 @@ function menuPaciente(servicePaciente, serviceConsulta) {
       servicePaciente.listagemDePacientesPorNome();
     }
     if (menuPaciente == 3) {
-      servicePaciente.listagemDePacientes(serviceConsulta, 3);
+      servicePaciente.listagemDePacientes(serviceConsulta, 2);
     }
     if (menuPaciente == 4) {
-      controladorPaciente = false;
+      servicePaciente.listagemDePacientes(serviceConsulta, 1);
     }
     if (menuPaciente == 5) {
       controladorPaciente = false;
