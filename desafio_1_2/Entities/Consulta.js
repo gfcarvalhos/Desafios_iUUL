@@ -46,7 +46,7 @@ export class Consulta {
   /*Verifica se a data está no formato correto de DD/MM/YYYY sendo DD entre 0 e 31 e
   MM entre 0 e 12. Em seguida, tranforma no formato Date() e verifica se é uma data
   futura.*/
-  validaData(newData) {
+  static validaData(newData) {
     const regex = /^((0[1-9]|[1-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/(\d{4}))$/;
     //Valida se está de acordo com DD/MM/YYYY
     if (regex.test(newData)) {
@@ -75,7 +75,7 @@ export class Consulta {
   /*Trata a data atual. verifica se o input está no formato correto (HHMM) e dentro
   dos limites HH entre 0 e 12 e MM 0 a 59. Verifica se está em um intervalo de 15 minutos.
   Verifica se está dentro*/
-  validaHoraInicial(horaInicial) {
+  static validaHoraInicial(horaInicial, dataConsulta) {
     //Tratamento das horas atuais
     let dataAtual = new Date();
     dataAtual = new Date(
@@ -103,7 +103,7 @@ export class Consulta {
         return 'Erro: As horas inicial e final devem ser definidas em intervalos de 15 minutos.';
       }
       //Verifica se a data é atual e o horario é inferior a atual
-      if (this.#dataConsulta == dataAtual && +horaInicial < +horaAtual) {
+      if (dataConsulta == dataAtual && +horaInicial < +horaAtual) {
         return 'Erro: A hora inicial é inferior a hora atual.';
       }
       //Verifica se o horario está entre 8h a 19h
@@ -116,7 +116,7 @@ export class Consulta {
     }
   }
 
-  validaHoraFinal(horaFinal) {
+  static validaHoraFinal(horaFinal, horaInicio) {
     //Validacao da horaInicial como HHMM
     if (typeof +horaFinal == 'number' && horaFinal.length == 4) {
       const [parteHora, parteMinuto] = [
@@ -136,7 +136,7 @@ export class Consulta {
         return 'Erro: As horas inicial e final devem ser definidas em intervalos de 15 minutos';
       }
       //Verifica se a hora final né menor que a hora inicial
-      if (+horaFinal <= +this.#horaInicio) {
+      if (+horaFinal <= horaInicio) {
         return 'Erro: A hora final deve ser superior à hora inicial';
       }
       return true;

@@ -32,8 +32,8 @@ export class ConsultaService {
   }
 
   //
-  validaDataAgendamento(dataAgendamento, consulta) {
-    return consulta.validaData(dataAgendamento);
+  validaDataAgendamento(dataAgendamento) {
+    return Consulta.validaData(dataAgendamento);
   }
 
   registraDataService(newData, consulta) {
@@ -41,7 +41,7 @@ export class ConsultaService {
   }
 
   validaHoraInicialService(horaInicial, consulta) {
-    return consulta.validaHoraInicial(horaInicial);
+    return Consulta.validaHoraInicial(horaInicial, consulta.dataDeConsulta);
   }
 
   registraHoraInicialService(horaInicial, consulta) {
@@ -49,7 +49,7 @@ export class ConsultaService {
   }
 
   validaHoraFinalService(horaFinal, consulta) {
-    return consulta.validaHoraFinal(horaFinal);
+    return Consulta.validaHoraFinal(horaFinal, consulta.horaFinalConsulta);
   }
 
   registraHoraFinalService(horaFinal, consulta) {

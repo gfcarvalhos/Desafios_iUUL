@@ -17,7 +17,7 @@ function menuPaciente(servicePaciente, serviceConsulta) {
         if (controladorCadastro == 1) {
           let newCPF = readlineSync.question('\nCPf:');
           //Chamada para serviço de validacao e cadastro do CPF do paciente
-          let validaCpf = servicePaciente.validaCpfPaciente(paciente, newCPF);
+          let validaCpf = servicePaciente.validaCpfPaciente(newCPF);
           /*Verifica se passou pela validacao e  cria na instancia de paciente, caso nao
           retorna o erro*/
           if (validaCpf === true) {
@@ -30,10 +30,7 @@ function menuPaciente(servicePaciente, serviceConsulta) {
         if (controladorCadastro == 2) {
           let newNome = readlineSync.question('Nome:');
           //Chamada para serviço de validacao e cadastro do nome do paciente
-          let cadastroNome = servicePaciente.validaNomePaciente(
-            paciente,
-            newNome,
-          );
+          let cadastroNome = servicePaciente.validaNomePaciente(newNome);
           /*Verifica se passou pela validacao e cria na instancia de paciente, caso nao
           retorna o erro*/
           if (cadastroNome == true) {
@@ -46,10 +43,7 @@ function menuPaciente(servicePaciente, serviceConsulta) {
         if (controladorCadastro == 3) {
           let newDataPaciente = readlineSync.question('Data de Nascimento:');
           let cadastroDataNascimento =
-            servicePaciente.validaDataNascimentoPaciente(
-              paciente,
-              newDataPaciente,
-            );
+            servicePaciente.validaDataNascimentoPaciente(newDataPaciente);
           /*Verifica se passou pela validacao e cria na instancia de paciente, caso nao
           retorna o erro. Também salva no repositorio a instancia atual de Paciente como obj*/
           if (cadastroDataNascimento == true) {
@@ -120,10 +114,8 @@ function menuAgenda(serviceConsulta, servicePaciente) {
         if (controladorAgendamento == 2) {
           let dataConsulta = readlineSync.question('Data da consulta:');
           //Chamada para serviço de validacao e cadastro do nome do paciente
-          let cadastroDataConsulta = serviceConsulta.validaDataAgendamento(
-            dataConsulta,
-            consulta,
-          );
+          let cadastroDataConsulta =
+            serviceConsulta.validaDataAgendamento(dataConsulta);
           if (cadastroDataConsulta == true) {
             serviceConsulta.registraDataService(dataConsulta, consulta);
             controladorAgendamento++;
@@ -187,10 +179,8 @@ function menuAgenda(serviceConsulta, servicePaciente) {
         let controleValida = false;
         while (controleValida === false) {
           dataConsulta = readlineSync.question('Data da consulta:');
-          let validacaoDeData = serviceConsulta.validaDataAgendamento(
-            dataConsulta,
-            consulta,
-          );
+          let validacaoDeData =
+            serviceConsulta.validaDataAgendamento(dataConsulta);
           if (validacaoDeData === true) {
             controleValida = true;
           } else {
@@ -231,7 +221,7 @@ function menuAgenda(serviceConsulta, servicePaciente) {
     if (menuConsulta == 4) {
       controladorConsulta = false;
     }
-    //serviceConsulta.listagemProvisoria();
+    serviceConsulta.listagemProvisoria();
   }
 }
 

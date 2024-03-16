@@ -33,7 +33,7 @@ export class Paciente {
     this.#dataNascimento = dataNascimento;
   }
 
-  validaCpf(newCpf) {
+  static validaCpf(newCpf) {
     try {
       //Valida se o input foi de apenas numeros e se o tamanho é 11
       if (typeof +newCpf == 'number' && newCpf.length == 11) {
@@ -64,7 +64,6 @@ export class Paciente {
         let valorG =
           valorGTotal == 0 || valorGTotal == 1 ? 0 : 11 - valorGTotal;
         if (contador != 11 && valorJ == +newCpf[9] && valorG == +newCpf[10]) {
-          this.registraCpf(newCpf);
           return true;
         } else {
           return false;
@@ -78,7 +77,7 @@ export class Paciente {
     }
   }
 
-  validaNome(newNome) {
+  static validaNome(newNome) {
     const regex = /^[a-zA-Z\s]+$/;
     if (regex.test(newNome) && newNome.length >= 5) {
       return true;
@@ -87,7 +86,7 @@ export class Paciente {
     }
   }
 
-  validaIdade(dataVerificar) {
+  static validaIdade(dataVerificar) {
     //divide a string e transforma em Date()
     let partesDaData = dataVerificar.split('/');
     let dataNascimento = new Date(
@@ -112,7 +111,7 @@ export class Paciente {
     return idade;
   }
 
-  validaData(newData) {
+  static validaData(newData) {
     //Regex para data no formato DD/MM/YYYY considerando dias entre 1 e 31 e meses entre 1 e 12
     const regex = /^((0[1-9]|[1-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/(\d{4}))$/;
     //Valida se está de acordo com DD/MM/YYYY

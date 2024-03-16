@@ -9,11 +9,11 @@ export class PacienteService {
     return new Paciente();
   }
 
-  validaCpfPaciente(paciente, newCPF) {
+  validaCpfPaciente(newCPF) {
     //Verifica se cpf já existe
     let verificaCpf = this.repositorio.verificaCpfExistente(newCPF);
     //Valida cpf e adiciona ao paciente
-    let retornoCpf = paciente.validaCpf(newCPF);
+    let retornoCpf = Paciente.validaCpf(newCPF);
     if (retornoCpf && !verificaCpf) {
       return true;
     } else if (verificaCpf) {
@@ -27,8 +27,8 @@ export class PacienteService {
     paciente.registraCpf(newCPF);
   }
 
-  validaNomePaciente(paciente, newNome) {
-    let retornoNome = paciente.validaNome(newNome);
+  validaNomePaciente(newNome) {
+    let retornoNome = Paciente.validaNome(newNome);
     if (retornoNome) {
       return true;
     } else {
@@ -40,8 +40,8 @@ export class PacienteService {
     paciente.registraNome(newNome);
   }
 
-  validaDataNascimentoPaciente(paciente, newDataNascimento) {
-    let retornoDataNascimento = paciente.validaData(newDataNascimento);
+  validaDataNascimentoPaciente(newDataNascimento) {
+    let retornoDataNascimento = Paciente.validaData(newDataNascimento);
     if (retornoDataNascimento[0] == false) {
       if (retornoDataNascimento[1] == 1) {
         return 'Erro: formato da data está incorreto.';
@@ -61,7 +61,7 @@ export class PacienteService {
   cadastroFinal(paciente) {
     this.repositorio.registrarNovoPaciente([
       paciente,
-      paciente.validaIdade(paciente.dataNacimentoPaciente),
+      Paciente.validaIdade(paciente.dataNacimentoPaciente),
     ]);
     return 'Paciente cadastrado com sucesso!';
   }
