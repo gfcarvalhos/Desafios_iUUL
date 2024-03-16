@@ -59,7 +59,6 @@ function menuPaciente(servicePaciente, serviceConsulta) {
             );
             controladorCadastro++;
             console.log('\n' + servicePaciente.cadastroFinal(paciente));
-            servicePaciente.listagemDePacientesPorNome();
           } else {
             console.log('\n' + cadastroDataNascimento + '\n');
           }
@@ -80,7 +79,7 @@ function menuPaciente(servicePaciente, serviceConsulta) {
       servicePaciente.listagemDePacientesPorNome();
     }
     if (menuPaciente == 3) {
-      controladorPaciente = false;
+      servicePaciente.listagemDePacientes(serviceConsulta, 3);
     }
     if (menuPaciente == 4) {
       controladorPaciente = false;
@@ -232,7 +231,7 @@ function menuAgenda(serviceConsulta, servicePaciente) {
     if (menuConsulta == 4) {
       controladorConsulta = false;
     }
-    serviceConsulta.listagemProvisoria();
+    //serviceConsulta.listagemProvisoria();
   }
 }
 

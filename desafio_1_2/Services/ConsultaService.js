@@ -19,7 +19,7 @@ export class ConsultaService {
     let retornoCpf = pacienteService.encontraPaciente(cpf);
     if (!retornoCpf) {
       return 'Erro: paciente não cadastrado';
-    } else if (AgendaPaciente && serviceNumber === 1) {
+    } else if (AgendaPaciente.length !== 0 && serviceNumber === 1) {
       return 'Erro: paciente já possui uma consulta agendada';
     } else {
       return true;
@@ -72,7 +72,12 @@ export class ConsultaService {
   }
 
   verificaAgendaDoPaciente(cpf) {
-    return this.repositorioConsulta.verificaAgendaPaciente(cpf);
+    let agendaPaciente = this.repositorioConsulta.verificaAgendaPaciente(cpf);
+    if (agendaPaciente.length === 0) {
+      return [false];
+    } else {
+      return [true, agendaPaciente];
+    }
   }
 
   exclusaoDeConsultasPorCpf(cpf) {

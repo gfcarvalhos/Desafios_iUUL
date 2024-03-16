@@ -3,6 +3,10 @@ export class PacienteRepository {
     this.pacientes = [...pacientes];
   }
 
+  get listaDePacientes() {
+    return this.pacientes;
+  }
+
   registrarNovoPaciente(newPaciente) {
     this.pacientes.push(newPaciente);
   }
@@ -16,6 +20,7 @@ export class PacienteRepository {
     console.log('------------------------------------------------------------');
 
     this.pacientes.forEach((paciente) => {
+      console.log(paciente);
       const cpf = paciente[0].cpfPaciente.padEnd(7, ' ');
       const nome = paciente[0].nomePaciente.padEnd(16, ' ');
       const dataNascimento = paciente[0].dataNacimentoPaciente.padStart(
@@ -53,7 +58,7 @@ export class PacienteRepository {
       return false;
     } else {
       this.pacientes.splice(indexPaciente, 1);
-      return true
+      return true;
     }
   }
 }

@@ -50,7 +50,7 @@ export class ConsultaRepository {
   /*Verifica se o paciente dono do cpf tem alguma consulta futura na lista
   de consultas futuras gerada pelo método filtraConsultasFuturas*/
   verificaAgendaPaciente(cpf) {
-    return this.filtraConsultasFuturas().some((consulta) => {
+    return this.filtraConsultasFuturas().filter((consulta) => {
       return consulta.cpfPacienteConsulta === cpf;
     });
   }
