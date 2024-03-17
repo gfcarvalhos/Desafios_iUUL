@@ -76,23 +76,6 @@ export class ConsultaRepository {
     });
   }
 
-  listagemDeConsultas() {
-    // Cabeçalho
-    console.log(
-      '\n------------------------------------------------------------',
-    );
-    console.log('CPF         Data                          HrInicio     HrFim');
-    console.log('------------------------------------------------------------');
-
-    this.consultas.forEach((consulta) => {
-      const cpf = consulta.cpfPacienteConsulta.padEnd(7, ' ');
-      const data = consulta.dataDeConsulta.padEnd(16, ' ');
-      const hrInicial = consulta.horaInicialConsulta.padStart(22, ' ');
-      const hrFinal = consulta.horaFinalConsulta.padStart(5, ' ');
-      console.log(`${cpf} ${data} ${hrInicial} ${hrFinal}`);
-    });
-  }
-
   excluiConsulta(cpfPaciente, dataConsulta, hora) {
     //Verifica se existe alguma consulta futura com os dados fornecidos
     let consultasFuturas = this.filtraConsultasFuturas().some((consulta) => {
@@ -134,17 +117,11 @@ export class ConsultaRepository {
         partesDaData2[0],
       );
       //Compara a data
-      if (data1 !== data2) {
+      if (data1.getTime() !== data2.getTime()) {
         return data1.getTime() - data2.getTime();
       } else {
         //Quando as datas sao iguais, compara as horas
-        let comparativoHorario =
-          +a.horaInicialConsulta - +b.horaInicialConsulta;
-        if (comparativoHorario < 0) {
-          return -1;
-        } else if (comparativoHorario > 0) {
-          return 1;
-        } else return 0;
+        return +a.horaInicialConsulta - +b.horaInicialConsulta;
       }
     });
   }
