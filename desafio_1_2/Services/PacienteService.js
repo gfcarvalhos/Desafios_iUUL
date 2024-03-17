@@ -90,13 +90,13 @@ export class PacienteService {
     if (tipoDeClassificacao === 2) this.repositorio.ordenaPorCpf();
     // Cabeçalho
     console.log(
-      '\n------------------------------------------------------------',
+      '\n' + '-'.repeat(60),
     );
-    console.log('CPF         Nome                           Dt.Nasc     Idade');
-    console.log('------------------------------------------------------------');
+    console.log('CPF' + ' '.repeat(9)+ 'Nome' + ' '.repeat(27) + 'Dt.Nasc' + ' '.repeat(13) + 'Idade');
+    console.log('-'.repeat(60));
     //Informações por paciente
     this.repositorio.listaDePacientes.forEach((paciente) => {
-      const cpf = paciente[0].cpfPaciente.padEnd(7, ' ');
+      const cpf = paciente[0].cpfPaciente
       const nome = paciente[0].nomePaciente.padEnd(16, ' ');
       const dataNascimento = paciente[0].dataNacimentoPaciente.padStart(
         22,
@@ -131,5 +131,9 @@ export class PacienteService {
         });
       }
     });
+  }
+
+  buscaPacienteService(cpf){
+    return this.repositorio.buscaPaciente(cpf)[0]
   }
 }

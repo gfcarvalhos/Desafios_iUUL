@@ -1,9 +1,4 @@
-let teste = 0;
+let teste = 2
+let teste1 = '1'
 
-if (teste === 0) {
-  teste = 2;
-}
-
-teste += 1;
-
-console.log(teste)
+console.log(Math.floor(7/2))

@@ -117,4 +117,74 @@ export class ConsultaRepository {
       return false;
     }
   }
+
+  ordenaListaDeConsultas() {
+    return this.consultas.sort((a, b) => {
+      //Transforma a string em Date()
+      let partesDaData1 = a.dataDeConsulta.split('/');
+      let data1 = new Date(
+        partesDaData1[2],
+        partesDaData1[1] - 1,
+        partesDaData1[0],
+      );
+      let partesDaData2 = b.dataDeConsulta.split('/');
+      let data2 = new Date(
+        partesDaData2[2],
+        partesDaData2[1] - 1,
+        partesDaData2[0],
+      );
+      //Compara a data
+      if (data1 !== data2) {
+        return data1.getTime() - data2.getTime();
+      } else {
+        //Quando as datas sao iguais, compara as horas
+        let comparativoHorario =
+          +a.horaInicialConsulta - +b.horaInicialConsulta;
+        if (comparativoHorario < 0) {
+          return -1;
+        } else if (comparativoHorario > 0) {
+          return 1;
+        } else return 0;
+      }
+    });
+  }
+
+  calculaTempoDeConsulta(listaOrdenada) {
+    let tempo = [];
+    listaOrdenada.forEach((consulta) => {
+      //Transforma o horario em minutos MM
+      let horaFinalEmMinutos =
+        +consulta.horaFinalConsulta.slice(0, 2) * 60 +
+        +consulta.horaFinalConsulta.slice(2, 4);
+      let horaInicialEmMinutos =
+        +consulta.horaInicialConsulta.slice(0, 2) * 60 +
+        +consulta.horaInicialConsulta.slice(2, 4);
+      //Calcula a diferença em minutos da consulta
+      let diferencaMinutos = horaFinalEmMinutos - horaInicialEmMinutos;
+      //Calcula a unidade de Horas do tempo de duração da consulta e em seguida a unidade que sobra em minutos
+      let tempoHora = Math.floor(diferencaMinutos / 60);
+      let tempoMinuto = diferencaMinutos % 60;
+      //Tratamento desse resultado para atender ao padrão do retorno ao user
+      let [tempoHoraFinal, tempoMinutoFinal] = ['', ''];
+      if (tempoHora.toString().length === 2) {
+        tempoHoraFinal = tempoHora.toString();
+      } else {
+        tempoHoraFinal = '0' + tempoHora;
+      }
+      if (tempoMinuto.toString().length === 2) {
+        tempoMinutoFinal = tempoMinuto.toString();
+      } else {
+        tempoMinutoFinal = '0' + tempoMinuto;
+      }
+      //salva na lista tempo o tempo de duração da consulta no formato HH:MM
+      tempo.push(tempoHoraFinal + ':' + tempoMinutoFinal);
+    });
+    return tempo;
+  }
+
+  listagemTotal() {
+    let listaOrdenada = this.ordenaListaDeConsultas();
+    let tempoDasConsultas = this.calculaTempoDeConsulta(listaOrdenada);
+    return [listaOrdenada, tempoDasConsultas];
+  }
 }

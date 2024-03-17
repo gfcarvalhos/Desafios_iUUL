@@ -100,4 +100,46 @@ export class ConsultaService {
       return 'Erro: agendamento não encontrado';
     }
   }
+
+  validacaoDeDataQualquer(data) {
+    let retornoValidaDataQualquer = Consulta.validaDataQualquer(data);
+    if (retornoValidaDataQualquer) {
+      return true;
+    } else {
+      return 'Erro: Formato de data inválido.';
+    }
+  }
+
+  listagemParcialService() {
+    // Cabeçalho
+    console.log(
+      '\n' + '-'.repeat(60),
+    );
+    console.log('Data' + ' '.repeat(9) + 'H.Ini  H.Fim  Tempo  Nome' + ' '.repeat(13) + 'Dt Nasc.');
+    console.log('-'.repeat(60));
+  }
+
+  listagemTotalService(servicePaciente) {
+    // Cabeçalho
+    console.log(
+      '\n' + '-'.repeat(61),
+    );
+    console.log('Data' + ' '.repeat(9) + 'H.Ini  H.Fim  Tempo  Nome' + ' '.repeat(13) + 'Dt Nasc.');
+    console.log('-'.repeat(61));
+    let retornoListagem = this.repositorioConsulta.listagemTotal()
+    
+    retornoListagem[0].forEach((consulta, index)=> {
+      const dataConsulta = consulta.dataDeConsulta;
+      const horaInicial = consulta.horaInicialConsulta;
+      const horaFinal = consulta.horaFinalConsulta;
+      const tempoDeConsulta = retornoListagem[1][index];
+      const nomePaciente = servicePaciente.buscaPacienteService(consulta.cpfPacienteConsulta)[0].nomePaciente.padEnd(16, ' ')
+      const dataNasc = servicePaciente.buscaPacienteService(consulta.cpfPacienteConsulta)[0].dataNacimentoPaciente.padStart(11,' ',
+      );
+      const mensagemFinal = dataConsulta + ' '.repeat(3) + horaInicial.slice(0,2) + ':' + horaInicial.slice(2,4) + ' '.repeat(2) + horaFinal.slice(0,2) + ':' + horaFinal.slice(2,4) + ' '.repeat(2) + tempoDeConsulta + ' '.repeat(2) +
+      nomePaciente +  dataNasc;
+
+      console.log(mensagemFinal);
+    })
+  }
 }

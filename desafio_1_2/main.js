@@ -216,12 +216,54 @@ function menuAgenda(serviceConsulta, servicePaciente) {
     }
 
     if (menuConsulta == 3) {
+      let tipoDeListagem = readlineSync.question(
+        'Apresentar a agenda T-Toda ou P-Periodo: ',
+      );
+      let controleListagem = true;
+      while (controleListagem) {
+        if (tipoDeListagem == 'T' || 't') {
+          serviceConsulta.listagemTotalService(servicePaciente);
+          break;
+        }
+        if (tipoDeListagem == 'P' || 'p') {
+          let [intervaloInicial, intervaloFinal] = [0, 0];
+          let controleIntervalo = false;
+          while (controleIntervalo === false) {
+            intervaloInicial = readlineSync.question('Data inicial: ');
+            let validaDataQualquer =
+              serviceConsulta.validacaoDeDataQualquer(intervaloInicial);
+            if (validaDataQualquer === true) {
+              controleIntervalo = true;
+            } else {
+              console.log('/n' + validaDataQualquer + '/n');
+            }
+          }
+          controleIntervalo = false;
+          while (controleIntervalo === false) {
+            intervaloFinal = readlineSync.question('Data final: ');
+            let validaDataQualquer =
+              serviceConsulta.validacaoDeDataQualquer(intervaloFinal);
+            if (validaDataQualquer === true) {
+              controleIntervalo = true;
+            } else {
+              console.log('/n' + validaDataQualquer + '/n');
+            }
+          }
+          serviceConsulta.listagemParcialService(
+            intervaloInicial,
+            intervaloFinal,
+          );
+        } else {
+          console.log('Erro: Opção inválida.');
+          controleListagem = false;
+        }
+      }
     }
 
     if (menuConsulta == 4) {
       controladorConsulta = false;
     }
-    serviceConsulta.listagemProvisoria();
+    //serviceConsulta.listagemProvisoria();
   }
 }
 
