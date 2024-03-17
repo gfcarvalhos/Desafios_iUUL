@@ -49,7 +49,7 @@ export class ConsultaService {
   }
 
   validaHoraFinalService(horaFinal, consulta) {
-    return Consulta.validaHoraFinal(horaFinal, consulta.horaFinalConsulta);
+    return Consulta.validaHoraFinal(horaFinal, consulta.horaInicialConsulta);
   }
 
   registraHoraFinalService(horaFinal, consulta) {
@@ -119,14 +119,20 @@ export class ConsultaService {
     console.log('-'.repeat(60));
   }
 
-  listagemTotalService(servicePaciente) {
+  listagemService(servicePaciente, dataInicial, dataFinal, tipoDeListagem) {
+    let retornoListagem;
     // Cabeçalho
     console.log(
       '\n' + '-'.repeat(61),
     );
     console.log('Data' + ' '.repeat(9) + 'H.Ini  H.Fim  Tempo  Nome' + ' '.repeat(13) + 'Dt Nasc.');
     console.log('-'.repeat(61));
-    let retornoListagem = this.repositorioConsulta.listagemTotal()
+    if(tipoDeListagem == 1){
+      retornoListagem = this.repositorioConsulta.listagemTotal()
+    }
+    if(tipoDeListagem == 2){
+      retornoListagem = this.repositorioConsulta.listagemParcial(dataInicial, dataFinal)
+    }
     
     retornoListagem[0].forEach((consulta, index)=> {
       const dataConsulta = consulta.dataDeConsulta;

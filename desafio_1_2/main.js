@@ -15,7 +15,7 @@ function menuPaciente(servicePaciente, serviceConsulta) {
       let controladorCadastro = 1;
       while (controladorCadastro <= 3) {
         if (controladorCadastro == 1) {
-          let newCPF = readlineSync.question('\nCPf:');
+          let newCPF = readlineSync.question('\nCPF:');
           //Chamada para serviço de validacao e cadastro do CPF do paciente
           let validaCpf = servicePaciente.validaCpfPaciente(newCPF);
           /*Verifica se passou pela validacao e  cria na instancia de paciente, caso nao
@@ -60,7 +60,7 @@ function menuPaciente(servicePaciente, serviceConsulta) {
       }
     }
     if (menuPaciente == 2) {
-      let cpfPaciente = readlineSync.question('\nCPf:');
+      let cpfPaciente = readlineSync.question('\nCPF:');
       let exclusaoDePaciente = servicePaciente.exclusaoPaciente(
         cpfPaciente,
         serviceConsulta,
@@ -96,7 +96,7 @@ function menuAgenda(serviceConsulta, servicePaciente) {
       let controladorAgendamento = 1;
       while (controladorAgendamento <= 4) {
         if (controladorAgendamento == 1) {
-          let cpfConsulta = readlineSync.question('\nCPf:');
+          let cpfConsulta = readlineSync.question('\nCPF:');
           //Chamada para serviço de verificação de CPF no repositorio
           let agendaCpf = serviceConsulta.verificaCPF(
             servicePaciente,
@@ -167,7 +167,7 @@ function menuAgenda(serviceConsulta, servicePaciente) {
     }
     if (menuConsulta == 2) {
       const consulta = serviceConsulta.criarConsulta();
-      let cpfConsulta = readlineSync.question('\nCPf:');
+      let cpfConsulta = readlineSync.question('\nCPF:');
       let agendaCpf = serviceConsulta.verificaCPF(
         servicePaciente,
         cpfConsulta,
@@ -221,11 +221,11 @@ function menuAgenda(serviceConsulta, servicePaciente) {
       );
       let controleListagem = true;
       while (controleListagem) {
-        if (tipoDeListagem == 'T' || 't') {
-          serviceConsulta.listagemTotalService(servicePaciente);
+        if (tipoDeListagem == 'T' || tipoDeListagem == 't') {
+          serviceConsulta.listagemService(servicePaciente, '', '', 1);
           break;
         }
-        if (tipoDeListagem == 'P' || 'p') {
+        else if (tipoDeListagem == 'P' || tipoDeListagem == 'p') {
           let [intervaloInicial, intervaloFinal] = [0, 0];
           let controleIntervalo = false;
           while (controleIntervalo === false) {
@@ -249,10 +249,13 @@ function menuAgenda(serviceConsulta, servicePaciente) {
               console.log('/n' + validaDataQualquer + '/n');
             }
           }
-          serviceConsulta.listagemParcialService(
+          serviceConsulta.listagemService(
+            servicePaciente,
             intervaloInicial,
             intervaloFinal,
+            2,
           );
+          break;
         } else {
           console.log('Erro: Opção inválida.');
           controleListagem = false;

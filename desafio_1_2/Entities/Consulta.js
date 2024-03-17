@@ -135,7 +135,7 @@ export class Consulta {
       if (+parteMinuto % 15 != 0) {
         return 'Erro: As horas inicial e final devem ser definidas em intervalos de 15 minutos';
       }
-      //Verifica se a hora final né menor que a hora inicial
+      //Verifica se a hora final é menor que a hora inicial
       if (+horaFinal <= horaInicio) {
         return 'Erro: A hora final deve ser superior à hora inicial';
       }

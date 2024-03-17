@@ -27,11 +27,11 @@ export class ConsultaRepository {
       partesDaData[0],
     );
     if (
-      dataTratada == dataAtualTratada &&
+      dataTratada.getTime() == dataAtualTratada.getTime() &&
       +consulta.horaInicialConsulta >= +horaAtual
     ) {
       return true;
-    } else if (dataTratada > dataAtualTratada) {
+    } else if (dataTratada.getTime() > dataAtualTratada.getTime()) {
       return true;
     } else {
       return false;
@@ -101,8 +101,8 @@ export class ConsultaRepository {
     }
   }
 
-  ordenaListaDeConsultas() {
-    return this.consultas.sort((a, b) => {
+  ordenaListaDeConsultas(listaDeConsultas) {
+    return listaDeConsultas.sort((a, b) => {
       //Transforma a string em Date()
       let partesDaData1 = a.dataDeConsulta.split('/');
       let data1 = new Date(
@@ -160,8 +160,45 @@ export class ConsultaRepository {
   }
 
   listagemTotal() {
-    let listaOrdenada = this.ordenaListaDeConsultas();
+    let listaOrdenada = this.ordenaListaDeConsultas(this.consultas);
     let tempoDasConsultas = this.calculaTempoDeConsulta(listaOrdenada);
     return [listaOrdenada, tempoDasConsultas];
+  }
+
+  listagemParcial(dataInicio, dataFim) {
+    //Tratamento das datas inputadas
+    let partesDaDataInicial = dataInicio.split('/');
+    let dataInicial = new Date(
+      partesDaDataInicial[2],
+      partesDaDataInicial[1] - 1,
+      partesDaDataInicial[0],
+    );
+    let partesDaDataFinal = dataFim.split('/');
+    let dataFinal = new Date(
+      partesDaDataFinal[2],
+      partesDaDataFinal[1] - 1,
+      partesDaDataFinal[0],
+    );
+    //Filtragem da lista dentro do intervalo
+    let listaNoIntervaloDeData = this.consultas.filter((consulta) => {
+      let partesDaData = consulta.dataDeConsulta.split('/');
+      let dataConsulta = new Date(
+        partesDaData[2],
+        partesDaData[1] - 1,
+        partesDaData[0],
+      );
+      return (
+        dataConsulta.getTime() >= dataInicial.getTime() &&
+        dataConsulta.getTime() <= dataFinal.getTime()
+      );
+    });
+    //Ordena a lista filtrada dentro do intervalo
+    let listaNoIntervaloDeDataOrdenada = this.ordenaListaDeConsultas(
+      listaNoIntervaloDeData,
+    );
+    let tempoDasConsultas = this.calculaTempoDeConsulta(
+      listaNoIntervaloDeDataOrdenada,
+    );
+    return [listaNoIntervaloDeDataOrdenada, tempoDasConsultas];
   }
 }
