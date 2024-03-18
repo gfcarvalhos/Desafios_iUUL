@@ -92,14 +92,14 @@ export class PacienteService {
     console.log(
       '\n' + '-'.repeat(60),
     );
-    console.log('CPF' + ' '.repeat(9)+ 'Nome' + ' '.repeat(27) + 'Dt.Nasc' + ' '.repeat(13) + 'Idade');
+    console.log('CPF' + ' '.repeat(9)+ 'Nome' + ' '.repeat(29) + 'Dt.Nasc.' + ' '.repeat(2) + 'Idade');
     console.log('-'.repeat(60));
     //Informações por paciente
     this.repositorio.listaDePacientes.forEach((paciente) => {
-      const cpf = paciente[0].cpfPaciente
+      const cpf = paciente[0].cpfPaciente.padEnd(11, ' ')
       const nome = paciente[0].nomePaciente.padEnd(16, ' ');
       const dataNascimento = paciente[0].dataNacimentoPaciente.padStart(
-        22,
+        25,
         ' ',
       );
       const idade = paciente[1].toFixed(0).padStart(5, ' ');
