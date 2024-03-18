@@ -70,7 +70,6 @@ function menuPaciente(servicePaciente, serviceConsulta) {
       } else {
         console.log('\n' + exclusaoDePaciente + '\n');
       }
-      servicePaciente.listagemDePacientesPorNome();
     }
     if (menuPaciente == 3) {
       servicePaciente.listagemDePacientes(serviceConsulta, 2);
