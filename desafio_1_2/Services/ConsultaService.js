@@ -134,8 +134,10 @@ export class ConsultaService {
       retornoListagem = this.repositorioConsulta.listagemParcial(dataInicial, dataFinal)
     }
     
+    let monitoraData = '00/00/0000';
     retornoListagem[0].forEach((consulta, index)=> {
-      const dataConsulta = consulta.dataDeConsulta;
+      const dataConsulta = consulta.dataDeConsulta <= monitoraData? ' '.repeat(10):consulta.dataDeConsulta;
+      monitoraData = consulta.dataDeConsulta;
       const horaInicial = consulta.horaInicialConsulta;
       const horaFinal = consulta.horaFinalConsulta;
       const tempoDeConsulta = retornoListagem[1][index];

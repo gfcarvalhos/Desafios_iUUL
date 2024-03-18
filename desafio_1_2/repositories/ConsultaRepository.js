@@ -56,11 +56,12 @@ export class ConsultaRepository {
   }
 
   /*Verifica se a consulta a ser registrada possui o horario de inicio entre
-  o horario de inicio e o horario final das outras consultas já registradas.
-  Caso return verdadeiro, significa que a consulta está sobrepondo outras.*/
+  o horario de inicio e o horario final das outras consultas já registradas
+  no mesmo dia. Caso return verdadeiro, significa que a consulta está sobrepondo outras.*/
   validaAgendamentoSobrepostoConsulta(consultaEmEspera) {
     return this.consultas.some((consultaRegistrada) => {
       return (
+        consultaRegistrada.dataDeConsulta == consultaEmEspera.dataDeConsulta &&
         +consultaEmEspera.horaInicialConsulta >=
           +consultaRegistrada.horaInicialConsulta &&
         +consultaEmEspera.horaInicialConsulta <
