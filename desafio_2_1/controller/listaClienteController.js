@@ -1,6 +1,5 @@
-
-class listaClienteController{
-/* ele vai chamar as validacoes que serao usadas no presenter */
+class listaClienteController {
+  /* ele vai chamar as validacoes a partir dos models que serao usadas no presenter */
 }
 
-export {listaClienteController}
+export { listaClienteController };

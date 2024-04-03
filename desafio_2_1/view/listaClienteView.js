@@ -1,14 +1,20 @@
 import { FilePath } from '../utils/filePath.js';
 
 class listaClienteView {
-  #filepath
+  #file
+  #filePath
 
   constructor() {
-    this.#filepath = new FilePath();
+    this.#filePath = new FilePath();
+    this.#file = process.argv;
   }
 
-  get pathFile() {
-    console.log(this.#filepath.argName);
+/**
+ * Verifica se caminho foi inputado
+ * @returns {Bolean} Caminho correto
+ */
+  verificaCaminho() {
+    return this.#filePath.validaCaminho(this.#file[2]);
   }
 }
 
