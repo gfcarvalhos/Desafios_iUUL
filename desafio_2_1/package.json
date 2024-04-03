@@ -1,0 +1,14 @@
+{
+  "name": "lista-de-clientes",
+  "version": "1.0.0",
+  "description": "Leitura e validacao de clientes",
+  "main": "main.js",
+  "scripts": {
+    "start": "node validacao.js"
+  },
+
+  "dependencies": {
+    "readline-sync": "^1.4.10"
+  },
+  "type": "module"
+}
