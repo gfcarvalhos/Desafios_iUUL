@@ -23,11 +23,7 @@ function validaCpf(newCpf) {
     let valorJ = valorJTotal == 0 || valorJTotal == 1 ? 0 : 11 - valorJTotal;
     let valorGTotal = valorGLista.reduce((valor, total) => valor + total) % 11;
     let valorG = valorGTotal == 0 || valorGTotal == 1 ? 0 : 11 - valorGTotal;
-    if (contador != 11 && valorJ == +newCpf[9] && valorG == +newCpf[10]) {
-      return true;
-    } else {
-      return false;
-    }
+    return (contador != 11 && valorJ == +newCpf[9] && valorG == +newCpf[10]) 
   } else {
     return false;
   }
