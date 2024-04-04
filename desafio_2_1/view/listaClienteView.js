@@ -10,12 +10,19 @@ class listaClienteView {
   }
 
 /**
- * Verifica se caminho foi inputado
- * @returns {Bolean} Caminho correto
+ * Verifica se caminho foi inputado e  se é um arquivo válido (json)
+ * @returns {String} Caminho do arquivo json
  */
-  verificaCaminho() {
-    return this.#filePath.validaCaminho(this.#file[2]);
+  async verificaCaminho() {
+    const result = this.#filePath.validaCaminho(this.#file[2]);
+    return result
+  }
+
+  async realizaLeituraDoArquivo(path){
+    const lista = await this.#filePath.leituraDeArquivo(path);
+    return lista;
   }
 }
+
 
 export { listaClienteView };

@@ -6,7 +6,6 @@
   "scripts": {
     "start": "node validacao.js"
   },
-
   "dependencies": {
     "readline-sync": "^1.4.10"
   },

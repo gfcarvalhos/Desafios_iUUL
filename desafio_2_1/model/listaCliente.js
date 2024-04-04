@@ -1,9 +1,14 @@
-class ListaCliente{
+class ListaCliente {
   #clientes;
 
-  constructor(){
+  constructor() {
     this.#clientes = [];
   }
 
-  
+  setListaDeClientes(lista) {
+    this.#clientes = Object(lista);
+    console.log(this.#clientes)
+  }
 }
+
+export { ListaCliente };
