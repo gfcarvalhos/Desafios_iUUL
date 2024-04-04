@@ -1,8 +1,8 @@
 function validaIdade(dataVerificar) {
   let dataNascimento = new Date(
-    dataVerificar.slice(0, 2),
-    dataVerificar.slice(2, 4) - 1,
     dataVerificar.slice(4, 8),
+    dataVerificar.slice(2, 4) - 1,
+    dataVerificar.slice(0, 2),
   );
   let dataAtual = new Date();
   //Verifica idade pela diferença de anos

@@ -13,7 +13,7 @@ class Cliente {
     this.#estadoCivil = estado_civil;
   }
 
-  create(dados) {
+  validate(dados) {
     let erros = [];
 
     if (!this.validaNome(dados.nome)) {

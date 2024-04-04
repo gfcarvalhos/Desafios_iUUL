@@ -17,7 +17,7 @@ class listaClienteController {
 
   createClient(objeto){
     const clienteAtual = new Cliente();
-    return clienteAtual.create(objeto);
+    return clienteAtual.validate(objeto);
   }
 }
 
