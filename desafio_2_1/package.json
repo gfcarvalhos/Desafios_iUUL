@@ -2,9 +2,10 @@
   "name": "lista-de-clientes",
   "version": "1.0.0",
   "description": "Leitura e validacao de clientes",
-  "main": "main.js",
+  "main": "validacao.js",
   "scripts": {
-    "start": "node validacao.js"
+    "start": "node validacao.js",
+    "teste": "node validacao.js .\\input\\dadosClientes.json"
   },
   "dependencies": {
     "readline-sync": "^1.4.10"
