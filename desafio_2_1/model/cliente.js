@@ -12,4 +12,20 @@ class Cliente {
     this.#rendaMensal = rendaMensal;
     this.#estadoCivil = estadoCivil;
   }
+
+  validaNome(nome){
+    const regex = /^[a-zA-Z\s]+$/;
+    return regex.test(newNome) && newNome.length >= 5 && newNome.length <= 50;
+  }
+
+  validaCpf(cpf){}
+
+  validaDataNascimento(dataNascimento){}
+
+  validaRendaMensal(renda){}
+
+  validaEstadoCivil(estadoCivil){}
+  
 }
+
+export {Cliente}

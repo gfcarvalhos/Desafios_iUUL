@@ -20,8 +20,10 @@ class listaClientePresenter {
     //Cria a lista a partir do arquivo com caminho já validado e valida as informações
     const listaClientesValidar = this.validaCaminho().then((lista) => {
       const listaParseada = JSON.parse(lista);
-      listaParseada.forEach((element,index) => {
-        console.log(element);
+      const listaClientesOutput = this.#controller.criaClasseLista();
+      listaParseada.forEach((element) => {
+        const objetoResultante = this.validaDados(element)
+        console.log(objetoResultante)
       });
     });
   }
@@ -39,6 +41,22 @@ class listaClientePresenter {
       });
 
     return listaDeClientes;
+  }
+
+  /**
+   * Gerencia a validação dos dados de cada cliente
+   * @param {Object} cliente 
+   * @returns {Object} Erros da validacao
+   */
+  validaDados(cliente){
+    let retornoValidacao = {
+      nome: this.#controller.validarNomeCliente(cliente.nome),
+      cpf: this.#controller.validarCpfCliente(cliente.cpf),
+      dataNascimento:'oi' ,
+      rendaMensal: 'oi' ,
+      estadoCivil: 'oi'
+    }
+    return retornoValidacao;
   }
 }
 

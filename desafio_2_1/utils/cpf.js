@@ -28,3 +28,5 @@ function validaCpf(newCpf) {
     return false;
   }
 }
+
+export {validaCpf}

@@ -15,14 +15,14 @@
   },
   {
     "nome": "Andre Rocha",
-    "cpf": " 41719321060",
+    "cpf": "41719321060",
     "dt_nascimento": "07051984",
     "renda_mensal": "4110,39",
     "estado_civil": "S"
   },
   {
     "nome": "Fernanda Pinheiro",
-    "cpf": " 30228380006",
+    "cpf": "30228380006",
     "dt_nascimento": "04121972",
     "renda_mensal": "5850,27",
     "estado_civil": "C"
@@ -36,8 +36,15 @@
   },
   {
     "nome": "Carlos Roberto",
-    "cpf": " 18493838047",
+    "cpf": "18493838047",
     "dt_nascimento": "14091966",
+    "renda_mensal": "8387,92",
+    "estado_civil": "C"
+  },
+  {
+    "nome": "Gabriel Silva",
+    "cpf": "06010634300",
+    "dt_nascimento": "24121995",
     "renda_mensal": "8387,92",
     "estado_civil": "C"
   }
