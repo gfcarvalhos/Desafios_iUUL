@@ -47,5 +47,12 @@
     "dt_nascimento": "24121995",
     "renda_mensal": "8387,92",
     "estado_civil": "C"
+  },
+  {
+    "nome": "Ga",
+    "cpf": "06010634300",
+    "dt_nascimento": "24122020",
+    "renda_mensal": "8387.92",
+    "estado_civil": "T"
   }
 ]

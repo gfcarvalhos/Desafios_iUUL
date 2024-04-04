@@ -1,7 +1,7 @@
 import { Cliente } from '../model/Cliente.js';
 import { ListaCliente } from '../model/listaClienteRetorno.js';
 import { validaCpf } from '../utils/cpf.js';
-import { validaNome } from '../utils/nome.js';
+//import { validaNome } from '../utils/nome.js';
 import { OperationStatus } from './errorController.js';
 
 class listaClienteController {
@@ -15,16 +15,9 @@ class listaClienteController {
     listaCliente.addClienteRetorno(objeto);
   }
 
-  validarNomeCliente(nome) {
-    return validaNome(nome)
-      ? { status: OperationStatus.SUCCESS }
-      : { status: OperationStatus.FAILURE, errors: 'oi' };
-  }
-
-  validarCpfCliente(cpf) {
-    return validaCpf(cpf)
-      ? { status: OperationStatus.SUCCESS }
-      : { status: OperationStatus.FAILURE, errors: 'oi' };
+  createClient(objeto){
+    const clienteAtual = new Cliente();
+    return clienteAtual.create(objeto);
   }
 }
 

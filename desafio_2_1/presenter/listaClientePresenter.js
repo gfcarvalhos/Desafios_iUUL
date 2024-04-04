@@ -22,8 +22,9 @@ class listaClientePresenter {
       const listaParseada = JSON.parse(lista);
       const listaClientesOutput = this.#controller.criaClasseLista();
       listaParseada.forEach((element) => {
-        const objetoResultante = this.validaDados(element)
-        console.log(objetoResultante)
+        //const objetoResultante = this.validaDados(element)
+        const objetoResult = this.#controller.createClient(element)
+        console.log(objetoResult)
       });
     });
   }
@@ -50,8 +51,8 @@ class listaClientePresenter {
    */
   validaDados(cliente){
     let retornoValidacao = {
-      nome: this.#controller.validarNomeCliente(cliente.nome),
-      cpf: this.#controller.validarCpfCliente(cliente.cpf),
+      nome: 2,
+      cpf: 2,
       dataNascimento:'oi' ,
       rendaMensal: 'oi' ,
       estadoCivil: 'oi'
