@@ -22,9 +22,16 @@ class listaClientePresenter {
       const listaParseada = JSON.parse(lista);
       const listaClientesOutput = this.#controller.criaClasseLista();
       listaParseada.forEach((element) => {
-        //const objetoResultante = this.validaDados(element)
+        const listaOutPut = this.#controller.criaClasseLista();
         const objetoResult = this.#controller.createClient(element)
-        console.log(objetoResult)
+        if(objetoResult.erros.length !== 0){
+          const erroProvisorio = []
+          for (let erro of objetoResult.erros){
+            erroProvisorio.push(this.#view.getErro(erro));
+          }
+          objetoResult.erros = erroProvisorio;
+          console.log(objetoResult)
+        }
       });
     });
   }

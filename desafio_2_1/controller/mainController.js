@@ -1,5 +1,5 @@
 import { listaClientePresenter } from '../presenter/listaClientePresenter.js';
-import { listaClienteController } from './listaClienteController.js';
+import { listaClienteController } from './clienteController.js';
 
 class MainController {
   leituraDeArquivo() {

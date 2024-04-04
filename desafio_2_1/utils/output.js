@@ -5,6 +5,9 @@ class Output {
   write(info) {
     process.stdout.write(`${info}\n`);
   }
+
+  
+
 }
 
 export {Output}

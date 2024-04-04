@@ -4,6 +4,9 @@ import { validaCpf } from '../utils/cpf.js';
 //import { validaNome } from '../utils/nome.js';
 import { OperationStatus } from './errorController.js';
 
+/**
+ * Gerencia os models.
+ */
 class listaClienteController {
   /* ele vai chamar as validacoes a partir dos models que serao usadas no presenter */
 

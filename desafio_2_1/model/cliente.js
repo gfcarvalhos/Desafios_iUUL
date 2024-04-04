@@ -45,7 +45,7 @@ class Cliente {
 
   validaNome(nome) {
     const regex = /^[a-zA-Z\s]+$/;
-    return regex.test(nome) && nome.length >= 5 && nome.length <= 50;
+    return regex.test(nome) && nome.length >= 5 && nome.length <= 60;
   }
 
   validaDataNascimento(dataNascimento) {
