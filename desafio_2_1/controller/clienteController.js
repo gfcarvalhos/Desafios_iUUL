@@ -14,13 +14,17 @@ class listaClienteController {
     return new ListaCliente();
   }
 
-  addClienteOutput(objeto, listaCliente) {
+  addClienteOutput(listaCliente, objeto) {
     listaCliente.addClienteRetorno(objeto);
   }
 
   createClient(objeto){
     const clienteAtual = new Cliente();
     return clienteAtual.validate(objeto);
+  }
+
+  getListaDeClientes(listaCliente){
+    return listaCliente.getClientes();
   }
 }
 

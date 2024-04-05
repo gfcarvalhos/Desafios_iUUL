@@ -19,20 +19,27 @@ class listaClientePresenter {
   run() {
     //Cria a lista a partir do arquivo com caminho já validado e valida as informações
     const listaClientesValidar = this.validaCaminho().then((lista) => {
+      //Gera uma lista de objetos
       const listaParseada = JSON.parse(lista);
+      //Cria a lista final para os dados com erro
       const listaClientesOutput = this.#controller.criaClasseLista();
+      //Percorre cada objeto
       listaParseada.forEach((element) => {
-        const listaOutPut = this.#controller.criaClasseLista();
+        //Valida o objeto
         const objetoResult = this.#controller.createClient(element)
+        //Traduz a lista de erros e salva na lista final dos dados com erro
         if(objetoResult.erros.length !== 0){
           const erroProvisorio = []
           for (let erro of objetoResult.erros){
             erroProvisorio.push(this.#view.getErro(erro));
           }
           objetoResult.erros = erroProvisorio;
-          console.log(objetoResult)
+          this.#controller.addClienteOutput(listaClientesOutput,objetoResult);
         }
       });
+      //Gera o arquivo final
+      console.log()
+      //this.#view.geraArquivoFinal(JSON.stringify(this.#controller.getListaDeClientes(listaClientesOutput)));
     });
   }
 

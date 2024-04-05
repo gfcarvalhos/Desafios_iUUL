@@ -7,13 +7,15 @@ class ListaCliente {
 
   setListaDeClientes(lista) {
     this.#clientes = Object(lista);
-    console.log(this.#clientes)
   }
 
   addClienteRetorno(objeto){
     this.#clientes.push(objeto);
   }
-  
+
+  getClientes(){
+    return this.#clientes;
+  }
 }
 
 export { ListaCliente };

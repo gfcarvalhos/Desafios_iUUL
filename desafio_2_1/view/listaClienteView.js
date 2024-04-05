@@ -1,5 +1,6 @@
 import { OperationErrors } from '../controller/errorController.js';
 import { FilePath } from '../utils/filePath.js';
+import { Output } from '../utils/output.js';
 
 class listaClienteView {
   #file;
@@ -23,12 +24,23 @@ class listaClienteView {
     return result;
   }
 
+
   async realizaLeituraDoArquivo(path) {
     const lista = await this.#filePath.leituraDeArquivo(path);
     return lista;
   }
+
+  /**
+   * Mapeia a mensagem referente ao código retornado do controller
+   * @param {Number} erro codigo do erro 
+   * @returns {Object} objeto com o campo e mensagem de erro
+   */
   getErro(erro){
     return this.#message.get(erro);
+  }
+
+  geraArquivoFinal(listaFinalClientes){
+    Output.geraArquivo(listaFinalClientes, this.#file[2])
   }
 
 
