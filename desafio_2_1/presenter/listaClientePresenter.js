@@ -39,7 +39,7 @@ class listaClientePresenter {
       });
       //Gera o arquivo final
       console.log()
-      //this.#view.geraArquivoFinal(JSON.stringify(this.#controller.getListaDeClientes(listaClientesOutput)));
+      this.#view.geraArquivoFinal(JSON.stringify(this.#controller.getListaDeClientes(listaClientesOutput)));
     });
   }
 
