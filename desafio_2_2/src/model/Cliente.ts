@@ -1,4 +1,5 @@
 import { OperationErrors, OperationStatus } from "../controller/errorController";
+import { env_KEYAPI } from "../envFile";
 import { httpClienteInterface } from "../interface/httpClienteInterface";
 
 class Cliente {
@@ -18,8 +19,8 @@ class Cliente {
     this.moedaOrigem = moeda;
   }
 
-  httpGet(){
-    const response = this.getAPICurrency.get('https://v6.exchangerate-api.com/v6', [this.moedaOrigem, this.moedaDestino])
+  async httpGet(){
+    const response = await this.getAPICurrency.get('https://v6.exchangerate-api.com/v6', [env_KEYAPI(), this.moedaOrigem, this.moedaDestino])
     .then((resposta) => {console.log(resposta)});
     return response;
   }

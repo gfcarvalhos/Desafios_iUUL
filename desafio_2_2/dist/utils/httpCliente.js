@@ -16,11 +16,9 @@ exports.httpClient = void 0;
 class httpClient {
     get(url, params) {
         return __awaiter(this, void 0, void 0, function* () {
-            const response = yield fetch(`${url}/${params[0]}/${params[1]}`)
+            return fetch(`${url}/${params[0]}/pair/${params[1]}/${params[2]}`)
                 .then((response) => { return response.json(); })
-                .then((data) => { console.log(data); })
                 .catch((err) => { return err; });
-            return response;
         });
     }
 }

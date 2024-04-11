@@ -5,7 +5,7 @@ import { View } from "./view";
 
 export class Menu{
 
-  run(controller: clienteController){
+  async run(controller: clienteController){
     const view = new View();
     let validador: boolean = true;
     while(validador){
@@ -31,7 +31,7 @@ export class Menu{
       }
       const valor: number = readlineSync.questionFloat('Valor: ')
       const cliente = controller.createNewClient(moedaOrigem, moedaDestino, valor, new httpClient);
-      controller.getInfo(cliente);
+      await controller.getInfo(cliente);
       console.log('Fim do processo!')
         }
     };
