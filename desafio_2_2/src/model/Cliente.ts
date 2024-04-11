@@ -31,9 +31,14 @@ class Cliente {
     }
   }
 
-  static validaValor(valor: number): boolean{
-    return true
-  }
+  static validaValor(valor: number): Array<number>{
+    const validador = valor>0
+    if(!validador){
+      return [OperationStatus.FAILURE, OperationErrors.VALUE_NEGATIVE]
+    } else {
+      return [OperationStatus.SUCCESS];
+    }
+   }
 
 
 }

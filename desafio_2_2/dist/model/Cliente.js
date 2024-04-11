@@ -25,7 +25,13 @@ class Cliente {
         }
     }
     static validaValor(valor) {
-        return true;
+        const validador = valor > 0;
+        if (!validador) {
+            return [errorController_1.OperationStatus.FAILURE, errorController_1.OperationErrors.VALUE_NEGATIVE];
+        }
+        else {
+            return [errorController_1.OperationStatus.SUCCESS];
+        }
     }
 }
 exports.Cliente = Cliente;

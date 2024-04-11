@@ -9,29 +9,32 @@ const httpCliente_1 = require("../utils/httpCliente");
 const view_1 = require("./view");
 class Menu {
     run(controller) {
+        const view = new view_1.View();
         console.log('Welcome to the first test!');
         let validador = true;
         while (validador) {
             const moedaOrigem = readline_sync_1.default.question('Moeda Origem: ');
-            if (moedaOrigem == ' ') {
+            if (moedaOrigem == '') {
                 break;
             }
             const moedaOrigemValida = controller.validaMoeda(moedaOrigem);
             if (moedaOrigemValida[0] !== 1) {
-                console.log(new view_1.View().getErro(moedaOrigemValida[1]));
+                console.log(view.getErro(moedaOrigemValida[1]));
                 break;
             }
             const moedaDestino = readline_sync_1.default.question('Moeda Destino: ');
+            if (moedaDestino === moedaOrigem) {
+                console.log(view.getErro(2));
+            }
             const moedaDestinoValida = controller.validaMoeda(moedaDestino);
             if (moedaDestinoValida[0] !== 1) {
-                console.log(new view_1.View().getErro(moedaDestinoValida[1]));
+                console.log(view.getErro(moedaDestinoValida[1]));
                 break;
             }
             const valor = readline_sync_1.default.questionFloat('Valor: ');
             const cliente = controller.createNewClient(moedaOrigem, moedaDestino, valor, new httpCliente_1.httpClient);
             //controller.getInfo(cliente);
             console.log('Fim do processo!');
-            //validador = false;
         }
     }
     ;
