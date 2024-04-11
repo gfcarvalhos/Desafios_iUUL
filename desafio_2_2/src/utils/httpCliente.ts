@@ -5,8 +5,8 @@ import { httpClienteInterface } from "../interface/httpClienteInterface.js";
  */
 class httpClient implements httpClienteInterface{
 
-  get<T>(url: string, params: string[]): Promise<unknown> {
-    const response = fetch('https://v6.exchangerate-api.com/v6/846abafcbdf7d8dafdb65df5/pair/EUR/GBP')
+  async get<T>(url: string, params: string[]): Promise<Array<T>> {
+    const response: Promise<Array<T>> = await fetch(`${url}/${params[0]}/${params[1]}`)
     .then((response) => {return response.json()})
     .then((data)=> {console.log(data)})
     .catch((err)=> {return err})

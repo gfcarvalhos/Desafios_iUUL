@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.httpClient = void 0;
 /**
@@ -6,11 +15,13 @@ exports.httpClient = void 0;
  */
 class httpClient {
     get(url, params) {
-        const response = fetch('https://v6.exchangerate-api.com/v6/846abafcbdf7d8dafdb65df5/pair/EUR/GBP')
-            .then((response) => { return response.json(); })
-            .then((data) => { console.log(data); })
-            .catch((err) => { return err; });
-        return response;
+        return __awaiter(this, void 0, void 0, function* () {
+            const response = yield fetch(`${url}/${params[0]}/${params[1]}`)
+                .then((response) => { return response.json(); })
+                .then((data) => { console.log(data); })
+                .catch((err) => { return err; });
+            return response;
+        });
     }
 }
 exports.httpClient = httpClient;

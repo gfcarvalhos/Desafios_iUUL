@@ -30,5 +30,8 @@ class OperationErrors {
     static get INVALID_VALUE() {
         return 4;
     }
+    static get API_ERROR() {
+        return 5;
+    }
 }
 exports.OperationErrors = OperationErrors;

@@ -7,8 +7,7 @@ class clienteController {
         return new Cliente_js_1.Cliente(moedaOrigem, moedaDestino, valor, httpClientService);
     }
     getInfo(newCliente) {
-        const client = newCliente;
-        const retorno = client.httpGet();
+        const retorno = newCliente.httpGet();
         return retorno;
     }
     validaMoeda(moeda) {

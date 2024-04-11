@@ -10,7 +10,6 @@ const view_1 = require("./view");
 class Menu {
     run(controller) {
         const view = new view_1.View();
-        console.log('Welcome to the first test!');
         let validador = true;
         while (validador) {
             const moedaOrigem = readline_sync_1.default.question('Moeda Origem: ');
@@ -33,7 +32,7 @@ class Menu {
             }
             const valor = readline_sync_1.default.questionFloat('Valor: ');
             const cliente = controller.createNewClient(moedaOrigem, moedaDestino, valor, new httpCliente_1.httpClient);
-            //controller.getInfo(cliente);
+            controller.getInfo(cliente);
             console.log('Fim do processo!');
         }
     }

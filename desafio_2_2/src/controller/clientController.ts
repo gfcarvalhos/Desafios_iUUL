@@ -8,10 +8,9 @@ export class clienteController {
     return new Cliente(moedaOrigem, moedaDestino, valor, httpClientService);
   }
 
-  getInfo (newCliente: Cliente): unknown {
-    const client = newCliente;
-    const retorno : unknown = client.httpGet();
-    return retorno
+  getInfo (newCliente: Cliente): Promise<unknown> {
+    const retorno : Promise<unknown> = newCliente.httpGet();
+    return retorno;
   }
 
   validaMoeda(moeda: string): Array<number>{

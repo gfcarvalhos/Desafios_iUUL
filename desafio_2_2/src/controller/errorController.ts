@@ -31,4 +31,8 @@ export class OperationErrors {
     return 4;
   }
 
+  static get API_ERROR(){
+    return 5;
+  }
+
 }

@@ -20,7 +20,6 @@ export class View {
 
   /**
    * Traduz os códigos de erros do controller
-   * @param {Array} erros erros traduzidos
    */
   messageSetup() {
     this.message.set(

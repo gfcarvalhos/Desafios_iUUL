@@ -7,7 +7,6 @@ export class Menu{
 
   run(controller: clienteController){
     const view = new View();
-    console.log('Welcome to the first test!')
     let validador: boolean = true;
     while(validador){
       const moedaOrigem = readlineSync.question('Moeda Origem: ')
@@ -32,7 +31,7 @@ export class Menu{
       }
       const valor: number = readlineSync.questionFloat('Valor: ')
       const cliente = controller.createNewClient(moedaOrigem, moedaDestino, valor, new httpClient);
-      //controller.getInfo(cliente);
+      controller.getInfo(cliente);
       console.log('Fim do processo!')
         }
     };

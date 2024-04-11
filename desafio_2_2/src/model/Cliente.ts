@@ -19,7 +19,9 @@ class Cliente {
   }
 
   httpGet(){
-    console.log(this.getAPICurrency.get('teste', ['test1','teste']));
+    const response = this.getAPICurrency.get('https://v6.exchangerate-api.com/v6', [this.moedaOrigem, this.moedaDestino])
+    .then((resposta) => {console.log(resposta)});
+    return response;
   }
 
   static validaMoeda(moeda: string): Array<number>{
