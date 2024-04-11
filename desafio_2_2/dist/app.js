@@ -1,8 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const view_1 = require("./view/view");
+const clientController_1 = require("./controller/clientController");
+const menu_1 = require("./view/menu");
 function main() {
-    const view = new view_1.viewClient;
-    view.run();
+    const menu = new menu_1.Menu;
+    const controller = new clientController_1.clienteController;
+    menu.run(controller);
 }
 main();

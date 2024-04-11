@@ -2,12 +2,18 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.clienteController = void 0;
 const Cliente_js_1 = require("../model/Cliente.js");
-const httpCliente_js_1 = require("../utils/httpCliente.js");
 class clienteController {
-    getInfo() {
-        const client = new Cliente_js_1.Cliente('str', 'str', new httpCliente_js_1.httpClient);
+    createNewClient(moedaOrigem, moedaDestino, valor, httpClientService) {
+        return new Cliente_js_1.Cliente(moedaOrigem, moedaDestino, valor, httpClientService);
+    }
+    getInfo(newCliente) {
+        const client = newCliente;
         const retorno = client.httpGet();
         return retorno;
+    }
+    validaMoeda(moeda) {
+        const moedaValidada = Cliente_js_1.Cliente.validaMoeda(moeda);
+        return moedaValidada;
     }
 }
 exports.clienteController = clienteController;

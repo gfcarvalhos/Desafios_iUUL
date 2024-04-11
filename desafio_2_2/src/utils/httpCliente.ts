@@ -1,5 +1,8 @@
 import { httpClienteInterface } from "../interface/httpClienteInterface.js";
 
+/**
+ * Chamada da API utilizando fetch
+ */
 class httpClient implements httpClienteInterface{
 
   get<T>(url: string, params: string[]): Promise<unknown> {
