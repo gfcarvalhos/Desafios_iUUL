@@ -19,10 +19,8 @@ class Cliente {
     this.moedaOrigem = moeda;
   }
 
-  async httpGet(){
-    const response = await this.getAPICurrency.get('https://v6.exchangerate-api.com/v6', [env_KEYAPI(), this.moedaOrigem, this.moedaDestino])
-    .then((resposta) => {console.log(resposta)});
-    return response;
+  async httpGet<T>(): Promise<Array<T>>{
+    return await this.getAPICurrency.get('https://v6.exchangerate-api.com/v6', [env_KEYAPI(), this.moedaOrigem, this.moedaDestino])
   }
 
   static validaMoeda(moeda: string): Array<number>{

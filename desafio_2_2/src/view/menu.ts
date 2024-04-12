@@ -2,6 +2,7 @@ import { clienteController } from "../controller/clientController"
 import readlineSync from 'readline-sync';
 import { httpClient } from "../utils/httpCliente";
 import { View } from "./view";
+import { Currency } from "../utils/currency";
 
 export class Menu{
 
@@ -31,8 +32,10 @@ export class Menu{
       }
       const valor: number = readlineSync.questionFloat('Valor: ')
       const cliente = controller.createNewClient(moedaOrigem, moedaDestino, valor, new httpClient);
-      await controller.getInfo(cliente);
-      console.log('Fim do processo!')
+      const currency = await controller.getInfo(cliente);
+      
+      Currency.run(currency);
+
         }
     };
       

@@ -24,9 +24,7 @@ class Cliente {
     }
     httpGet() {
         return __awaiter(this, void 0, void 0, function* () {
-            const response = yield this.getAPICurrency.get('https://v6.exchangerate-api.com/v6', [(0, envFile_1.env_KEYAPI)(), this.moedaOrigem, this.moedaDestino])
-                .then((resposta) => { console.log(resposta); });
-            return response;
+            return yield this.getAPICurrency.get('https://v6.exchangerate-api.com/v6', [(0, envFile_1.env_KEYAPI)(), this.moedaOrigem, this.moedaDestino]);
         });
     }
     static validaMoeda(moeda) {

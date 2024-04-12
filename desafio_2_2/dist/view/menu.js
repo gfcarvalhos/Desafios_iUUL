@@ -16,6 +16,7 @@ exports.Menu = void 0;
 const readline_sync_1 = __importDefault(require("readline-sync"));
 const httpCliente_1 = require("../utils/httpCliente");
 const view_1 = require("./view");
+const currency_1 = require("../utils/currency");
 class Menu {
     run(controller) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -42,8 +43,8 @@ class Menu {
                 }
                 const valor = readline_sync_1.default.questionFloat('Valor: ');
                 const cliente = controller.createNewClient(moedaOrigem, moedaDestino, valor, new httpCliente_1.httpClient);
-                yield controller.getInfo(cliente);
-                console.log('Fim do processo!');
+                const currency = yield controller.getInfo(cliente);
+                currency_1.Currency.run(currency);
             }
         });
     }
