@@ -36,5 +36,8 @@ class clienteController {
         const moedaValidada = Cliente_js_1.Cliente.validaMoeda(moeda);
         return moedaValidada;
     }
+    validaValor(valor) {
+        return Cliente_js_1.Cliente.validaValor(valor);
+    }
 }
 exports.clienteController = clienteController;

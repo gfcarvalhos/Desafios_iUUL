@@ -25,4 +25,8 @@ export class clienteController {
     const moedaValidada = Cliente.validaMoeda(moeda);
     return moedaValidada;
   }
+
+  validaValor(valor: string): Array<number>{
+    return Cliente.validaValor(valor);
+  }
 }

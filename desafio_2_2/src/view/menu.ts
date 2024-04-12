@@ -12,37 +12,45 @@ export class Menu{
     const view = new View();
     let validador: boolean = true;
     while(validador){
-      const moedaOrigem: string = readlineSync.question('Moeda Origem: ')
+      let moedaOrigem: string = readlineSync.question('Moeda Origem: ')
       if(moedaOrigem == ''){
         break;
       }
-      const moedaOrigemValida: Array<number> = controller.validaMoeda(moedaOrigem);
+      let moedaOrigemValida: Array<number> = controller.validaMoeda(moedaOrigem);
       
       if(moedaOrigemValida[0] !== 1) {
         console.log(view.getErro(moedaOrigemValida[1]))
         break;
       }
-      const moedaDestino: string = readlineSync.question('Moeda Destino: ')
+      let moedaDestino: string = readlineSync.question('Moeda Destino: ')
       if(moedaDestino === moedaOrigem){
         console.log(view.getErro(2))
+        break;
       }
 
-      const moedaDestinoValida: Array<number> = controller.validaMoeda(moedaDestino);
+      let moedaDestinoValida: Array<number> = controller.validaMoeda(moedaDestino);
       if(moedaDestinoValida[0] !== 1){
         console.log(view.getErro(moedaDestinoValida[1]))
         break;
       }
-      const valor: number = readlineSync.questionFloat('Valor: ')
-      const cliente: Cliente = controller.createNewClient(moedaOrigem, moedaDestino, valor, new httpClient);
-      const currency: [OperationStatus, number] = await controller.getInfo(cliente);
+      let valor: string = readlineSync.question('Valor: ')
+      valor = valor.replace(',', '.')
+      let valorValida = controller.validaValor(valor);
+      if(valorValida[0] !== 1){
+        console.log(view.getErro(valorValida[1]))
+        break;
+      }
+
+      let cliente: Cliente = controller.createNewClient(moedaOrigem, moedaDestino, +valor, new httpClient);
+      let currency: [OperationStatus, number] = await controller.getInfo(cliente);
 
       if(currency[0] === OperationStatus.FAILURE){
         console.log(view.getErro(currency[1]))
         break;
       }
 
-      const mensagemFinal: string = Currency.run(currency[1], moedaOrigem, moedaDestino, valor);
-      console.log(`\n${mensagemFinal}\n`)
+      let mensagemFinal: string = Currency.run(currency[1], moedaOrigem, moedaDestino, valor);
+      console.log(`\n${mensagemFinal}\n`);
      }
   };
       

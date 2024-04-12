@@ -24,32 +24,39 @@ class Menu {
             const view = new view_1.View();
             let validador = true;
             while (validador) {
-                const moedaOrigem = readline_sync_1.default.question('Moeda Origem: ');
+                let moedaOrigem = readline_sync_1.default.question('Moeda Origem: ');
                 if (moedaOrigem == '') {
                     break;
                 }
-                const moedaOrigemValida = controller.validaMoeda(moedaOrigem);
+                let moedaOrigemValida = controller.validaMoeda(moedaOrigem);
                 if (moedaOrigemValida[0] !== 1) {
                     console.log(view.getErro(moedaOrigemValida[1]));
                     break;
                 }
-                const moedaDestino = readline_sync_1.default.question('Moeda Destino: ');
+                let moedaDestino = readline_sync_1.default.question('Moeda Destino: ');
                 if (moedaDestino === moedaOrigem) {
                     console.log(view.getErro(2));
+                    break;
                 }
-                const moedaDestinoValida = controller.validaMoeda(moedaDestino);
+                let moedaDestinoValida = controller.validaMoeda(moedaDestino);
                 if (moedaDestinoValida[0] !== 1) {
                     console.log(view.getErro(moedaDestinoValida[1]));
                     break;
                 }
-                const valor = readline_sync_1.default.questionFloat('Valor: ');
-                const cliente = controller.createNewClient(moedaOrigem, moedaDestino, valor, new httpCliente_1.httpClient);
-                const currency = yield controller.getInfo(cliente);
+                let valor = readline_sync_1.default.question('Valor: ');
+                valor = valor.replace(',', '.');
+                let valorValida = controller.validaValor(valor);
+                if (valorValida[0] !== 1) {
+                    console.log(view.getErro(valorValida[1]));
+                    break;
+                }
+                let cliente = controller.createNewClient(moedaOrigem, moedaDestino, +valor, new httpCliente_1.httpClient);
+                let currency = yield controller.getInfo(cliente);
                 if (currency[0] === errorController_1.OperationStatus.FAILURE) {
                     console.log(view.getErro(currency[1]));
                     break;
                 }
-                const mensagemFinal = currency_1.Currency.run(currency[1], moedaOrigem, moedaDestino, valor);
+                let mensagemFinal = currency_1.Currency.run(currency[1], moedaOrigem, moedaDestino, valor);
                 console.log(`\n${mensagemFinal}\n`);
             }
         });

@@ -37,7 +37,7 @@ class Cliente {
         }
     }
     static validaValor(valor) {
-        const validador = valor > 0;
+        const validador = typeof +valor == 'number' && +valor > 0;
         if (!validador) {
             return [errorController_1.OperationStatus.FAILURE, errorController_1.OperationErrors.VALUE_NEGATIVE];
         }

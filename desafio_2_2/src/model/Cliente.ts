@@ -32,8 +32,8 @@ class Cliente {
     }
   }
 
-  static validaValor(valor: number): Array<number>{
-    const validador = valor>0
+  static validaValor(valor: string): Array<number>{
+    const validador = typeof +valor == 'number' && +valor>0
     if(!validador){
       return [OperationStatus.FAILURE, OperationErrors.VALUE_NEGATIVE]
     } else {
