@@ -28,13 +28,11 @@ export class clienteController {
       const objeto = await newCliente.httpGet()
       if('result' in objeto && objeto.result === 'success' && 'conversion_rate' in objeto){
         return [OperationStatus.SUCCESS, objeto.conversion_rate]
-      } else if('error-type' in objeto) {
-            return [OperationStatus.FAILURE, objeto['error-type']]
         } else {
-          return [OperationStatus.FAILURE, "Unknown error"];
+          return [OperationStatus.FAILURE, OperationErrors.API_ERROR];
         }
       } catch (err){
-        return [OperationStatus.FAILURE, "Error occurred"];
+        return [OperationStatus.FAILURE, OperationErrors.API_ERROR];
       }
   }
 

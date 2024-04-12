@@ -23,15 +23,12 @@ class clienteController {
                 if ('result' in objeto && objeto.result === 'success' && 'conversion_rate' in objeto) {
                     return [errorController_js_1.OperationStatus.SUCCESS, objeto.conversion_rate];
                 }
-                else if ('error-type' in objeto) {
-                    return [errorController_js_1.OperationStatus.FAILURE, objeto['error-type']];
-                }
                 else {
-                    return [errorController_js_1.OperationStatus.FAILURE, "Unknown error"];
+                    return [errorController_js_1.OperationStatus.FAILURE, errorController_js_1.OperationErrors.API_ERROR];
                 }
             }
             catch (err) {
-                return [errorController_js_1.OperationStatus.FAILURE, "Error occurred"];
+                return [errorController_js_1.OperationStatus.FAILURE, errorController_js_1.OperationErrors.API_ERROR];
             }
         });
     }
