@@ -4,7 +4,7 @@
   "description": "Desafio 2_2 Residencia IUUL",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js"
   },
   "author": "Gabriel Silva",
   "license": "ISC",

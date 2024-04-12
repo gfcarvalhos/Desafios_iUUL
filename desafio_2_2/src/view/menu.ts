@@ -12,7 +12,7 @@ export class Menu{
     const view = new View();
     let validador: boolean = true;
     while(validador){
-      const moedaOrigem = readlineSync.question('Moeda Origem: ')
+      const moedaOrigem: string = readlineSync.question('Moeda Origem: ')
       if(moedaOrigem == ''){
         break;
       }
@@ -22,7 +22,7 @@ export class Menu{
         console.log(view.getErro(moedaOrigemValida[1]))
         break;
       }
-      const moedaDestino = readlineSync.question('Moeda Destino: ')
+      const moedaDestino: string = readlineSync.question('Moeda Destino: ')
       if(moedaDestino === moedaOrigem){
         console.log(view.getErro(2))
       }
@@ -43,9 +43,8 @@ export class Menu{
 
       const mensagemFinal: string = Currency.run(currency[1], moedaOrigem, moedaDestino, valor);
       console.log(`\n${mensagemFinal}\n`)
-
-        }
-    };
+     }
+  };
       
 }
 
