@@ -2,31 +2,16 @@ import { Cliente } from "../model/Cliente.js";
 import { httpClient } from "../utils/httpCliente.js";
 import { OperationErrors, OperationStatus } from "./errorController.js";
 
-interface ApiResponse {
-  result: string,
-  documentation: string,
-  'terms-of-use': string,
-  'error-type' ?: string,
-  time_last_update_unix ?: number,
-  time_last_update_utc ?: string,
-  time_next_update_unix ?: number,
-  time_next_update_utc ?: string,
-  base_code ?: string,
-  target_code ?: string,
-  conversion_rate ?: number
-
-}
-
 export class clienteController {
 
   createNewClient(moedaOrigem: string, moedaDestino: string, valor: number, httpClientService: httpClient){
     return new Cliente(moedaOrigem, moedaDestino, valor, httpClientService);
   }
 
-  async getInfo<T> (newCliente: Cliente): Promise<[OperationStatus, unknown]> {
+  async getInfo<T> (newCliente: Cliente): Promise<[OperationStatus, number]> {
     try{
       const objeto = await newCliente.httpGet()
-      if('result' in objeto && objeto.result === 'success' && 'conversion_rate' in objeto){
+      if('result' in objeto && objeto.result === 'success' && 'conversion_rate' in objeto && typeof objeto.conversion_rate === 'number'){
         return [OperationStatus.SUCCESS, objeto.conversion_rate]
         } else {
           return [OperationStatus.FAILURE, OperationErrors.API_ERROR];

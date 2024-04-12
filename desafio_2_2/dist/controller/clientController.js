@@ -20,7 +20,7 @@ class clienteController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const objeto = yield newCliente.httpGet();
-                if ('result' in objeto && objeto.result === 'success' && 'conversion_rate' in objeto) {
+                if ('result' in objeto && objeto.result === 'success' && 'conversion_rate' in objeto && typeof objeto.conversion_rate === 'number') {
                     return [errorController_js_1.OperationStatus.SUCCESS, objeto.conversion_rate];
                 }
                 else {

@@ -3,6 +3,8 @@ import readlineSync from 'readline-sync';
 import { httpClient } from "../utils/httpCliente";
 import { View } from "./view";
 import { Currency } from "../utils/currency";
+import { OperationErrors, OperationStatus } from "../controller/errorController";
+import { Cliente } from "../model/Cliente";
 
 export class Menu{
 
@@ -31,10 +33,16 @@ export class Menu{
         break;
       }
       const valor: number = readlineSync.questionFloat('Valor: ')
-      const cliente = controller.createNewClient(moedaOrigem, moedaDestino, valor, new httpClient);
-      const currency = await controller.getInfo(cliente);
-      
-      Currency.run(currency);
+      const cliente: Cliente = controller.createNewClient(moedaOrigem, moedaDestino, valor, new httpClient);
+      const currency: [OperationStatus, number] = await controller.getInfo(cliente);
+
+      if(currency[0] === OperationStatus.FAILURE){
+        console.log(view.getErro(currency[1]))
+        break;
+      }
+
+      const mensagemFinal: string = Currency.run(currency[1], moedaOrigem, moedaDestino, valor);
+      console.log(`\n${mensagemFinal}\n`)
 
         }
     };

@@ -23,6 +23,7 @@ class View {
         this.message.set(errorController_1.OperationErrors.SAME_CURRENCY, '\nErro: A moeda de destino é a mesma de origem.');
         this.message.set(errorController_1.OperationErrors.VALUE_NEGATIVE, '\nErro: Valor monetário negativo.');
         this.message.set(errorController_1.OperationErrors.INVALID_VALUE, '\nErro: Formato inválido.');
+        this.message.set(errorController_1.OperationErrors.API_ERROR, '\nErro: Comportamento inesperado da API.');
     }
 }
 exports.View = View;

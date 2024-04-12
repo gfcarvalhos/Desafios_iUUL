@@ -42,5 +42,10 @@ export class View {
       '\nErro: Formato inválido.'
     );
 
+    this.message.set(
+      OperationErrors.API_ERROR,
+      '\nErro: Comportamento inesperado da API.'
+    );
+
   }
 }
