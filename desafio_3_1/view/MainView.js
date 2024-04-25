@@ -1,14 +1,15 @@
 import readlineSync from 'readline-sync';
 import { ConsultaView } from './ConsultaView.js';
 import { PacienteView } from './PacienteView.js';
+import { OperationError } from '../Services/OperationError.js';
 
 export class mainView {
   #menuPaciente;
   #menuConsulta;
 
-  constructor() {
-    this.#menuPaciente = new PacienteView();
-    this.#menuConsulta = new ConsultaView();
+  constructor(presenter) {
+    this.#menuPaciente = new PacienteView(presenter.pacientePresenter());
+    this.#menuConsulta = new ConsultaView(presenter.consultaPresenter());
   }
 
   menuPrincipal() {
@@ -20,7 +21,11 @@ export class mainView {
       try {
         switch (opcaoMenuPrincipal) {
           case 1:
-            this.#menuPaciente.menuPrincipalPaciente();
+            let retorno = this.#menuPaciente.menuPrincipalPaciente();
+            if (retorno.status = false){
+              let message = TradutorMessage.setupMessage(retorno.message);
+              throw new Error(message);
+            }
             break;
           case 2:
             this.#menuConsulta.menuPrincipalConsulta();
@@ -36,4 +41,16 @@ export class mainView {
       }
     }
   }
+}
+
+class TradutorMessage {
+  #message
+
+  setupMessage(){
+    this.#message.set(
+      OperationError.PATIENT_ALREADY_EXISTS,
+      'Erro: Paciente com esse CPF já existe.'
+    )
+  }
+
 }

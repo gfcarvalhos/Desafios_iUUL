@@ -1,5 +1,7 @@
 import { Paciente } from '../Entities/Paciente.js';
 import { PacienteRepository } from '../repositories/PacienteRepository.js';
+import { validaCpf } from '../utils/validaCpf.js';
+import { OperationError, OperationStatus } from './OperationError.js';
 
 export class PacienteService {
   constructor() {
@@ -13,13 +15,13 @@ export class PacienteService {
     //Verifica se cpf já existe
     let verificaCpf = this.repositorio.verificaCpfExistente(newCPF);
     //Valida cpf e adiciona ao paciente
-    let retornoCpf = Paciente.validaCpf(newCPF);
+    let retornoCpf = validaCpf(newCPF);
     if (retornoCpf && !verificaCpf) {
-      return true;
+      return {status: OperationStatus.SUCCESS};
     } else if (verificaCpf) {
-      return 'Erro: CPF já cadastrado.';
+      return {status: OperationStatus.FAILURE, message: OperationError.CPF_ALREADY_EXISTS};
     } else {
-      return 'Erro: CPF inválido.';
+      return {status: OperationStatus.FAILURE, message: OperationError.CPF_INVALID};
     }
   }
 
@@ -30,9 +32,9 @@ export class PacienteService {
   validaNomePaciente(newNome) {
     let retornoNome = Paciente.validaNome(newNome);
     if (retornoNome) {
-      return true;
+      return {status: OperationStatus.SUCCESS};
     } else {
-      return 'Erro: Nome do paciente precisa ter no mínimo 5 caracteres.';
+      return {status: OperationStatus.FAILURE, message: OperationError.NAME_LENGTH_BELOW_MINIMUM};
     }
   }
 
@@ -81,7 +83,12 @@ export class PacienteService {
   }
 
   encontraPaciente(cpf) {
-    return this.repositorio.verificaCpfExistente(cpf);
+    let pacienteExiste = this.repositorio.verificaCpfExistente(cpf);
+    if (!pacienteExiste){
+      return {status: OperationStatus.SUCCESS}
+    }else{
+      return {status: OperationStatus.FAILURE, message: OperationError.PATIENT_ALREADY_EXISTS}
+    }
   }
 
   listagemDePacientes(serviceConsulta, tipoDeClassificacao) {

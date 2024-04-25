@@ -3,6 +3,7 @@ import { PacienteService } from './Services/PacienteService.js';
 import { ConsultaService } from './Services/ConsultaService.js';
 import { PacienteView } from './view/PacienteView.js';
 import { mainView } from './view/MainView.js';
+import { MenuPresenter } from './Presenter/MenuPresenter.js';
 
 function menuAgenda(serviceConsulta, servicePaciente) {
   let controladorConsulta = true;
@@ -189,24 +190,9 @@ function menuAgenda(serviceConsulta, servicePaciente) {
   }
 }
 
-function main() {
-  const menu = new mainView();
+(() => {
+  const presenter = new MenuPresenter;
+  const menu = new mainView(presenter);
   menu.menuPrincipal();
-  let controlador = false;
-  while (controlador) {
-    //mainView.menuPrincipal();
-    let menuPrincipal = readlineSync.questionInt();
-    if (menuPrincipal == 1) {
-      PacienteViewer.menuPaciente();
-      //menuPaciente(servicePaciente, serviceConsulta);
-    }
-    if (menuPrincipal == 2) {
-      menuAgenda(serviceConsulta, servicePaciente);
-    }
-    if (menuPrincipal == 3) {
-      controlador = false;
-    }
-  }
-}
+})()
 
-main();
