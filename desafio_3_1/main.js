@@ -1,87 +1,8 @@
 import readlineSync from 'readline-sync';
 import { PacienteService } from './Services/PacienteService.js';
 import { ConsultaService } from './Services/ConsultaService.js';
-
-function menuPaciente(servicePaciente, serviceConsulta) {
-  let controladorPaciente = true;
-  while (controladorPaciente) {
-    let menuPaciente = readlineSync.questionInt(
-      '\nMenu do Cadastro de Paciente \n 1-Cadastrar novo paciente \n 2-Excluir paciente \n 3-Listar pacientes (ordenado por CPF) \n 4-Listar pacientes (ordenado por nome) \n 5-Voltar p/ menu principal \n',
-    );
-    //Cadastro de novo paciente
-    if (menuPaciente == 1) {
-      //Chamada para serviço de criação de paciente
-      const paciente = servicePaciente.criarPaciente();
-      let controladorCadastro = 1;
-      while (controladorCadastro <= 3) {
-        if (controladorCadastro == 1) {
-          let newCPF = readlineSync.question('\nCPF:');
-          //Chamada para serviço de validacao e cadastro do CPF do paciente
-          let validaCpf = servicePaciente.validaCpfPaciente(newCPF);
-          /*Verifica se passou pela validacao e  cria na instancia de paciente, caso nao
-          retorna o erro*/
-          if (validaCpf === true) {
-            servicePaciente.registraCpfPaciente(paciente, newCPF);
-            controladorCadastro++;
-          } else {
-            console.log('\n' + validaCpf);
-          }
-        }
-        if (controladorCadastro == 2) {
-          let newNome = readlineSync.question('Nome:');
-          //Chamada para serviço de validacao e cadastro do nome do paciente
-          let cadastroNome = servicePaciente.validaNomePaciente(newNome);
-          /*Verifica se passou pela validacao e cria na instancia de paciente, caso nao
-          retorna o erro*/
-          if (cadastroNome == true) {
-            servicePaciente.registraNomePaciente(paciente, newNome);
-            controladorCadastro++;
-          } else {
-            console.log('\n' + cadastroNome + '\n');
-          }
-        }
-        if (controladorCadastro == 3) {
-          let newDataPaciente = readlineSync.question('Data de Nascimento:');
-          let cadastroDataNascimento =
-            servicePaciente.validaDataNascimentoPaciente(newDataPaciente);
-          /*Verifica se passou pela validacao e cria na instancia de paciente, caso nao
-          retorna o erro. Também salva no repositorio a instancia atual de Paciente como obj*/
-          if (cadastroDataNascimento == true) {
-            servicePaciente.registraDataNascimentoPaciente(
-              paciente,
-              newDataPaciente,
-            );
-            controladorCadastro++;
-            console.log('\n' + servicePaciente.cadastroFinal(paciente));
-          } else {
-            console.log('\n' + cadastroDataNascimento + '\n');
-          }
-        }
-      }
-    }
-    if (menuPaciente == 2) {
-      let cpfPaciente = readlineSync.question('\nCPF:');
-      let exclusaoDePaciente = servicePaciente.exclusaoPaciente(
-        cpfPaciente,
-        serviceConsulta,
-      );
-      if (exclusaoDePaciente == true) {
-        console.log('\n Paciente excluído com sucesso! \n');
-      } else {
-        console.log('\n' + exclusaoDePaciente + '\n');
-      }
-    }
-    if (menuPaciente == 3) {
-      servicePaciente.listagemDePacientes(serviceConsulta, 2);
-    }
-    if (menuPaciente == 4) {
-      servicePaciente.listagemDePacientes(serviceConsulta, 1);
-    }
-    if (menuPaciente == 5) {
-      controladorPaciente = false;
-    }
-  }
-}
+import { PacienteView } from './view/PacienteView.js';
+import { mainView } from './view/MainView.js';
 
 function menuAgenda(serviceConsulta, servicePaciente) {
   let controladorConsulta = true;
@@ -223,8 +144,7 @@ function menuAgenda(serviceConsulta, servicePaciente) {
         if (tipoDeListagem == 'T' || tipoDeListagem == 't') {
           serviceConsulta.listagemService(servicePaciente, '', '', 1);
           break;
-        }
-        else if (tipoDeListagem == 'P' || tipoDeListagem == 'p') {
+        } else if (tipoDeListagem == 'P' || tipoDeListagem == 'p') {
           let [intervaloInicial, intervaloFinal] = [0, 0];
           let controleIntervalo = false;
           while (controleIntervalo === false) {
@@ -270,16 +190,15 @@ function menuAgenda(serviceConsulta, servicePaciente) {
 }
 
 function main() {
-  let controlador = true;
-  //Iniciando serviços
-  const servicePaciente = new PacienteService();
-  const serviceConsulta = new ConsultaService();
+  const menu = new mainView();
+  menu.menuPrincipal();
+  let controlador = false;
   while (controlador) {
-    let menuPrincipal = readlineSync.questionInt(
-      '\nMenu Principal \n 1-Cadastro de pacientes \n 2-Agenda \n 3-Fim \n',
-    );
+    //mainView.menuPrincipal();
+    let menuPrincipal = readlineSync.questionInt();
     if (menuPrincipal == 1) {
-      menuPaciente(servicePaciente, serviceConsulta);
+      PacienteViewer.menuPaciente();
+      //menuPaciente(servicePaciente, serviceConsulta);
     }
     if (menuPrincipal == 2) {
       menuAgenda(serviceConsulta, servicePaciente);

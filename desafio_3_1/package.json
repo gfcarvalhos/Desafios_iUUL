@@ -6,9 +6,10 @@
   "scripts": {
     "start": "node main.js"
   },
-
   "dependencies": {
-    "readline-sync": "^1.4.10"
+    "pg": "^8.11.5",
+    "readline-sync": "^1.4.10",
+    "sequelize": "^6.37.3"
   },
   "type": "module"
 }
