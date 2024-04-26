@@ -21,11 +21,7 @@ export class mainView {
       try {
         switch (opcaoMenuPrincipal) {
           case 1:
-            let retorno = this.#menuPaciente.menuPrincipalPaciente();
-            if (retorno.status = false){
-              let message = TradutorMessage.setupMessage(retorno.message);
-              throw new Error(message);
-            }
+            this.#menuPaciente.menuPrincipalPaciente();
             break;
           case 2:
             this.#menuConsulta.menuPrincipalConsulta();
@@ -37,20 +33,8 @@ export class mainView {
             throw new Error('\nErro: Opção inválida.');
         }
       } catch (error) {
-        console.error(error.message);
+        console.error('\n' + error.message);
       }
     }
   }
-}
-
-class TradutorMessage {
-  #message
-
-  setupMessage(){
-    this.#message.set(
-      OperationError.PATIENT_ALREADY_EXISTS,
-      'Erro: Paciente com esse CPF já existe.'
-    )
-  }
-
 }

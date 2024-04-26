@@ -7,35 +7,13 @@ export class PacienteService {
   constructor() {
     this.repositorio = new PacienteRepository();
   }
-  criarPaciente() {
-    return new Paciente();
-  }
-
-  validaCpfPaciente(newCPF) {
-    //Verifica se cpf já existe
-    let verificaCpf = this.repositorio.verificaCpfExistente(newCPF);
-    //Valida cpf e adiciona ao paciente
-    let retornoCpf = validaCpf(newCPF);
-    if (retornoCpf && !verificaCpf) {
-      return {status: OperationStatus.SUCCESS};
-    } else if (verificaCpf) {
-      return {status: OperationStatus.FAILURE, message: OperationError.CPF_ALREADY_EXISTS};
-    } else {
-      return {status: OperationStatus.FAILURE, message: OperationError.CPF_INVALID};
-    }
+  criarPaciente(nome, cpf, dataNascimento) {
+    let paciente = new Paciente(nome, cpf, dataNascimento);
+    return this.repositorio.registrarNovoPaciente(paciente);
   }
 
   registraCpfPaciente(paciente, newCPF) {
     paciente.registraCpf(newCPF);
-  }
-
-  validaNomePaciente(newNome) {
-    let retornoNome = Paciente.validaNome(newNome);
-    if (retornoNome) {
-      return {status: OperationStatus.SUCCESS};
-    } else {
-      return {status: OperationStatus.FAILURE, message: OperationError.NAME_LENGTH_BELOW_MINIMUM};
-    }
   }
 
   registraNomePaciente(paciente, newNome) {
@@ -44,16 +22,7 @@ export class PacienteService {
 
   validaDataNascimentoPaciente(newDataNascimento) {
     let retornoDataNascimento = Paciente.validaData(newDataNascimento);
-    if (retornoDataNascimento[0] == false) {
-      if (retornoDataNascimento[1] == 1) {
-        return 'Erro: formato da data está incorreto.';
-      }
-      if (retornoDataNascimento[1] == 2) {
-        return 'Erro: paciente deve ter pelo menos 13 anos.';
-      }
-    } else {
-      return true;
-    }
+    return retornoDataNascimento;
   }
 
   registraDataNascimentoPaciente(paciente, newDataNascimento) {
@@ -84,10 +53,13 @@ export class PacienteService {
 
   encontraPaciente(cpf) {
     let pacienteExiste = this.repositorio.verificaCpfExistente(cpf);
-    if (!pacienteExiste){
-      return {status: OperationStatus.SUCCESS}
-    }else{
-      return {status: OperationStatus.FAILURE, message: OperationError.PATIENT_ALREADY_EXISTS}
+    if (pacienteExiste) {
+      return {
+        status: OperationStatus.SUCCESS,
+        message: OperationError.PATIENT_ALREADY_EXISTS,
+      };
+    } else {
+      return { status: OperationStatus.FAILURE };
     }
   }
 
@@ -96,14 +68,20 @@ export class PacienteService {
     if (tipoDeClassificacao === 1) this.repositorio.ordenaPorNorme();
     if (tipoDeClassificacao === 2) this.repositorio.ordenaPorCpf();
     // Cabeçalho
+    console.log('\n' + '-'.repeat(60));
     console.log(
-      '\n' + '-'.repeat(60),
+      'CPF' +
+        ' '.repeat(9) +
+        'Nome' +
+        ' '.repeat(29) +
+        'Dt.Nasc.' +
+        ' '.repeat(2) +
+        'Idade',
     );
-    console.log('CPF' + ' '.repeat(9)+ 'Nome' + ' '.repeat(29) + 'Dt.Nasc.' + ' '.repeat(2) + 'Idade');
     console.log('-'.repeat(60));
     //Informações por paciente
     this.repositorio.listaDePacientes.forEach((paciente) => {
-      const cpf = paciente[0].cpfPaciente.padEnd(11, ' ')
+      const cpf = paciente[0].cpfPaciente.padEnd(11, ' ');
       const nome = paciente[0].nomePaciente.padEnd(16, ' ');
       const dataNascimento = paciente[0].dataNacimentoPaciente.padStart(
         25,
@@ -140,7 +118,7 @@ export class PacienteService {
     });
   }
 
-  buscaPacienteService(cpf){
-    return this.repositorio.buscaPaciente(cpf)[0]
+  buscaPacienteService(cpf) {
+    return this.repositorio.buscaPaciente(cpf)[0];
   }
 }

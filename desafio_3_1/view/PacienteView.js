@@ -33,6 +33,13 @@ export class PacienteView {
 }
 
 class TradutorMessage {
+  #message
 
+  setupMessage(){
+    this.#message.set(
+      OperationError.PATIENT_ALREADY_EXISTS,
+      'Erro: Paciente com esse CPF já existe.'
+    )
+  }
 
 }

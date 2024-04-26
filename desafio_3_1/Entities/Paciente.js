@@ -1,3 +1,5 @@
+import { OperationError, OperationStatus } from "../Services/OperationError.js";
+
 export class Paciente {
   #nome;
   #cpf;
@@ -34,15 +36,6 @@ export class Paciente {
   }
 
 
-  static validaNome(newNome) {
-    const regex = /^[a-zA-Z\s]+$/;
-    if (regex.test(newNome) && newNome.length >= 5) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   static validaIdade(dataVerificar) {
     //divide a string e transforma em Date()
     let partesDaData = dataVerificar.split('/');
@@ -76,12 +69,12 @@ export class Paciente {
       //Chamada para verificar a idade do paciente
       const idade = this.validaIdade(newData);
       if (idade >= 13) {
-        return [true, 0];
+        return {status:OperationStatus.SUCCESS};
       } else {
-        return [false, 2];
+        return {status: OperationStatus.FAILURE, message: OperationError.UNDERAGE_PATIENT};
       }
     } else {
-      return [false, 1];
+      return {status: OperationStatus.FAILURE, message: OperationError.INVALID_DATE};
     }
   }
 }

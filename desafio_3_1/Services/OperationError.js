@@ -23,4 +23,12 @@ export class OperationError {
   static get PATIENT_ALREADY_EXISTS(){
     return 4;
   }
+
+  static get INVALID_DATE(){
+    return 5;
+  }
+
+  static get UNDERAGE_PATIENT(){
+    return 6;
+  }
 }

@@ -1,13 +1,19 @@
 import { PacienteService } from '../Services/PacienteService.js';
-import { CadastroNovoPacienteView } from '../view/CadastroNovoPacienteView.js';
+import {
+  CadastroNovoPacienteView,
+  OperationFailureMessage,
+  OperationSucess,
+} from '../view/CadastroNovoPacienteView.js';
 
 export class PacientePresenter {
   #pacienteService;
   #viewNovoPaciente;
+  #messageFailure;
 
   constructor() {
     this.#pacienteService = new PacienteService();
     this.#viewNovoPaciente = new CadastroNovoPacienteView();
+    this.#messageFailure = new OperationFailureMessage();
   }
 
   run(opcao) {
@@ -21,45 +27,22 @@ export class PacientePresenter {
   }
 
   cadastroDeNovoPaciente() {
-    //Chamada para serviço de criação de paciente
-    const paciente = this.#pacienteService.criarPaciente();
-    let newCPF = NovoPacienteView.leituraDeCpf();
-    let pacienteExiste = this.#pacienteService.encontraPaciente(newCPF)
-    if (pacienteExiste.status){
-      return pacienteExiste;
+    let newCPF = this.#viewNovoPaciente.leituraDeCpf();
+    let pacienteExiste = this.#pacienteService.encontraPaciente(newCPF);
+    if (pacienteExiste.status) {
+      this.#messageFailure.setupMessage(pacienteExiste.message);
     }
-      if (controladorCadastro == 2) {
-        let newNome = readlineSync.question('Nome:');
-        //Chamada para serviço de validacao e cadastro do nome do paciente
-        let cadastroNome = servicePaciente.validaNomePaciente(newNome);
-        /*Verifica se passou pela validacao e cria na instancia de paciente, caso nao
-          retorna o erro*/
-        if (cadastroNome == true) {
-          servicePaciente.registraNomePaciente(paciente, newNome);
-          controladorCadastro++;
-        } else {
-          console.log('\n' + cadastroNome + '\n');
-        }
-      }
-      if (controladorCadastro == 3) {
-        let newDataPaciente = readlineSync.question('Data de Nascimento:');
-        let cadastroDataNascimento =
-          servicePaciente.validaDataNascimentoPaciente(newDataPaciente);
-        /*Verifica se passou pela validacao e cria na instancia de paciente, caso nao
-          retorna o erro. Também salva no repositorio a instancia atual de Paciente como obj*/
-        if (cadastroDataNascimento == true) {
-          servicePaciente.registraDataNascimentoPaciente(
-            paciente,
-            newDataPaciente,
-          );
-          controladorCadastro++;
-          console.log('\n' + servicePaciente.cadastroFinal(paciente));
-        } else {
-          console.log('\n' + cadastroDataNascimento + '\n');
-        }
-      }
-    }
+    let newNome = this.#viewNovoPaciente.leituraNome();
+    let newDataPaciente = this.#viewNovoPaciente.leituraDataNascimento();
+
+    let newPaciente = this.#pacienteService.criarPaciente(
+      newNome,
+      newCPF,
+      newDataPaciente,
+    );
+    OperationSucess.setupMessage(newPaciente.status);
   }
+}
 
 function menuPaciente(servicePaciente, serviceConsulta) {
   let controladorPaciente = true;

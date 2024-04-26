@@ -1,3 +1,5 @@
+import { OperationStatus } from '../Services/OperationError.js';
+
 export class PacienteRepository {
   constructor(...pacientes) {
     this.pacientes = [...pacientes];
@@ -9,6 +11,7 @@ export class PacienteRepository {
 
   registrarNovoPaciente(newPaciente) {
     this.pacientes.push(newPaciente);
+    return { status: OperationStatus.SUCCESS };
   }
 
   //Verifica se há pacientes cadastrados com o cpf informado pelo user
