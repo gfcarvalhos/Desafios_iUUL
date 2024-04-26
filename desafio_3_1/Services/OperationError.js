@@ -16,19 +16,27 @@ export class OperationError {
     return 2;
   }
 
-  static get NAME_LENGTH_BELOW_MINIMUM(){
+  static get NAME_LENGTH_BELOW_MINIMUM() {
     return 3;
   }
 
-  static get PATIENT_ALREADY_EXISTS(){
+  static get PATIENT_ALREADY_EXISTS() {
     return 4;
   }
 
-  static get INVALID_DATE(){
+  static get INVALID_DATE() {
     return 5;
   }
 
-  static get UNDERAGE_PATIENT(){
+  static get UNDERAGE_PATIENT() {
     return 6;
+  }
+
+  static get PATIENT_HAS_APPOINTMENT() {
+    return 7;
+  }
+
+  static get PATIENT_NOT_REGISTERED() {
+    return 8;
   }
 }

@@ -1,3 +1,4 @@
+import { OperationError } from '../Services/OperationError.js';
 import { PacienteService } from '../Services/PacienteService.js';
 import {
   CadastroNovoPacienteView,
@@ -18,9 +19,9 @@ export class CadastroNovoPacientePresenter {
 
   run() {
     let newCPF = this.#viewNovoPaciente.leituraDeCpf();
-    let pacienteExiste = this.#pacienteService.encontraPaciente(newCPF);
+    let pacienteExiste = this.#pacienteService.verificaExistenciaDeCpf(newCPF);
     if (pacienteExiste.status) {
-      this.#messageFailure.setupMessage(pacienteExiste.message);
+      this.#messageFailure.setupMessage(OperationError.PATIENT_ALREADY_EXISTS);
     }
     let newNome = this.#viewNovoPaciente.leituraNome();
     let newDataPaciente = this.#viewNovoPaciente.leituraDataNascimento();

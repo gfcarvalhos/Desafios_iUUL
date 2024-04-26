@@ -80,6 +80,9 @@ export class OperationSucess {
     switch (response) {
       case OperationStatus.SUCCESS:
         console.log('\nPaciente registrado com Sucesso!');
+        break;
+      case OperationStatus.FAILURE:
+        throw new Error('Não foi possível cadastrar o paciente.');
     }
   }
 }

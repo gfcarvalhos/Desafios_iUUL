@@ -9,7 +9,7 @@ export class PacienteService {
   }
   criarPaciente(nome, cpf, dataNascimento) {
     let paciente = new Paciente(nome, cpf, dataNascimento);
-    return this.repositorio.registrarNovoPaciente(paciente);
+    return this.repositorio.registrarNovoPaciente([paciente, Paciente.validaIdade(dataNascimento)]);
   }
 
   registraCpfPaciente(paciente, newCPF) {
@@ -37,29 +37,20 @@ export class PacienteService {
     return 'Paciente cadastrado com sucesso!';
   }
 
-  exclusaoPaciente(cpf, serviceConsulta) {
-    let retornoRepositorioConsulta =
-      serviceConsulta.verificaAgendaDoPaciente(cpf);
-    if (retornoRepositorioConsulta[0] === true) {
-      return 'Erro: paciente não pode ser excluído, pois possui consulta agendada.';
-    }
+  exclusaoPaciente(cpf) {
     let retornoRepositorioPaciente = this.repositorio.exclusaoDePaciente(cpf);
     if (!retornoRepositorioPaciente) {
-      return 'Erro: paciente não cadastrado';
+      return {status: OperationStatus.FAILURE}
     }
-    serviceConsulta.exclusaoDeConsultasPorCpf(cpf);
-    return true;
+    return {status: OperationStatus.SUCCESS};
   }
 
-  encontraPaciente(cpf) {
+  verificaExistenciaDeCpf(cpf) {
     let pacienteExiste = this.repositorio.verificaCpfExistente(cpf);
     if (pacienteExiste) {
-      return {
-        status: OperationStatus.SUCCESS,
-        message: OperationError.PATIENT_ALREADY_EXISTS,
-      };
+      return {status: OperationStatus.SUCCESS};
     } else {
-      return { status: OperationStatus.FAILURE };
+      return {status: OperationStatus.FAILURE};
     }
   }
 

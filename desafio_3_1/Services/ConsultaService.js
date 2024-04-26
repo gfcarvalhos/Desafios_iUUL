@@ -1,5 +1,6 @@
 import { Consulta } from '../Entities/Consulta.js';
 import { ConsultaRepository } from '../repositories/ConsultaRepository.js';
+import { OperationError, OperationStatus } from './OperationError.js';
 import { PacienteService } from './PacienteService.js';
 
 export class ConsultaService {
@@ -71,10 +72,19 @@ export class ConsultaService {
     return 'Agendamento realizado com sucesso!';
   }
 
+  verificaExistenciaDeAgendaDoPaciente(cpf) {
+    let agendaPaciente = this.repositorioConsulta.verificaAgendaPaciente(cpf);
+    if (agendaPaciente.length === 0) {
+      return {status: OperationStatus.FAILURE};
+    } else {
+      return {status: OperationStatus.SUCCESS};
+    }
+  }
+
   verificaAgendaDoPaciente(cpf) {
     let agendaPaciente = this.repositorioConsulta.verificaAgendaPaciente(cpf);
     if (agendaPaciente.length === 0) {
-      return [false];
+      return {status: OperationStatus};
     } else {
       return [true, agendaPaciente];
     }
