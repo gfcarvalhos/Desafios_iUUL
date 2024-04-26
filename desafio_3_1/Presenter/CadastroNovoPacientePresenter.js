@@ -1,20 +1,35 @@
-import { PacienteService } from "../Services/PacienteService"
-import { CadastroNovoPacienteView } from "../view/CadastroNovoPacienteView"
+import { PacienteService } from '../Services/PacienteService.js';
+import {
+  CadastroNovoPacienteView,
+  OperationFailureMessage,
+  OperationSucess,
+} from '../view/CadastroNovoPacienteView.js';
 
 export class CadastroNovoPacientePresenter {
-  #viewNovoPaciente
-  #servicePaciente
+  #viewNovoPaciente;
+  #pacienteService;
+  #messageFailure;
 
-  constructor(){
-    this.#viewNovoPaciente = new CadastroNovoPacienteView
-    this.#servicePaciente = new PacienteService
+  constructor() {
+    this.#viewNovoPaciente = new CadastroNovoPacienteView();
+    this.#pacienteService = new PacienteService();
+    this.#messageFailure = new OperationFailureMessage();
   }
 
-  controleDeCadastro(){
-    try {
-      
-    } catch (erro){
-
+  run() {
+    let newCPF = this.#viewNovoPaciente.leituraDeCpf();
+    let pacienteExiste = this.#pacienteService.encontraPaciente(newCPF);
+    if (pacienteExiste.status) {
+      this.#messageFailure.setupMessage(pacienteExiste.message);
     }
+    let newNome = this.#viewNovoPaciente.leituraNome();
+    let newDataPaciente = this.#viewNovoPaciente.leituraDataNascimento();
+
+    let newPaciente = this.#pacienteService.criarPaciente(
+      newNome,
+      newCPF,
+      newDataPaciente,
+    );
+    OperationSucess.setupMessage(newPaciente.status);
   }
 }
