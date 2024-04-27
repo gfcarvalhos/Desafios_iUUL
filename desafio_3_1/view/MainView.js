@@ -12,7 +12,7 @@ export class mainView {
     this.#menuConsulta = new ConsultaView(presenter.consultaPresenter());
   }
 
-  menuPrincipal() {
+  async menuPrincipal() {
     let constrolador = true;
     while (constrolador) {
       let opcaoMenuPrincipal = readlineSync.questionInt(
@@ -21,7 +21,7 @@ export class mainView {
       try {
         switch (opcaoMenuPrincipal) {
           case 1:
-            this.#menuPaciente.menuPrincipalPaciente();
+            await this.#menuPaciente.menuPrincipalPaciente();
             break;
           case 2:
             this.#menuConsulta.menuPrincipalConsulta();

@@ -4,14 +4,19 @@ import { calculaIdade } from '../utils/calculaIdade.js';
 import { validaCpf } from '../utils/validaCpf.js';
 import { OperationError, OperationStatus } from './OperationError.js';
 
-export class PacienteService {
+export class PacienteController {
   constructor() {
     this.repositorio = new PacienteRepository();
   }
-  criarPaciente(nome, cpf, dataNascimento) {
-    const idade = calculaIdade(dataNascimentoPaciente);
-    let newPaciente = new Paciente(nome, cpf, dataNascimento, idade);
-    return Paciente.registrarNovoPaciente(newPaciente);
+  async salvarNovoPaciente(nome, cpf, dataNascimento) {
+    try{
+      const idade = calculaIdade(dataNascimento);
+      let newPaciente = new Paciente(nome, cpf, dataNascimento, idade);
+      const resultado = await newPaciente.salvarPacienteNoBanco();
+      return {status: OperationStatus.SUCCESS}
+    } catch (error) {
+      return {status: OperationStatus.FAILURE, message: OperationError.UNEXPECTED_ERROR};
+    }
   }
 
   registraCpfPaciente(paciente, newCPF) {

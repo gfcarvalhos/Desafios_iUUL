@@ -39,4 +39,8 @@ export class OperationError {
   static get PATIENT_NOT_REGISTERED() {
     return 8;
   }
+
+  static get UNEXPECTED_ERROR(){
+    return 9.
+  }
 }

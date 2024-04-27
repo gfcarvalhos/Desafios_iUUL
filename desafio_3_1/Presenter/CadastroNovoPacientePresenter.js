@@ -1,5 +1,5 @@
 import { OperationError } from '../controller/OperationError.js';
-import { PacienteService } from '../controller/PacienteController.js';
+import { PacienteController } from '../controller/PacienteController.js';
 import {
   CadastroNovoPacienteView,
   OperationFailureMessage,
@@ -8,25 +8,25 @@ import {
 
 export class CadastroNovoPacientePresenter {
   #viewNovoPaciente;
-  #pacienteService;
+  #PacienteController;
   #messageFailure;
 
   constructor() {
     this.#viewNovoPaciente = new CadastroNovoPacienteView();
-    this.#pacienteService = new PacienteService();
+    this.#PacienteController = new PacienteController();
     this.#messageFailure = new OperationFailureMessage();
   }
 
-  run() {
+  async run() {
     let newCPF = this.#viewNovoPaciente.leituraDeCpf();
-    let pacienteExiste = this.#pacienteService.verificaExistenciaDeCpf(newCPF);
+    let pacienteExiste = this.#PacienteController.verificaExistenciaDeCpf(newCPF);
     if (pacienteExiste.status) {
       this.#messageFailure.setupMessage(OperationError.PATIENT_ALREADY_EXISTS);
     }
     let newNome = this.#viewNovoPaciente.leituraNome();
     let newDataPaciente = this.#viewNovoPaciente.leituraDataNascimento();
 
-    let newPaciente = this.#pacienteService.criarPaciente(
+    let newPaciente = await this.#PacienteController.salvarNovoPaciente(
       newNome,
       newCPF,
       newDataPaciente,

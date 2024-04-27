@@ -190,7 +190,7 @@ function menuAgenda(serviceConsulta, servicePaciente) {
 }
 
 ( async () => {
-  await database.sync({force: true})
+  await database.sync({force: false})
 
   const presenter = new MenuPresenter;
   const menu = new mainView(presenter);

@@ -7,7 +7,7 @@ export class PacienteView {
     this.#pacientePresenter = presenter
   }
 
-  menuPrincipalPaciente() {
+  async menuPrincipalPaciente() {
     let controladorPaciente = true;
     while (controladorPaciente) {
       this.mensagemMenu();
@@ -17,7 +17,8 @@ export class PacienteView {
         case 2:
         case 3:
         case 4:
-          this.#pacientePresenter.run(opcaoMenuPaciente);
+          await this.#pacientePresenter.run(opcaoMenuPaciente);
+          break;
         case 5:
           controladorPaciente = false;
           break

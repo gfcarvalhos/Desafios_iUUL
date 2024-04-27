@@ -4,7 +4,7 @@ import database from '../db/db.js';
 export const PacienteSchema = database.define('paciente', {
   id: {
     type: Sequelize.INTEGER,
-    outoIncrement: true,
+    autoIncrement: true,
     allowNull: false,
     primaryKey: true,
   },

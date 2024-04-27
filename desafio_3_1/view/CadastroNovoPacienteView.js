@@ -4,15 +4,15 @@ import {
   OperationError,
   OperationStatus,
 } from '../controller/OperationError.js';
-import { PacienteService } from '../controller/PacienteController.js';
+import { PacienteController } from '../controller/PacienteController.js';
 
 export class CadastroNovoPacienteView {
   #message;
-  #pacienteService;
+  #PacienteController;
 
   constructor() {
     this.#message = new OperationFailureMessage();
-    this.#pacienteService = new PacienteService();
+    this.#PacienteController = new PacienteController();
   }
 
   leituraDeCpf() {
@@ -52,7 +52,7 @@ export class CadastroNovoPacienteView {
       try {
         let newDataPaciente = readlineSync.question('Data de Nascimento: ');
         let valida =
-          this.#pacienteService.validaDataNascimentoPaciente(newDataPaciente);
+          this.#PacienteController.validaDataNascimentoPaciente(newDataPaciente);
         if (valida.status) {
           return newDataPaciente;
         } else {

@@ -1,6 +1,6 @@
 import { ConsultaService } from '../controller/ConsultaController.js';
 import { OperationError } from '../controller/OperationError.js';
-import { PacienteService } from '../controller/PacienteController.js';
+import { PacienteController } from '../controller/PacienteController.js';
 import {
   OperationFailureMessage,
   ExclusaoDePacienteView,
@@ -9,13 +9,13 @@ import {
 
 export class ExclusaoPacientePresenter {
   #viewExclusaoPaciente;
-  #pacienteService;
+  #PacienteController;
   #consultaService;
   #messageFailure;
 
   constructor() {
     this.#viewExclusaoPaciente = new ExclusaoDePacienteView();
-    this.#pacienteService = new PacienteService();
+    this.#PacienteController = new PacienteController();
     this.#messageFailure = new OperationFailureMessage();
     this.#consultaService = new ConsultaService();
   }
@@ -25,7 +25,7 @@ export class ExclusaoPacientePresenter {
     let cpfPaciente = this.#viewExclusaoPaciente.leituraDeCpf();
     //Verifica se cpf existe no bd de pacientes
     let pacienteExiste =
-      this.#pacienteService.verificaExistenciaDeCpf(cpfPaciente);
+      this.#PacienteController.verificaExistenciaDeCpf(cpfPaciente);
     if (!pacienteExiste.status) {
       this.#messageFailure.setupMessage(OperationError.PATIENT_NOT_REGISTERED);
     }
@@ -37,7 +37,7 @@ export class ExclusaoPacientePresenter {
     }
     //Exclui o paciente do BD
     let exclusaoDePaciente =
-      this.#pacienteService.exclusaoPaciente(cpfPaciente);
+      this.#PacienteController.exclusaoPaciente(cpfPaciente);
     //Deve sair após implementação do BD
     this.#consultaService.exclusaoDeConsultasPorCpf(cpfPaciente);
     OperationSucess.setupMessage(exclusaoDePaciente.status);

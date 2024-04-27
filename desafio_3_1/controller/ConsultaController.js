@@ -1,7 +1,7 @@
 import { Consulta } from '../Entities/Consulta.js';
 import { ConsultaRepository } from '../repositories/ConsultaRepository.js';
 import { OperationError, OperationStatus } from './OperationError.js';
-import { PacienteService } from './PacienteController.js';
+import { PacienteController } from './PacienteController.js';
 
 export class ConsultaService {
   constructor() {
@@ -15,9 +15,9 @@ export class ConsultaService {
   /*Verifica no repositorio se existe consultas futuras com o cpf do paciente,
   em seguida verifica se o paciente existe no repositorio de pacientes. Retorna
   frases de erro quando o paciente nao está cadastrado e quando há consultas futuras*/
-  verificaCPF(pacienteService, cpf, serviceNumber) {
+  verificaCPF(PacienteController, cpf, serviceNumber) {
     let AgendaPaciente = this.repositorioConsulta.verificaAgendaPaciente(cpf);
-    let retornoCpf = pacienteService.encontraPaciente(cpf);
+    let retornoCpf = PacienteController.encontraPaciente(cpf);
     if (!retornoCpf) {
       return 'Erro: paciente não cadastrado';
     } else if (AgendaPaciente.length !== 0 && serviceNumber === 1) {
@@ -166,10 +166,10 @@ export class ConsultaService {
       const horaFinal = consulta.horaFinalConsulta;
       const tempoDeConsulta = retornoListagem[1][index];
       const nomePaciente = servicePaciente
-        .buscaPacienteService(consulta.cpfPacienteConsulta)[0]
+        .buscaPacienteController(consulta.cpfPacienteConsulta)[0]
         .nomePaciente.padEnd(16, ' ');
       const dataNasc = servicePaciente
-        .buscaPacienteService(consulta.cpfPacienteConsulta)[0]
+        .buscaPacienteController(consulta.cpfPacienteConsulta)[0]
         .dataNacimentoPaciente.padStart(11, ' ');
       const mensagemFinal =
         dataConsulta +

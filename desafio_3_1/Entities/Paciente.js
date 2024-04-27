@@ -4,7 +4,7 @@ import {
 } from '../controller/OperationError.js';
 import { PacienteSchema } from '../models/PacienteSchema.js';
 
-export class Paciente extends PacienteSchema {
+export class Paciente {
   #nome;
   #cpf;
   #dataNascimento;
@@ -17,38 +17,17 @@ export class Paciente extends PacienteSchema {
     this.#idade = idade;
   }
 
-  get nomePaciente() {
-    return this.#nome;
-  }
-
-  get cpfPaciente() {
-    return this.#cpf;
-  }
-
-  get dataNacimentoPaciente() {
-    return this.#dataNascimento;
-  }
-
-  get PacienteInfo() {
-    const json = {
-      nome: 'oi',
-    };
-  }
-
-  registraNome(nome) {
-    this.#nome = nome;
-  }
-
-  registraCpf(cpf) {
-    this.#cpf = cpf;
-  }
-
-  registraDataNascimento(dataNascimento) {
-    this.#dataNascimento = dataNascimento;
-  }
-
-  registraDataNascimento(idade) {
-    this.#idade = idade;
+  async salvarPacienteNoBanco() {
+    try {
+      const pacienteModelo = await PacienteSchema.create({
+        nome: this.#nome,
+        cpf: this.#cpf,
+        dataNascimento: this.#dataNascimento,
+        idade: this.#idade,
+      });
+    } catch (error) {
+      return error;
+    }
   }
 
   static validaIdade(dataVerificar) {

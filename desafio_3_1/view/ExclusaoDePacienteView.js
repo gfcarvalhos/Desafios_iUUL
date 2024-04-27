@@ -1,5 +1,5 @@
 import readlineSync from 'readline-sync';
-import { OperationError, OperationStatus } from '../Services/OperationError.js';
+import { OperationError, OperationStatus } from '../controller/OperationError.js';
 import { validaCpf } from '../utils/validaCpf.js';
 
 export class ExclusaoDePacienteView {
