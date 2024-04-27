@@ -1,2 +1,11 @@
 # Ignorar a pasta node_modules
-node_modules/
+node_modules
+
+#ignora o .env
+.env
+
+#docker
+docker-compose.yml
+
+#Remove pasta de data do container
+data

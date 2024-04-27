@@ -1,6 +1,7 @@
 import { OperationError, OperationStatus } from "../Services/OperationError.js";
+import { PacienteSchema } from "../models/PacienteSchema.js";
 
-export class Paciente {
+export class Paciente extends PacienteSchema{
   #nome;
   #cpf;
   #dataNascimento;
@@ -33,6 +34,11 @@ export class Paciente {
 
   registraDataNascimento(dataNascimento) {
     this.#dataNascimento = dataNascimento;
+  }
+
+  registrarNovoPaciente(newPaciente) {
+    Paciente.create(newPaciente)
+    return { status: OperationStatus.SUCCESS };
   }
 
 

@@ -31,15 +31,3 @@ export class PacienteView {
     console.log('\nMenu do Cadastro de Paciente \n 1-Cadastrar novo paciente \n 2-Excluir paciente \n 3-Listar pacientes (ordenado por CPF) \n 4-Listar pacientes (ordenado por nome) \n 5-Voltar p/ menu principal \n');
   }
 }
-
-class TradutorMessage {
-  #message
-
-  setupMessage(){
-    this.#message.set(
-      OperationError.PATIENT_ALREADY_EXISTS,
-      'Erro: Paciente com esse CPF já existe.'
-    )
-  }
-
-}

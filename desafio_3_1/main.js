@@ -1,9 +1,8 @@
 import readlineSync from 'readline-sync';
-import { PacienteService } from './Services/PacienteService.js';
-import { ConsultaService } from './Services/ConsultaService.js';
-import { PacienteView } from './view/PacienteView.js';
 import { mainView } from './view/MainView.js';
 import { MenuPresenter } from './Presenter/MenuPresenter.js';
+import database from './db/db.js';
+import { Paciente } from './Entities/Paciente.js';
 
 function menuAgenda(serviceConsulta, servicePaciente) {
   let controladorConsulta = true;
@@ -190,7 +189,9 @@ function menuAgenda(serviceConsulta, servicePaciente) {
   }
 }
 
-(() => {
+( async () => {
+  await database.sync({force: true})
+
   const presenter = new MenuPresenter;
   const menu = new mainView(presenter);
   menu.menuPrincipal();
