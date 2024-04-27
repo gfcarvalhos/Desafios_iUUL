@@ -1,7 +1,7 @@
 import { Consulta } from '../Entities/Consulta.js';
 import { ConsultaRepository } from '../repositories/ConsultaRepository.js';
 import { OperationError, OperationStatus } from './OperationError.js';
-import { PacienteService } from './PacienteService.js';
+import { PacienteService } from './PacienteController.js';
 
 export class ConsultaService {
   constructor() {
@@ -75,16 +75,16 @@ export class ConsultaService {
   verificaExistenciaDeAgendaDoPaciente(cpf) {
     let agendaPaciente = this.repositorioConsulta.verificaAgendaPaciente(cpf);
     if (agendaPaciente.length === 0) {
-      return {status: OperationStatus.FAILURE};
+      return { status: OperationStatus.FAILURE };
     } else {
-      return {status: OperationStatus.SUCCESS};
+      return { status: OperationStatus.SUCCESS };
     }
   }
 
   verificaAgendaDoPaciente(cpf) {
     let agendaPaciente = this.repositorioConsulta.verificaAgendaPaciente(cpf);
     if (agendaPaciente.length === 0) {
-      return {status: OperationStatus};
+      return { status: OperationStatus };
     } else {
       return [true, agendaPaciente];
     }
@@ -122,42 +122,72 @@ export class ConsultaService {
 
   listagemParcialService() {
     // Cabeçalho
+    console.log('\n' + '-'.repeat(60));
     console.log(
-      '\n' + '-'.repeat(60),
+      'Data' +
+        ' '.repeat(9) +
+        'H.Ini  H.Fim  Tempo  Nome' +
+        ' '.repeat(13) +
+        'Dt Nasc.',
     );
-    console.log('Data' + ' '.repeat(9) + 'H.Ini  H.Fim  Tempo  Nome' + ' '.repeat(13) + 'Dt Nasc.');
     console.log('-'.repeat(60));
   }
 
   listagemService(servicePaciente, dataInicial, dataFinal, tipoDeListagem) {
     let retornoListagem;
     // Cabeçalho
+    console.log('\n' + '-'.repeat(61));
     console.log(
-      '\n' + '-'.repeat(61),
+      'Data' +
+        ' '.repeat(9) +
+        'H.Ini  H.Fim  Tempo  Nome' +
+        ' '.repeat(13) +
+        'Dt Nasc.',
     );
-    console.log('Data' + ' '.repeat(9) + 'H.Ini  H.Fim  Tempo  Nome' + ' '.repeat(13) + 'Dt Nasc.');
     console.log('-'.repeat(61));
-    if(tipoDeListagem == 1){
-      retornoListagem = this.repositorioConsulta.listagemTotal()
+    if (tipoDeListagem == 1) {
+      retornoListagem = this.repositorioConsulta.listagemTotal();
     }
-    if(tipoDeListagem == 2){
-      retornoListagem = this.repositorioConsulta.listagemParcial(dataInicial, dataFinal)
+    if (tipoDeListagem == 2) {
+      retornoListagem = this.repositorioConsulta.listagemParcial(
+        dataInicial,
+        dataFinal,
+      );
     }
-    
+
     let monitoraData = '00/00/0000';
-    retornoListagem[0].forEach((consulta, index)=> {
-      const dataConsulta = consulta.dataDeConsulta <= monitoraData? ' '.repeat(10):consulta.dataDeConsulta;
+    retornoListagem[0].forEach((consulta, index) => {
+      const dataConsulta =
+        consulta.dataDeConsulta <= monitoraData
+          ? ' '.repeat(10)
+          : consulta.dataDeConsulta;
       monitoraData = consulta.dataDeConsulta;
       const horaInicial = consulta.horaInicialConsulta;
       const horaFinal = consulta.horaFinalConsulta;
       const tempoDeConsulta = retornoListagem[1][index];
-      const nomePaciente = servicePaciente.buscaPacienteService(consulta.cpfPacienteConsulta)[0].nomePaciente.padEnd(16, ' ')
-      const dataNasc = servicePaciente.buscaPacienteService(consulta.cpfPacienteConsulta)[0].dataNacimentoPaciente.padStart(11,' ',
-      );
-      const mensagemFinal = dataConsulta + ' '.repeat(3) + horaInicial.slice(0,2) + ':' + horaInicial.slice(2,4) + ' '.repeat(2) + horaFinal.slice(0,2) + ':' + horaFinal.slice(2,4) + ' '.repeat(2) + tempoDeConsulta + ' '.repeat(2) +
-      nomePaciente +  dataNasc;
+      const nomePaciente = servicePaciente
+        .buscaPacienteService(consulta.cpfPacienteConsulta)[0]
+        .nomePaciente.padEnd(16, ' ');
+      const dataNasc = servicePaciente
+        .buscaPacienteService(consulta.cpfPacienteConsulta)[0]
+        .dataNacimentoPaciente.padStart(11, ' ');
+      const mensagemFinal =
+        dataConsulta +
+        ' '.repeat(3) +
+        horaInicial.slice(0, 2) +
+        ':' +
+        horaInicial.slice(2, 4) +
+        ' '.repeat(2) +
+        horaFinal.slice(0, 2) +
+        ':' +
+        horaFinal.slice(2, 4) +
+        ' '.repeat(2) +
+        tempoDeConsulta +
+        ' '.repeat(2) +
+        nomePaciente +
+        dataNasc;
 
       console.log(mensagemFinal);
-    })
+    });
   }
 }

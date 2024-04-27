@@ -24,6 +24,6 @@ export const PacienteSchema = database.define('paciente', {
 
   idade: {
     type: Sequelize.INTEGER,
-    allowNull: false,
+    allowNull: true,
   },
 });

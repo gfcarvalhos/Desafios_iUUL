@@ -1,5 +1,5 @@
-import { ConsultaService } from '../Services/ConsultaService.js';
-import { PacienteService } from '../Services/PacienteService.js';
+import { ConsultaService } from '../controller/ConsultaController.js';
+import { PacienteService } from '../controller/PacienteController.js';
 import { CadastroNovoPacientePresenter } from './CadastroNovoPacientePresenter.js';
 import { ExclusaoPacientePresenter } from './ExclusaoPacientePresenter.js';
 
@@ -22,7 +22,7 @@ export class PacientePresenter {
         this.#cadastroPaciente.run();
         break;
       case 2:
-        this.#exclusaoPaciente.run()
+        this.#exclusaoPaciente.run();
         break;
       case 3:
         this.listaPacienteCPF();

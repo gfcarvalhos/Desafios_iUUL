@@ -1,7 +1,9 @@
-import { OperationStatus } from '../Services/OperationError.js';
+import { OperationStatus } from '../controller/OperationError.js';
+import { PacienteSchema } from '../models/PacienteSchema.js';
 
-export class PacienteRepository {
+export class PacienteRepository extends PacienteSchema {
   constructor(...pacientes) {
+    super();
     this.pacientes = [...pacientes];
   }
 
@@ -10,7 +12,7 @@ export class PacienteRepository {
   }
 
   registrarNovoPaciente(newPaciente) {
-    this.pacientes.push(newPaciente);
+    PacienteSchema.create(newPaciente);
     return { status: OperationStatus.SUCCESS };
   }
 

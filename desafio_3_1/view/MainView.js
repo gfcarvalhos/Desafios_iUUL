@@ -1,7 +1,7 @@
 import readlineSync from 'readline-sync';
 import { ConsultaView } from './ConsultaView.js';
 import { PacienteView } from './PacienteView.js';
-import { OperationError } from '../Services/OperationError.js';
+import { OperationError } from '../controller/OperationError.js';
 
 export class mainView {
   #menuPaciente;

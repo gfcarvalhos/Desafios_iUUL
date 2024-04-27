@@ -1,5 +1,5 @@
-import { OperationError } from '../Services/OperationError.js';
-import { PacienteService } from '../Services/PacienteService.js';
+import { OperationError } from '../controller/OperationError.js';
+import { PacienteService } from '../controller/PacienteController.js';
 import {
   CadastroNovoPacienteView,
   OperationFailureMessage,

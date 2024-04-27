@@ -1,5 +1,6 @@
 import { Paciente } from '../Entities/Paciente.js';
 import { PacienteRepository } from '../repositories/PacienteRepository.js';
+import { calculaIdade } from '../utils/calculaIdade.js';
 import { validaCpf } from '../utils/validaCpf.js';
 import { OperationError, OperationStatus } from './OperationError.js';
 
@@ -8,8 +9,9 @@ export class PacienteService {
     this.repositorio = new PacienteRepository();
   }
   criarPaciente(nome, cpf, dataNascimento) {
-    let paciente = new Paciente(nome, cpf, dataNascimento);
-    return this.repositorio.registrarNovoPaciente([paciente, Paciente.validaIdade(dataNascimento)]);
+    const idade = calculaIdade(dataNascimentoPaciente);
+    let newPaciente = new Paciente(nome, cpf, dataNascimento, idade);
+    return Paciente.registrarNovoPaciente(newPaciente);
   }
 
   registraCpfPaciente(paciente, newCPF) {
@@ -40,17 +42,17 @@ export class PacienteService {
   exclusaoPaciente(cpf) {
     let retornoRepositorioPaciente = this.repositorio.exclusaoDePaciente(cpf);
     if (!retornoRepositorioPaciente) {
-      return {status: OperationStatus.FAILURE}
+      return { status: OperationStatus.FAILURE };
     }
-    return {status: OperationStatus.SUCCESS};
+    return { status: OperationStatus.SUCCESS };
   }
 
   verificaExistenciaDeCpf(cpf) {
     let pacienteExiste = this.repositorio.verificaCpfExistente(cpf);
     if (pacienteExiste) {
-      return {status: OperationStatus.SUCCESS};
+      return { status: OperationStatus.SUCCESS };
     } else {
-      return {status: OperationStatus.FAILURE};
+      return { status: OperationStatus.FAILURE };
     }
   }
 

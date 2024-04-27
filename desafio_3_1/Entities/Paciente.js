@@ -1,15 +1,20 @@
-import { OperationError, OperationStatus } from "../Services/OperationError.js";
-import { PacienteSchema } from "../models/PacienteSchema.js";
+import {
+  OperationError,
+  OperationStatus,
+} from '../controller/OperationError.js';
+import { PacienteSchema } from '../models/PacienteSchema.js';
 
-export class Paciente extends PacienteSchema{
+export class Paciente extends PacienteSchema {
   #nome;
   #cpf;
   #dataNascimento;
+  #idade;
 
-  constructor(nome, cpf, dataNacimento) {
+  constructor(nome, cpf, dataNacimento, idade) {
     this.#nome = nome;
     this.#cpf = cpf;
     this.#dataNascimento = dataNacimento;
+    this.#idade = idade;
   }
 
   get nomePaciente() {
@@ -24,6 +29,12 @@ export class Paciente extends PacienteSchema{
     return this.#dataNascimento;
   }
 
+  get PacienteInfo() {
+    const json = {
+      nome: 'oi',
+    };
+  }
+
   registraNome(nome) {
     this.#nome = nome;
   }
@@ -36,11 +47,9 @@ export class Paciente extends PacienteSchema{
     this.#dataNascimento = dataNascimento;
   }
 
-  registrarNovoPaciente(newPaciente) {
-    Paciente.create(newPaciente)
-    return { status: OperationStatus.SUCCESS };
+  registraDataNascimento(idade) {
+    this.#idade = idade;
   }
-
 
   static validaIdade(dataVerificar) {
     //divide a string e transforma em Date()
@@ -75,12 +84,18 @@ export class Paciente extends PacienteSchema{
       //Chamada para verificar a idade do paciente
       const idade = this.validaIdade(newData);
       if (idade >= 13) {
-        return {status:OperationStatus.SUCCESS};
+        return { status: OperationStatus.SUCCESS };
       } else {
-        return {status: OperationStatus.FAILURE, message: OperationError.UNDERAGE_PATIENT};
+        return {
+          status: OperationStatus.FAILURE,
+          message: OperationError.UNDERAGE_PATIENT,
+        };
       }
     } else {
-      return {status: OperationStatus.FAILURE, message: OperationError.INVALID_DATE};
+      return {
+        status: OperationStatus.FAILURE,
+        message: OperationError.INVALID_DATE,
+      };
     }
   }
 }

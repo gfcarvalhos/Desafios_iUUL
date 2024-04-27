@@ -1,7 +1,10 @@
 import readlineSync from 'readline-sync';
 import { validaCpf } from '../utils/validaCpf.js';
-import { OperationError, OperationStatus } from '../Services/OperationError.js';
-import { PacienteService } from '../Services/PacienteService.js';
+import {
+  OperationError,
+  OperationStatus,
+} from '../controller/OperationError.js';
+import { PacienteService } from '../controller/PacienteController.js';
 
 export class CadastroNovoPacienteView {
   #message;
