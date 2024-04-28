@@ -1,10 +1,10 @@
-import { ConsultaService } from "../controller/ConsultaController.js";
+import { ConsultaController } from "../controller/ConsultaController.js";
 
 export class ListaPacienteView {
   serviceConsulta
   
   constructor(){
-    this.serviceConsulta = new ConsultaService();
+    this.serviceConsulta = new ConsultaController();
   }
 
   listagemDePacientes(listaGeralPacientes) {

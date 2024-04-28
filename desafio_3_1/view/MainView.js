@@ -24,7 +24,7 @@ export class mainView {
             await this.#menuPaciente.menuPrincipalPaciente();
             break;
           case 2:
-            this.#menuConsulta.menuPrincipalConsulta();
+            await this.#menuConsulta.menuPrincipalConsulta();
             break;
           case 3:
             constrolador = false;

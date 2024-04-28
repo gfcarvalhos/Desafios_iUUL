@@ -3,7 +3,7 @@ import { ConsultaRepository } from '../repositories/ConsultaRepository.js';
 import { OperationError, OperationStatus } from './OperationError.js';
 import { PacienteController } from './PacienteController.js';
 
-export class ConsultaService {
+export class ConsultaController {
   constructor() {
     this.repositorioConsulta = new ConsultaRepository();
   }

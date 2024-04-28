@@ -1,4 +1,4 @@
-import { ConsultaService } from '../controller/ConsultaController.js';
+import { ConsultaController } from '../controller/ConsultaController.js';
 import { PacienteController } from '../controller/PacienteController.js';
 import { CadastroNovoPacientePresenter } from './CadastroNovoPacientePresenter.js';
 import { ExclusaoPacientePresenter } from './ExclusaoPacientePresenter.js';
@@ -15,7 +15,7 @@ export class PacientePresenter {
     this.#PacienteController = new PacienteController();
     this.#cadastroPaciente = new CadastroNovoPacientePresenter();
     this.#exclusaoPaciente = new ExclusaoPacientePresenter();
-    this.#serviceConsulta = new ConsultaService();
+    this.#serviceConsulta = new ConsultaController();
     this.#listagemPaciente = new ListagemPacientePresenter();
   }
 

@@ -1,4 +1,4 @@
-import { ConsultaService } from '../controller/ConsultaController.js';
+import { ConsultaController } from '../controller/ConsultaController.js';
 import { OperationError } from '../controller/OperationError.js';
 import { PacienteController } from '../controller/PacienteController.js';
 import {
@@ -10,14 +10,14 @@ import {
 export class ExclusaoPacientePresenter {
   #viewExclusaoPaciente;
   #PacienteController;
-  #consultaService;
+  #ConsultaController;
   #messageFailure;
 
   constructor() {
     this.#viewExclusaoPaciente = new ExclusaoDePacienteView();
     this.#PacienteController = new PacienteController();
     this.#messageFailure = new OperationFailureMessage();
-    this.#consultaService = new ConsultaService();
+    this.#ConsultaController = new ConsultaController();
   }
 
   async run() {
@@ -31,7 +31,7 @@ export class ExclusaoPacientePresenter {
     }
     //Verifica se o paciente possui agendamento futuro
     let verificaAgenda =
-      this.#consultaService.verificaExistenciaDeAgendaDoPaciente(cpfPaciente);
+      this.#ConsultaController.verificaExistenciaDeAgendaDoPaciente(cpfPaciente);
     if (verificaAgenda.status) {
       this.#messageFailure.setupMessage(OperationError.PATIENT_HAS_APPOINTMENT);
     }
@@ -40,7 +40,7 @@ export class ExclusaoPacientePresenter {
       await this.#PacienteController.exclusaoPaciente(cpfPaciente);
 
     //Deve sair após implementação do BD
-    //this.#consultaService.exclusaoDeConsultasPorCpf(cpfPaciente);
+    //this.#ConsultaController.exclusaoDeConsultasPorCpf(cpfPaciente);
 
     OperationResponse.setupMessage(exclusaoDePaciente.status);
   }
