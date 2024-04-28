@@ -1,18 +1,24 @@
+import { OperationError, OperationStatus } from '../controller/OperationError.js';
+import { ConsultaSchema } from '../models/ConsultaSchema.js';
+import { Op } from 'sequelize';
+
 export class Consulta {
-  #cpf;
+  #pacienteCpf;
   #dataConsulta;
   #horaInicio;
   #horaFim;
+  #duracao;
 
-  constructor(cpf, dataConsulta, horaInicio, horaFim) {
-    this.#cpf = cpf;
+  constructor(cpf, dataConsulta, horaInicio, horaFim, duracao) {
+    this.#pacienteCpf = cpf;
     this.#dataConsulta = dataConsulta;
     this.#horaInicio = horaInicio;
     this.#horaFim = horaFim;
+    this.#duracao = duracao;
   }
 
   get cpfPacienteConsulta() {
-    return this.#cpf;
+    return this.#pacienteCpf;
   }
 
   get dataDeConsulta() {
@@ -27,122 +33,99 @@ export class Consulta {
     return this.#horaFim;
   }
 
-  registraCpf(cpfParaRegistro) {
-    this.#cpf = cpfParaRegistro;
-  }
-
-  registraDataConsulta(dataParaRegistro) {
-    this.#dataConsulta = dataParaRegistro;
-  }
-
-  registraHoraInicial(horaParaRegistro) {
-    this.#horaInicio = horaParaRegistro;
-  }
-
-  registraHoraFinal(horaFinalParaRegistro) {
-    this.#horaFim = horaFinalParaRegistro;
-  }
-
-  /*Verifica se a data está no formato correto de DD/MM/YYYY sendo DD entre 0 e 31 e
-  MM entre 0 e 12. Em seguida, tranforma no formato Date() e verifica se é uma data
-  futura.*/
-  static validaData(newData) {
-    const regex = /^((0[1-9]|[1-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/(\d{4}))$/;
-    //Valida se está de acordo com DD/MM/YYYY
-    if (regex.test(newData)) {
-      let dataAtual = new Date();
-      dataAtual = new Date(
-        dataAtual.getFullYear(),
-        dataAtual.getMonth(),
-        dataAtual.getDate(),
-      );
-      let partesDaData = newData.split('/');
-      let dataAgendamento = new Date(
-        partesDaData[2],
-        partesDaData[1] - 1,
-        partesDaData[0],
-      );
-      if (dataAgendamento >= dataAtual) {
-        return true;
+  async buscaConsultasPorCpf(cpf){
+    try {
+      const retornoDeBuscaPorCpf = await ConsultaSchema.findAll({
+        where: {
+          pacienteCpf: cpf,
+        },
+      });
+      if (retornoDeBuscaPorCpf == null) {
+        return OperationStatus.FAILURE;
       } else {
-        return 'Erro: Data do agendamento tem que ser superior ou igual à data atual.';
+        const retornoConsultasPorCpf = Consulta.criaConsulta(retornoDeBuscaPorCpf)
+        return retornoConsultasPorCpf;
       }
-    } else {
-      return 'Erro: Data inválida.';
+    } catch (erro) {
+      throw new Error(OperationError.UNEXPECTED_ERROR);
+    }
+  }   
+
+  async buscaConsultaFuturaPorCpf(cpf) {
+    try {
+      const retornoDeBuscaPorCpf = await ConsultaSchema.findAll({
+        where: {
+          pacienteCpf: cpf,
+        },
+      });
+      if (retornoDeBuscaPorCpf == null) {
+        return OperationStatus.FAILURE;
+      } else {
+        const validaConsultaFutura = this.verificaDataFutura(retornoDeBuscaPorCpf)
+        return validaConsultaFutura
+      }
+    } catch (erro) {
+      throw new Error(OperationError.UNEXPECTED_ERROR);
     }
   }
 
-  /*Trata a data atual. verifica se o input está no formato correto (HHMM) e dentro
-  dos limites HH entre 0 e 12 e MM 0 a 59. Verifica se está em um intervalo de 15 minutos.
-  Verifica se está dentro*/
-  static validaHoraInicial(horaInicial, dataConsulta) {
-    //Tratamento das horas atuais
-    let dataAtual = new Date();
-    dataAtual = new Date(
-      dataAtual.getFullYear(),
-      dataAtual.getMonth(),
-      dataAtual.getDate(),
-    );
-    const [hora, minuto] = [
-      dataAtual.getHours().toString(),
-      dataAtual.getMinutes().toString(),
-    ];
-    const horaAtual = hora + minuto;
-    //Validacao da horaInicial como HHMM
-    if (typeof +horaInicial == 'number' && horaInicial.length == 4) {
-      const [parteHora, parteMinuto] = [
-        horaInicial.slice(0, 2),
-        horaInicial.slice(2),
-      ];
-      //Verifica se estão dentro dos limites HH entre 0 e 12 e MM 0 a 59
-      if (+parteHora >= 24 || +parteMinuto > 59) {
-        return 'Erro: Valor para hora invalido.';
-      }
-      //Verifica se está em intervalos de 15 minutos
-      if (+parteMinuto % 15 != 0) {
-        return 'Erro: As horas inicial e final devem ser definidas em intervalos de 15 minutos.';
-      }
-      //Verifica se a data é atual e o horario é inferior a atual
-      if (dataConsulta == dataAtual && +horaInicial < +horaAtual) {
-        return 'Erro: A hora inicial é inferior a hora atual.';
-      }
-      //Verifica se o horario está entre 8h a 19h
-      if (+horaInicial < 800 || +horaInicial >= 1900) {
-        return 'Erro: A hora inicial deve ser entre 8:00h e 19:00h';
-      }
-      return true;
+  verificaDataFutura(dados){
+    const dataAtual = new Date();
+    if(Array.isArray(dados)){
+      let controle = false;
+      dados.forEach(dado => {
+        const [dia, mes, ano] = dado.dataDeConsulta.split('/');
+        data = new Date(ano, mes -1, dia)
+        if(data > dataAtual){
+          return true;
+        }
+      })
+      return controle;
     } else {
-      return 'Erro: Valor para hora invalido.';
+      const [dia, mes, ano] = dados.dataDeConsulta.split('/');
+      data = new Date(ano, mes -1, dia)
+        return data > dataAtual;
     }
   }
 
-  static validaHoraFinal(horaFinal, horaInicio) {
-    //Validacao da horaInicial como HHMM
-    if (typeof +horaFinal == 'number' && horaFinal.length == 4) {
-      const [parteHora, parteMinuto] = [
-        horaFinal.slice(0, 2),
-        horaFinal.slice(2),
-      ];
-      //Verifica se estão dentro dos limites HH entre 0 e 12 e MM 0 a 59
-      if (+parteHora >= 24 || +parteMinuto > 59) {
-        return 'Erro: Valor para hora invalido.';
+  /**
+   * Verifica se a consulta a ser registrada possui o horario de inicio entre
+  o horario de inicio e o horario final das outras consultas já registradas
+  no mesmo dia. Caso return verdadeiro, significa que a consulta está sobrepondo outras.
+  */
+  async validaAgendamentoSobrepostoConsulta(dataConsultaPendente, horaInicialPendente) {
+    try{
+      const ConsultasDoDia = []
+      const retornoDeBuscaPorData = await ConsultaSchema.findAll({
+        where: {
+          dataConsulta: dataConsultaPendente,
+        },
+      });
+      if (retornoDeBuscaPorData == null) {//Zero consultas no dia
+        return OperationStatus.FAILURE;
+      } else if (Array.isArray(retornoDeBuscaPorData)){ //Mais de uma consulta no dia
+        ConsultasDoDia = Consulta.criaConsulta(retornoDeBuscaPorData)
+      } else { //Uma unica consulta no dia
+        ConsultasDoDia.append(Consulta.criaConsulta(retornoDeBuscaPorData))
       }
-      //Verifica se o horario está entre 8h a 19h
-      if (+horaFinal < 800 || +horaFinal >= 1900) {
-        return 'Erro: A hora final deve ser entre 8:00h e 19:00h';
-      }
-      //Verifica se está em intervalos de 15 minutos
-      if (+parteMinuto % 15 != 0) {
-        return 'Erro: As horas inicial e final devem ser definidas em intervalos de 15 minutos';
-      }
-      //Verifica se a hora final é menor que a hora inicial
-      if (+horaFinal <= horaInicio) {
-        return 'Erro: A hora final deve ser superior à hora inicial';
-      }
-      return true;
-    } else {
-      return 'Erro: Valor para hora invalido.';
+  
+      return ConsultasDoDia.some((consultaRegistrada) => {
+        return (
+          consultaRegistrada.dataDeConsulta == dataConsultaPendente &&
+          +horaInicialPendente >=
+            +consultaRegistrada.horaInicialConsulta &&
+          +horaInicialPendente <
+            +consultaRegistrada.horaFinalConsulta
+        );
+      });
+    } catch (erro){
+      throw new Error(OperationError.UNEXPECTED_ERROR);
     }
+  }
+
+
+  static criaConsulta(dados){
+    return dados.map(dado => new Consulta(dado.cpfPaciente, dado.dataConsulta, dado.horaInicio, dado.horaFim, dado.duracao));
   }
 
   static validaDataQualquer(newData) {

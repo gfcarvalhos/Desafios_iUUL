@@ -1,92 +1,33 @@
-import { ConsultaController } from "../controller/ConsultaController.js";
+import { ConsultaController } from '../controller/ConsultaController.js';
+import { AgendamentoDeConsultaPresenter } from './AgendamentoDeConsultaPresenter.js';
 
 export class ConsultaPresenter {
-  #consultaController
+  #consultaController;
+  #agendamentoConsulta;
 
-  constructor(){
-    this.#consultaController = new ConsultaController
+  constructor() {
+    this.#consultaController = new ConsultaController();
+    this.#agendamentoConsulta = new AgendamentoDeConsultaPresenter();
+  }
+
+  async run(opcao) {
+    switch (opcao) {
+      case 1:
+        await this.#agendamentoConsulta.run();
+        break;
+      case 2:
+        break;
+      case 3:
+        break;
+    }
   }
 }
 
-
-
+/*
 function menuAgenda(serviceConsulta, servicePaciente) {
   let controladorConsulta = true;
   while (controladorConsulta) {
     if (menuConsulta == 1) {
-      //Chamada para serviço de criação de consulta (agendamento)
-      const consulta = serviceConsulta.criarConsulta();
-      let controladorAgendamento = 1;
-      while (controladorAgendamento <= 4) {
-        if (controladorAgendamento == 1) {
-          let cpfConsulta = readlineSync.question('\nCPF:');
-          //Chamada para serviço de verificação de CPF no repositorio
-          let agendaCpf = serviceConsulta.verificaCPF(
-            servicePaciente,
-            cpfConsulta,
-            1,
-          );
-          if (agendaCpf == true) {
-            serviceConsulta.registraCpfService(cpfConsulta, consulta);
-            controladorAgendamento++;
-          } else {
-            console.log('\n' + agendaCpf);
-            break;
-          }
-        }
-        if (controladorAgendamento == 2) {
-          let dataConsulta = readlineSync.question('Data da consulta:');
-          //Chamada para serviço de validacao e cadastro do nome do paciente
-          let cadastroDataConsulta =
-            serviceConsulta.validaDataAgendamento(dataConsulta);
-          if (cadastroDataConsulta == true) {
-            serviceConsulta.registraDataService(dataConsulta, consulta);
-            controladorAgendamento++;
-          } else {
-            console.log('\n' + cadastroDataConsulta + '\n');
-          }
-        }
-        if (controladorAgendamento == 3) {
-          let HoraInicialConsulta = readlineSync.question('Hora Inicial:');
-          let cadastroHoraInicial = serviceConsulta.validaHoraInicialService(
-            HoraInicialConsulta,
-            consulta,
-          );
-          if (cadastroHoraInicial == true) {
-            serviceConsulta.registraHoraInicialService(
-              HoraInicialConsulta,
-              consulta,
-            );
-            controladorAgendamento++;
-          } else {
-            console.log('\n' + cadastroHoraInicial + '\n');
-          }
-        }
-        if (controladorAgendamento == 4) {
-          let HoraFinalConsulta = readlineSync.question('Hora Final:');
-          let cadastroHoraFinal = serviceConsulta.validaHoraFinalService(
-            HoraFinalConsulta,
-            consulta,
-          );
-          if (cadastroHoraFinal == true) {
-            let agendamentoSobreposto =
-              serviceConsulta.validaAgendamentoSobreposto(consulta);
-            if (agendamentoSobreposto == true) {
-              serviceConsulta.registraHoraFinalService(
-                HoraFinalConsulta,
-                consulta,
-              );
-              controladorAgendamento++;
-              console.log('\n' + serviceConsulta.registroFinal(consulta));
-            } else {
-              console.log('\n' + agendamentoSobreposto + '\n');
-              controladorAgendamento++;
-            }
-          } else {
-            console.log('\n' + cadastroHoraFinal + '\n');
-          }
-        }
-      }
     }
     if (menuConsulta == 2) {
       const consulta = serviceConsulta.criarConsulta();
@@ -190,4 +131,4 @@ function menuAgenda(serviceConsulta, servicePaciente) {
     }
     //serviceConsulta.listagemProvisoria();
   }
-}
+}*/

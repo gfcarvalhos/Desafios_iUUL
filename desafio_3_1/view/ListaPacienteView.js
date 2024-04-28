@@ -7,7 +7,7 @@ export class ListaPacienteView {
     this.serviceConsulta = new ConsultaController();
   }
 
-  listagemDePacientes(listaGeralPacientes) {
+  async listagemDePacientes(listaGeralPacientes) {
     // Cabeçalho
     console.log('\n' + '-'.repeat(60));
     console.log(
@@ -21,7 +21,7 @@ export class ListaPacienteView {
     );
     console.log('-'.repeat(60));
     //Informações por paciente
-    listaGeralPacientes.forEach((paciente) => {
+    for (const paciente of listaGeralPacientes){
       const cpf = paciente.cpfPaciente.padEnd(11, ' ');
       const nome = paciente.nomePaciente.padEnd(16, ' ');
       const dataNascimento = paciente.dataNascimentoPaciente.padStart(
@@ -30,12 +30,11 @@ export class ListaPacienteView {
       );
       const idade = paciente.idadePaciente.toFixed(0).padStart(5, ' ');
       console.log(`${cpf} ${nome} ${dataNascimento} ${idade}`);
-      //Verifica a agenda do paciente e caso haja agendas futuras, plota essas consultas
-      const agendaDoPaciente = this.serviceConsulta.verificaAgendaDoPaciente(
+      const agendaDoPaciente = await this.serviceConsulta.verificaConsultaPorCpf(
         paciente.cpfPaciente,
       );
-      if (agendaDoPaciente[0] === true) {
-        agendaDoPaciente[1].forEach((consulta) => {
+      if (agendaDoPaciente.status) {
+        agendaDoPaciente.data.forEach((consulta) => {
           const dataConsulta = consulta.dataDeConsulta;
           const horaInicial = consulta.horaInicialConsulta;
           const horaFinal = consulta.horaFinalConsulta;
@@ -52,11 +51,10 @@ export class ListaPacienteView {
             horaFinal.slice(0, 2) +
             ':' +
             horaFinal.slice(2, 4);
-
+  
           console.log(mensagemFinalConsulta);
         });
       }
-    });
+    }
   }
-
 }

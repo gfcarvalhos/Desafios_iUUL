@@ -41,10 +41,38 @@ export class OperationError {
   }
 
   static get UNEXPECTED_ERROR(){
-    return 9;
+    return 403;
   }
 
   static get INVALID_NAME(){
     return 10;
+  }
+
+  static get PATIENT_DOESNT_HAVE_APPOINTMENT(){
+    return 11;
+  }
+
+  static get PAST_DATE_NOT_ALLOWED(){
+    return 12;
+  }
+
+  static get OUT_OF_MINUTES_RANGE(){
+    return 13;
+  }
+
+  static get PAST_HOUR_NOT_ALLOWED(){
+    return 14;
+  }
+
+  static get OUT_OF_OPENING_HOURS(){
+    return 15;
+  }
+
+  static get LOWER_THAN_INITIAL_HOUR(){
+    return 16;
+  }
+
+  static get SCHEDULED_TIME_OVERLAY(){
+    return 17;
   }
 }

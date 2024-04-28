@@ -5,17 +5,13 @@ import { ExclusaoPacientePresenter } from './ExclusaoPacientePresenter.js';
 import { ListagemPacientePresenter } from './ListagemPacientePresenter.js';
 
 export class PacientePresenter {
-  #PacienteController;
   #cadastroPaciente;
   #exclusaoPaciente;
-  #serviceConsulta;
   #listagemPaciente;
 
   constructor() {
-    this.#PacienteController = new PacienteController();
     this.#cadastroPaciente = new CadastroNovoPacientePresenter();
     this.#exclusaoPaciente = new ExclusaoPacientePresenter();
-    this.#serviceConsulta = new ConsultaController();
     this.#listagemPaciente = new ListagemPacientePresenter();
   }
 
@@ -28,19 +24,11 @@ export class PacientePresenter {
         await this.#exclusaoPaciente.run();
         break;
       case 3:
-        await this.#listagemPaciente.run(3);
+        await this.#listagemPaciente.run(opcao);
         break;
       case 4:
-        await this.#listagemPaciente.run(4);
+        await this.#listagemPaciente.run(opcao);
         break;
     }
-  }
-
-  listaPacienteCPF() {
-    this.#PacienteController.listagemDePacientes(this.#serviceConsulta, 2);
-  }
-
-  listaPacienteNome() {
-    this.#PacienteController.listagemDePacientes(this.#serviceConsulta, 1);
   }
 }

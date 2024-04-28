@@ -1,3 +1,4 @@
+import { OperationError, OperationStatus } from "../controller/OperationError.js";
 
 export function validaCpf(newCpf) {
     //Valida se o input foi de apenas numeros e se o tamanho é 11
@@ -29,11 +30,11 @@ export function validaCpf(newCpf) {
       let valorG =
         valorGTotal == 0 || valorGTotal == 1 ? 0 : 11 - valorGTotal;
       if (contador != 11 && valorJ == +newCpf[9] && valorG == +newCpf[10]) {
-        return true;
+        return {status: OperationStatus.SUCCESS};
       } else {
-        return false;
+        return {status: OperationStatus.FAILURE, message: OperationError.CPF_INVALID};
       }
     } else {
-      return false;
+      return {status: OperationStatus.FAILURE, message: OperationError.CPF_INVALID};
     } 
 }

@@ -24,7 +24,7 @@ export class ListagemPacientePresenter{
         break
     }
     //Chama a view para construir resultado final
-    this.#viewListagem.listagemDePacientes(listaPacientes)
+    await this.#viewListagem.listagemDePacientes(listaPacientes)
 
   }
 

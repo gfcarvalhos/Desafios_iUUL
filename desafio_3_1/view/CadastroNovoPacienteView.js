@@ -20,10 +20,10 @@ export class CadastroNovoPacienteView {
       try {
         let newCPF = readlineSync.question('\nCPF: ');
         let valida = validaCpf(newCPF);
-        if (valida) {
+        if (valida.status) {
           return newCPF;
         } else {
-          throw new Error('CPF inválido.');
+          this.#message.setupMessage(valida.message)
         }
       } catch (erro) {
         console.error('\n' + erro);
@@ -74,6 +74,8 @@ export class OperationFailureMessage {
         throw new Error('Paciente não pode ser menor de idade.');
       case OperationError.INVALID_DATE:
         throw new Error('Data inválida.');
+      case OperationError.CPF_INVALID:
+        throw new Error('CPF inválido.');
     }
   }
 }

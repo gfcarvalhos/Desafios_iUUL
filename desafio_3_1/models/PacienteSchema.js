@@ -1,5 +1,6 @@
 import Sequelize from 'sequelize';
 import database from '../db/db.js';
+import { ConsultaSchema } from './ConsultaSchema.js';
 
 export const PacienteSchema = database.define('paciente', {
   nome: {
@@ -20,4 +21,10 @@ export const PacienteSchema = database.define('paciente', {
     type: Sequelize.INTEGER,
     allowNull: true,
   },
+});
+
+PacienteSchema.hasMany(ConsultaSchema, {
+  as: 'consultas',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
 });

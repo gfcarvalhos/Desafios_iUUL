@@ -1,75 +1,52 @@
 import { Consulta } from '../Entities/Consulta.js';
-import { ConsultaRepository } from '../repositories/ConsultaRepository.js';
 import { OperationError, OperationStatus } from './OperationError.js';
 import { PacienteController } from './PacienteController.js';
 
 export class ConsultaController {
+  consulta;
+
   constructor() {
-    this.repositorioConsulta = new ConsultaRepository();
+    this.consulta = new Consulta();
   }
 
-  criarConsulta() {
-    return new Consulta();
-  }
-
-  /*Verifica no repositorio se existe consultas futuras com o cpf do paciente,
-  em seguida verifica se o paciente existe no repositorio de pacientes. Retorna
-  frases de erro quando o paciente nao está cadastrado e quando há consultas futuras*/
-  verificaCPF(PacienteController, cpf, serviceNumber) {
-    let AgendaPaciente = this.repositorioConsulta.verificaAgendaPaciente(cpf);
-    let retornoCpf = PacienteController.encontraPaciente(cpf);
-    if (!retornoCpf) {
-      return 'Erro: paciente não cadastrado';
-    } else if (AgendaPaciente.length !== 0 && serviceNumber === 1) {
-      return 'Erro: paciente já possui uma consulta agendada';
+  /**
+   * Busca consultas futuras por cpf
+   * @param {String} cpf 
+   * @returns Object
+   */
+  async verificaConsultaPorCpf(cpf) {
+    let AgendaPaciente = await this.consulta.buscaConsultaFuturaPorCpf(cpf);
+    if (AgendaPaciente) {
+      return {status: OperationStatus.SUCCESS, message: OperationError.PATIENT_HAS_APPOINTMENT}
     } else {
-      return true;
+      return {status: OperationStatus.FAILURE}
     }
   }
 
-  //Salva o cpf na instancia da consulta
-  registraCpfService(cpf, consulta) {
-    consulta.registraCpf(cpf);
-  }
-
-  //
-  validaDataAgendamento(dataAgendamento) {
-    return Consulta.validaData(dataAgendamento);
-  }
-
-  registraDataService(newData, consulta) {
-    consulta.registraDataConsulta(newData);
-  }
-
-  validaHoraInicialService(horaInicial, consulta) {
-    return Consulta.validaHoraInicial(horaInicial, consulta.dataDeConsulta);
-  }
-
-  registraHoraInicialService(horaInicial, consulta) {
-    consulta.registraHoraInicial(horaInicial);
-  }
-
-  validaHoraFinalService(horaFinal, consulta) {
-    return Consulta.validaHoraFinal(horaFinal, consulta.horaInicialConsulta);
-  }
-
-  registraHoraFinalService(horaFinal, consulta) {
-    consulta.registraHoraFinal(horaFinal);
-  }
-
-  validaAgendamentoSobreposto(consulta) {
-    let agendamentoSobreposto =
-      this.repositorioConsulta.validaAgendamentoSobrepostoConsulta(consulta);
-    if (!agendamentoSobreposto) {
-      return true;
-    } else {
-      return 'Erro: já existe uma consulta agendada nesse horário';
+  /**
+   * Retorna todas as consultas por cpf quando existe
+   * @param {String} cpf 
+   * @returns 
+   */
+  async retornaConsultasPorCpf(cpf){
+    let agendaPaciente = await this.consulta.buscaConsultasPorCpf(cpf)
+    if(!agendaPaciente){
+      return {status: OperationStatus.FAILURE, message: OperationError.PATIENT_DOESNT_HAVE_APPOINTMENT};
     }
+    else{
+      return {status: OperationStatus.SUCCESS, data: agendaPaciente};
+    }
+
   }
 
-  registroFinal(consulta) {
-    this.repositorioConsulta.registrarNovaConsulta(consulta);
-    return 'Agendamento realizado com sucesso!';
+  async validaAgendamentoSobreposto(dataConsultaPendente, horaInicialPendente) {
+    let agendamentoSobreposto = await
+      this.consulta.validaAgendamentoSobrepostoConsulta(dataConsultaPendente, horaInicialPendente);
+    if (agendamentoSobreposto) {
+      return {status: OperationStatus.SUCCESS, message: OperationError.SCHEDULED_TIME_OVERLAY};
+    } else {
+      return {status: OperationStatus.FAILURE}
+    }
   }
 
   verificaExistenciaDeAgendaDoPaciente(cpf) {
@@ -88,6 +65,10 @@ export class ConsultaController {
     } else {
       return [true, agendaPaciente];
     }
+  }
+
+  async registroDeNovaConsulta(cpfConsulta, dataConsulta, horaInicialConsulta, horaFinalConsulta){
+    let newConsulta = new Consulta(cpfConsulta, dataConsulta, horaInicialConsulta, horaFinalConsulta)
   }
 
   exclusaoDeConsultasPorCpf(cpf) {
