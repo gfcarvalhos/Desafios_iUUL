@@ -66,7 +66,7 @@ export class CadastroNovoPacienteView {
 }
 
 export class OperationFailureMessage {
-  static setupMessage(response) {
+  setupMessage(response) {
     switch (response) {
       case OperationError.PATIENT_ALREADY_EXISTS:
         throw new Error('CPF já cadastrado.');

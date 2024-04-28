@@ -45,23 +45,4 @@ export class PacienteRepository extends PacienteSchema {
       return true;
     }
   }
-
-  //Ordena por nome do paciente de A a Z: objeto no indice 0 da lista Paciente
-  ordenaPorNorme() {
-    this.pacientes.sort((a, b) =>
-      a[0].nomePaciente.localeCompare(b[0].nomePaciente),
-    );
-  }
-
-  //Ordena por cpf do paciente em ordem crescente: objeto no indice 0 da lista Paciente
-  ordenaPorCpf() {
-    this.pacientes.sort((a, b) => {
-      let compara = parseInt(a[0].cpfPaciente) - parseInt(b[0].cpfPaciente);
-      if (compara < 0) {
-        return -1;
-      } else if (compara > 0) {
-        return 1;
-      } else return 0;
-    });
-  }
 }

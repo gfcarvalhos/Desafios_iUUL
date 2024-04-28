@@ -18,6 +18,22 @@ export class Paciente {
     this.#idade = idade;
   }
 
+  get nomePaciente(){
+    return this.#nome
+  }
+
+  get cpfPaciente(){
+    return this.#cpf
+  }
+
+  get dataNascimentoPaciente(){
+    return this.#dataNascimento
+  }
+
+  get idadePaciente(){
+    return this.#idade
+  }
+
   async salvarPacienteNoBanco() {
     try {
       const pacienteModelo = await PacienteSchema.create({
@@ -55,6 +71,16 @@ export class Paciente {
     }
   }
 
+  async buscaTodosOsPacientes(){
+    try {
+      const retornoListaPacientes = await PacienteSchema.findAll();
+      const Pacientes = Paciente.criaPaciente(retornoListaPacientes)
+      return Pacientes
+    } catch (erro) {
+      console.error(erro)
+    }
+  }
+
   validaData(newData) {
     //Regex para data no formato DD/MM/YYYY considerando dias entre 1 e 31 e meses entre 1 e 12
     const regex = /^((0[1-9]|[1-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/(\d{4}))$/;
@@ -76,5 +102,9 @@ export class Paciente {
         message: OperationError.INVALID_DATE,
       };
     }
+  }
+
+  static criaPaciente(dados){
+    return dados.map(dado => new Paciente(dado.nome, dado.cpf, dado.dataNascimento, dado.idade));
   }
 }

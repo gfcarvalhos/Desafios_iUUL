@@ -2,18 +2,21 @@ import { ConsultaService } from '../controller/ConsultaController.js';
 import { PacienteController } from '../controller/PacienteController.js';
 import { CadastroNovoPacientePresenter } from './CadastroNovoPacientePresenter.js';
 import { ExclusaoPacientePresenter } from './ExclusaoPacientePresenter.js';
+import { ListagemPacientePresenter } from './ListagemPacientePresenter.js';
 
 export class PacientePresenter {
   #PacienteController;
   #cadastroPaciente;
   #exclusaoPaciente;
   #serviceConsulta;
+  #listagemPaciente;
 
   constructor() {
     this.#PacienteController = new PacienteController();
     this.#cadastroPaciente = new CadastroNovoPacientePresenter();
     this.#exclusaoPaciente = new ExclusaoPacientePresenter();
     this.#serviceConsulta = new ConsultaService();
+    this.#listagemPaciente = new ListagemPacientePresenter();
   }
 
   async run(opcao) {
@@ -25,10 +28,10 @@ export class PacientePresenter {
         await this.#exclusaoPaciente.run();
         break;
       case 3:
-        this.listaPacienteCPF();
+        await this.#listagemPaciente.run(3);
         break;
       case 4:
-        this.listaPacienteNome();
+        await this.#listagemPaciente.run(4);
         break;
     }
   }
