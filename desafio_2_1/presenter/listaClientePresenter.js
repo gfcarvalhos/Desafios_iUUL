@@ -58,21 +58,6 @@ class listaClientePresenter {
     return listaDeClientes;
   }
 
-  /**
-   * Gerencia a validação dos dados de cada cliente
-   * @param {Object} cliente 
-   * @returns {Object} Erros da validacao
-   */
-  validaDados(cliente){
-    let retornoValidacao = {
-      nome: 2,
-      cpf: 2,
-      dataNascimento:'oi' ,
-      rendaMensal: 'oi' ,
-      estadoCivil: 'oi'
-    }
-    return retornoValidacao;
-  }
 }
 
 export { listaClientePresenter };
