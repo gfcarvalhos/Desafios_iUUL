@@ -3,6 +3,7 @@ import {
   OperationStatus,
 } from '../controller/OperationError.js';
 import { PacienteSchema } from '../models/PacienteSchema.js';
+import { calculaIdade } from '../utils/calculaIdade.js';
 
 export class Paciente {
   #nome;
@@ -30,38 +31,37 @@ export class Paciente {
     }
   }
 
-  static validaIdade(dataVerificar) {
-    //divide a string e transforma em Date()
-    let partesDaData = dataVerificar.split('/');
-    let dataNascimento = new Date(
-      partesDaData[2],
-      partesDaData[1] - 1,
-      partesDaData[0],
-    );
-    let dataAtual = new Date();
-    //Verifica idade pela diferença de anos
-    let idade = dataAtual.getFullYear() - dataNascimento.getFullYear();
-    let mesAtual = dataAtual.getMonth();
-    let mesNascimento = dataNascimento.getMonth();
-    //Verifica se no ano corrente o paciente já fez aniversario. Caso nao, diminui em 1 a data
-    //calculada entre a diferença de anos
-    if (
-      mesAtual < mesNascimento ||
-      (mesAtual == mesNascimento &&
-        dataAtual.getDate() < dataNascimento.getDate())
-    ) {
-      idade--;
+  async buscaPacientePeloCpf(cpf) {
+    try {
+      const retornoDeBuscaPorCpf = await PacienteSchema.findByPk(cpf);
+      if(retornoDeBuscaPorCpf == null){
+        return false
+      } else{
+        return true
+      }
+    } catch (erro) {
+      throw new Error(OperationError.UNEXPECTED_ERROR)
     }
-    return idade;
   }
 
-  static validaData(newData) {
+  async excluirPaciente(cpf) {
+    try {
+      const retornoDeBuscaPorCpf = await PacienteSchema.findByPk(cpf);
+      await retornoDeBuscaPorCpf.destroy()
+      return {status: OperationStatus.SUCCESS}
+    } catch(erro){
+      console.log(erro)
+      return {status: OperationStatus.FAILURE, message: OperationError.UNEXPECTED_ERROR}
+    }
+  }
+
+  validaData(newData) {
     //Regex para data no formato DD/MM/YYYY considerando dias entre 1 e 31 e meses entre 1 e 12
     const regex = /^((0[1-9]|[1-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/(\d{4}))$/;
     //Valida se está de acordo com DD/MM/YYYY
     if (regex.test(newData)) {
       //Chamada para verificar a idade do paciente
-      const idade = this.validaIdade(newData);
+      const idade = calculaIdade(newData);
       if (idade >= 13) {
         return { status: OperationStatus.SUCCESS };
       } else {

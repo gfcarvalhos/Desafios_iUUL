@@ -66,10 +66,10 @@ export class CadastroNovoPacienteView {
 }
 
 export class OperationFailureMessage {
-  setupMessage(response) {
+  static setupMessage(response) {
     switch (response) {
       case OperationError.PATIENT_ALREADY_EXISTS:
-        throw new Error('Já existe paciente com esse CPF.');
+        throw new Error('CPF já cadastrado.');
       case OperationError.UNDERAGE_PATIENT:
         throw new Error('Paciente não pode ser menor de idade.');
       case OperationError.INVALID_DATE:
@@ -78,7 +78,7 @@ export class OperationFailureMessage {
   }
 }
 
-export class OperationSucess {
+export class OperationResponse {
   static setupMessage(response) {
     switch (response) {
       case OperationStatus.SUCCESS:

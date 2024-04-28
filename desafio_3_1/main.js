@@ -189,11 +189,10 @@ function menuAgenda(serviceConsulta, servicePaciente) {
   }
 }
 
-( async () => {
-  await database.sync({force: false})
+(async () => {
+  await database.sync({ force: false });
 
-  const presenter = new MenuPresenter;
+  const presenter = new MenuPresenter();
   const menu = new mainView(presenter);
   menu.menuPrincipal();
-})()
-
+})();

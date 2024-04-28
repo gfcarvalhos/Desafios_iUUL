@@ -41,6 +41,10 @@ export class OperationError {
   }
 
   static get UNEXPECTED_ERROR(){
-    return 9.
+    return 9;
+  }
+
+  static get INVALID_NAME(){
+    return 10;
   }
 }

@@ -4,7 +4,7 @@ import { PacienteController } from '../controller/PacienteController.js';
 import {
   OperationFailureMessage,
   ExclusaoDePacienteView,
-  OperationSucess,
+  OperationResponse,
 } from '../view/ExclusaoDePacienteView.js';
 
 export class ExclusaoPacientePresenter {
@@ -20,26 +20,28 @@ export class ExclusaoPacientePresenter {
     this.#consultaService = new ConsultaService();
   }
 
-  run() {
+  async run() {
     //coleta da view um cpf válido
     let cpfPaciente = this.#viewExclusaoPaciente.leituraDeCpf();
     //Verifica se cpf existe no bd de pacientes
     let pacienteExiste =
-      this.#PacienteController.verificaExistenciaDeCpf(cpfPaciente);
+      await this.#PacienteController.verificaExistenciaDeCpf(cpfPaciente);
     if (!pacienteExiste.status) {
       this.#messageFailure.setupMessage(OperationError.PATIENT_NOT_REGISTERED);
     }
     //Verifica se o paciente possui agendamento futuro
     let verificaAgenda =
       this.#consultaService.verificaExistenciaDeAgendaDoPaciente(cpfPaciente);
-    if (verificaAgenda) {
+    if (verificaAgenda.status) {
       this.#messageFailure.setupMessage(OperationError.PATIENT_HAS_APPOINTMENT);
     }
     //Exclui o paciente do BD
     let exclusaoDePaciente =
-      this.#PacienteController.exclusaoPaciente(cpfPaciente);
+      await this.#PacienteController.exclusaoPaciente(cpfPaciente);
+
     //Deve sair após implementação do BD
-    this.#consultaService.exclusaoDeConsultasPorCpf(cpfPaciente);
-    OperationSucess.setupMessage(exclusaoDePaciente.status);
+    //this.#consultaService.exclusaoDeConsultasPorCpf(cpfPaciente);
+
+    OperationResponse.setupMessage(exclusaoDePaciente.status);
   }
 }

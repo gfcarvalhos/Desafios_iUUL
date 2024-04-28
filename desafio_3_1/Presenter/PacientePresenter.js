@@ -22,7 +22,7 @@ export class PacientePresenter {
         await this.#cadastroPaciente.run();
         break;
       case 2:
-        this.#exclusaoPaciente.run();
+        await this.#exclusaoPaciente.run();
         break;
       case 3:
         this.listaPacienteCPF();

@@ -1,12 +1,10 @@
 import { Paciente } from '../Entities/Paciente.js';
-import { PacienteRepository } from '../repositories/PacienteRepository.js';
 import { calculaIdade } from '../utils/calculaIdade.js';
-import { validaCpf } from '../utils/validaCpf.js';
 import { OperationError, OperationStatus } from './OperationError.js';
 
 export class PacienteController {
   constructor() {
-    this.repositorio = new PacienteRepository();
+    this.paciente = new Paciente();
   }
   async salvarNovoPaciente(nome, cpf, dataNascimento) {
     try{
@@ -15,50 +13,28 @@ export class PacienteController {
       const resultado = await newPaciente.salvarPacienteNoBanco();
       return {status: OperationStatus.SUCCESS}
     } catch (error) {
+      console.log(error)
       return {status: OperationStatus.FAILURE, message: OperationError.UNEXPECTED_ERROR};
     }
   }
 
-  registraCpfPaciente(paciente, newCPF) {
-    paciente.registraCpf(newCPF);
+  async exclusaoPaciente(cpf) {
+    let retornoRepositorioPaciente = await this.paciente.excluirPaciente(cpf);
+    return retornoRepositorioPaciente;
   }
 
-  registraNomePaciente(paciente, newNome) {
-    paciente.registraNome(newNome);
-  }
-
-  validaDataNascimentoPaciente(newDataNascimento) {
-    let retornoDataNascimento = Paciente.validaData(newDataNascimento);
-    return retornoDataNascimento;
-  }
-
-  registraDataNascimentoPaciente(paciente, newDataNascimento) {
-    paciente.registraDataNascimento(newDataNascimento);
-  }
-
-  cadastroFinal(paciente) {
-    this.repositorio.registrarNovoPaciente([
-      paciente,
-      Paciente.validaIdade(paciente.dataNacimentoPaciente),
-    ]);
-    return 'Paciente cadastrado com sucesso!';
-  }
-
-  exclusaoPaciente(cpf) {
-    let retornoRepositorioPaciente = this.repositorio.exclusaoDePaciente(cpf);
-    if (!retornoRepositorioPaciente) {
-      return { status: OperationStatus.FAILURE };
-    }
-    return { status: OperationStatus.SUCCESS };
-  }
-
-  verificaExistenciaDeCpf(cpf) {
-    let pacienteExiste = this.repositorio.verificaCpfExistente(cpf);
+  async verificaExistenciaDeCpf(cpf) {
+    let pacienteExiste = await this.paciente.buscaPacientePeloCpf(cpf);
     if (pacienteExiste) {
       return { status: OperationStatus.SUCCESS };
     } else {
-      return { status: OperationStatus.FAILURE };
+      return { status: OperationStatus.FAILURE, message: OperationError.PATIENT_NOT_REGISTERED };
     }
+  }
+
+  validaDataNascimentoPaciente(newDataNascimento) {
+    let retornoDataNascimento = this.paciente.validaData(newDataNascimento);
+    return retornoDataNascimento;
   }
 
   listagemDePacientes(serviceConsulta, tipoDeClassificacao) {

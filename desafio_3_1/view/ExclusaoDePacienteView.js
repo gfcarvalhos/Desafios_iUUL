@@ -1,5 +1,8 @@
 import readlineSync from 'readline-sync';
-import { OperationError, OperationStatus } from '../controller/OperationError.js';
+import {
+  OperationError,
+  OperationStatus,
+} from '../controller/OperationError.js';
 import { validaCpf } from '../utils/validaCpf.js';
 
 export class ExclusaoDePacienteView {
@@ -33,11 +36,11 @@ export class OperationFailureMessage {
   }
 }
 
-export class OperationSucess {
+export class OperationResponse {
   static setupMessage(response) {
     switch (response) {
       case OperationStatus.SUCCESS:
-        console.log('\nPaciente registrado com Sucesso!');
+        console.log('\nPaciente excluído!');
         break;
       case OperationStatus.FAILURE:
         throw new Error('Não foi possível excluir o paciente.');
